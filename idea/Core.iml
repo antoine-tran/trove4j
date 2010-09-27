@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$TROVE_TOP_LEVEL$/gen_output">
+      <sourceFolder url="file://$TROVE_TOP_LEVEL$/gen_output" isTestSource="false" />
+    </content>
+    <content url="file://$TROVE_VCS_ROOT$">
+      <sourceFolder url="file://$TROVE_VCS_ROOT$/src" isTestSource="false" />
+      <sourceFolder url="file://$TROVE_VCS_ROOT$/test" isTestSource="true" />
+      <excludeFolder url="file://$TROVE_VCS_ROOT$/generator_src" />
+      <excludeFolder url="file://$TROVE_VCS_ROOT$/generator_test" />
+      <excludeFolder url="file://$TROVE_VCS_ROOT$/output" />
+      <excludeFolder url="file://$TROVE_VCS_ROOT$/test/gnu/trove/benchmark/colt" />
+      <excludeFolder url="file://$TROVE_VCS_ROOT$/test/gnu/trove/benchmark/trove2" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="Generator" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$TROVE_VCS_ROOT$/lib/caliper-0.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+  </component>
+</module>
+
