@@ -1,6 +1,6 @@
 Rob Eden <robeden@users.sourceforge.net>
-Eric D. Friedman <ericdf@users.sourceforge.net>
 Jeff Randall <randall@uph.com>
+Eric D. Friedman <ericdf@users.sourceforge.net>
 
 Please do NOT email bug reports or feature requests.
 
