@@ -351,6 +351,7 @@ public class T#E#ArrayList implements T#E#List, Externalizable {
 
     /** {@inheritDoc} */
     public void remove( int offset, int length ) {
+		if ( length == 0 ) return;
         if ( offset < 0 || offset >= _pos ) {
             throw new ArrayIndexOutOfBoundsException(offset);
         }

@@ -21,7 +21,6 @@
 package gnu.trove.list.array;
 
 import gnu.trove.list.TIntList;
-import gnu.trove.list.array.TIntArrayList;
 import junit.framework.TestCase;
 
 import java.io.ByteArrayInputStream;
@@ -145,4 +144,17 @@ public class TArrayListTest extends TestCase {
 
         assertEquals( list, new_list );
     }
+
+
+	// From bug 3077245
+	public void testInvalidStartRemoveZeroLength() {
+		try {
+			TIntArrayList bug = new TIntArrayList();
+			bug.remove( 0, 0 );
+		}
+		catch( ArrayIndexOutOfBoundsException ex ) {
+			ex.printStackTrace();
+			fail( "Shouldn't raise exception" );
+		}
+	}
 }
