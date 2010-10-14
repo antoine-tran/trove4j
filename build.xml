@@ -234,14 +234,14 @@
         <available classname="junit.framework.TestCase" property="junit.present"/>
         <fail unless="junit.present" message="To run this task, install junit.jar and optional.jar into ${ant.home}/lib/ JUnit is available free at http://www.junit.org"/>
         <!-- Execute JUnit tests -->
-        <junit printsummary="true" fork="on"
+        <junit printsummary="no" showoutput="no"
             errorProperty="test.failed" failureProperty="test.failed">
             <assertions>
                 <enable/>
             </assertions>
             <classpath path="${output.tests}:${output.dest}:${lib}/junit.jar"/>
-            <formatter type="brief" usefile="false"/>
-            <batchtest fork="no" todir="${output.dir}">
+            <batchtest fork="yes" todir="${output.dir}">
+				<formatter type="xml"/>
                 <fileset dir="${output.tests}/" includes="**/**Test.class"/>
             </batchtest>
         </junit>
