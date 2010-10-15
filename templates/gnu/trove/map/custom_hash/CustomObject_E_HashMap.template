@@ -20,15 +20,24 @@
 
 package gnu.trove.map.custom_hash;
 
-import gnu.trove.procedure.TObject#E#Procedure;
-import gnu.trove.procedure.T#E#Procedure;
-import gnu.trove.iterator.TObject#E#Iterator;
-import gnu.trove.iterator.T#E#Iterator;
-import gnu.trove.iterator.hash.TObjectHashIterator;
-import gnu.trove.function.T#E#Function;
-import gnu.trove.map.TObject#E#Map;
-import gnu.trove.strategy.HashingStrategy;
 import gnu.trove.T#E#Collection;
+import gnu.trove.function.T#E#Function;
+import gnu.trove.impl.Constants;
+import gnu.trove.impl.HashFunctions;
+import gnu.trove.impl.hash.TCustomObjectHash;
+import gnu.trove.impl.hash.THash;
+import gnu.trove.iterator.T#E#Iterator;
+import gnu.trove.iterator.TObject#E#Iterator;
+import gnu.trove.iterator.hash.TObjectHashIterator;
+import gnu.trove.map.TObject#E#Map;
+import gnu.trove.procedure.T#E#Procedure;
+import gnu.trove.procedure.TObject#E#Procedure;
+import gnu.trove.procedure.TObjectProcedure;
+import gnu.trove.strategy.HashingStrategy;
+
+import java.io.*;
+import java.util.*;
+
 
 
 //////////////////////////////////////////////////
