@@ -20,43 +20,35 @@
 
 package gnu.trove.impl.hash;
 
-import gnu.trove.HashingStrategy;
-import gnu.trove.procedure.TObjectProcedure;
+import gnu.trove.strategy.HashingStrategy;
 
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-import java.util.Arrays;
 
 
 /**
  * An open addressed hashing implementation for Object types.
- * <p/>
- * Created: Sun Nov  4 08:56:06 2001
  *
- * @author Eric D. Friedman
  * @author Rob Eden
+ * @author Eric D. Friedman
  * @author Jeff Randall
  * @version $Id: TObjectHash.java,v 1.1.2.6 2009/11/07 03:36:44 robeden Exp $
  */
-abstract public class TManualObjectHash<T> extends THash {
-    public static final Object REMOVED = new Object(), FREE = new Object();
-
-    static final long serialVersionUID = -3461112548087185871L;
-
-
-    /** the set of Objects */
-    public transient Object[] _set;
+@SuppressWarnings( { "UnusedDeclaration" } )
+abstract public class TCustomObjectHash<T> extends TObjectHash<T> {
+	protected HashingStrategy<T> strategy;
 
 
-	private final HashingStrategy<T> strategy;
+	/** FOR EXTERNALIZATION ONLY!!! */
+	public TCustomObjectHash() {}
 
-
+	
     /**
      * Creates a new <code>TManualObjectHash</code> instance with the
      * default capacity and load factor.
      */
-    public TManualObjectHash( HashingStrategy<T> strategy ) {
+    public TCustomObjectHash( HashingStrategy<T> strategy ) {
         super();
 
 		this.strategy = strategy;
@@ -70,7 +62,7 @@ abstract public class TManualObjectHash<T> extends THash {
      *
      * @param initialCapacity an <code>int</code> value
      */
-    public TManualObjectHash( HashingStrategy<T> strategy, int initialCapacity ) {
+    public TCustomObjectHash( HashingStrategy<T> strategy, int initialCapacity ) {
         super( initialCapacity );
 
 		this.strategy = strategy;
@@ -85,72 +77,12 @@ abstract public class TManualObjectHash<T> extends THash {
      * @param loadFactor      used to calculate the threshold over which
      *                        rehashing takes place.
      */
-    public TManualObjectHash( HashingStrategy<T> strategy, int initialCapacity,
+    public TCustomObjectHash( HashingStrategy<T> strategy, int initialCapacity,
 		float loadFactor ) {
 
         super( initialCapacity, loadFactor );
 
 		this.strategy = strategy;
-    }
-
-
-    public int capacity() {
-        return _set.length;
-    }
-
-
-    protected void removeAt( int index ) {
-        _set[index] = REMOVED;
-        super.removeAt( index );
-    }
-
-
-    /**
-     * initializes the Object set of this hash table.
-     *
-     * @param initialCapacity an <code>int</code> value
-     * @return an <code>int</code> value
-     */
-    public int setUp( int initialCapacity ) {
-        int capacity;
-
-        capacity = super.setUp( initialCapacity );
-        _set = new Object[capacity];
-        Arrays.fill( _set, FREE );
-        return capacity;
-    }
-
-
-    /**
-     * Executes <tt>procedure</tt> for each element in the set.
-     *
-     * @param procedure a <code>TObjectProcedure</code> value
-     * @return false if the loop over the set terminated because
-     *         the procedure returned false for some value.
-     */
-    @SuppressWarnings({"unchecked"})
-    public boolean forEach( TObjectProcedure<T> procedure ) {
-        Object[] set = _set;
-        for ( int i = set.length; i-- > 0; ) {
-            if ( set[i] != FREE
-                 && set[i] != REMOVED
-                 && !procedure.execute( (T) set[i] ) ) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-
-    /**
-     * Searches the set for <tt>obj</tt>
-     *
-     * @param obj an <code>Object</code> value
-     * @return a <code>boolean</code> value
-     */
-    @SuppressWarnings({"unchecked"})
-    public boolean contains( Object obj ) {
-        return index( obj ) >= 0;
     }
 
 
@@ -161,14 +93,14 @@ abstract public class TManualObjectHash<T> extends THash {
      * @return the index of <tt>obj</tt> or -1 if it isn't in the set.
      */
     protected int index( Object obj ) {
-
         final Object[] set = _set;
         final int length = set.length;
+        @SuppressWarnings( { "unchecked" } )
         final int hash = strategy.computeHashCode( ( T ) obj ) & 0x7fffffff;
         int index = hash % length;
         Object cur = set[index];
 
-        if ( cur == obj ) {
+        if ( cur == obj || strategy.equals( ( T ) cur, ( T ) obj ) ) {
             return index;
         }
 
@@ -177,11 +109,13 @@ abstract public class TManualObjectHash<T> extends THash {
         }
 
         // NOTE: here it has to be REMOVED or FULL (some user-given value)
-        if ( cur == REMOVED || !strategy.equals( ( T ) cur, ( T ) obj ) ) {
+	    //noinspection unchecked
+	    if ( cur == REMOVED || !strategy.equals( ( T ) cur, ( T ) obj ) ) {
             // see Knuth, p. 529
             final int probe = 1 + ( hash % ( length - 2 ) );
 
-            do {
+		    //noinspection unchecked
+		    do {
                 index -= probe;
                 if ( index < 0 ) {
                     index += length;
@@ -206,17 +140,17 @@ abstract public class TManualObjectHash<T> extends THash {
      *         that index, minus 1: -index -1.
      */
     protected int insertionIndex( T obj ) {
-
         final Object[] set = _set;
         final int length = set.length;
-        final int hash = strategy.computeHashCode( ( T ) obj ) & 0x7fffffff;
+        final int hash = strategy.computeHashCode( obj ) & 0x7fffffff;
         int index = hash % length;
         Object cur = set[index];
 
         if ( cur == FREE ) {
             return index;       // empty, all done
-        } else if ( cur == obj ||
-			( cur != REMOVED && strategy.equals( ( T ) cur, ( T ) obj ) ) ) {
+        } else //noinspection unchecked
+	        if ( cur == obj ||
+			( cur != REMOVED && strategy.equals( ( T ) cur, obj ) ) ) {
 
             return -index - 1;   // already stored
         } else {                // already FULL or REMOVED, must probe
@@ -237,16 +171,17 @@ abstract public class TManualObjectHash<T> extends THash {
             if ( cur != REMOVED ) {
                 // starting at the natural offset, probe until we find an
                 // offset that isn't full.
-                do {
+	            //noinspection unchecked
+	            do {
                     index -= probe;
                     if ( index < 0 ) {
                         index += length;
                     }
                     cur = set[index];
                 } while ( cur != FREE
-                          && cur != REMOVED
-                          && cur != obj
-                          && !strategy.equals( ( T ) cur, ( T ) obj ) );
+					&& cur != REMOVED
+					&& cur != obj
+					&& !strategy.equals( ( T ) cur, obj ) );
             }
 
             // if the index we found was removed: continue probing until we
@@ -254,9 +189,10 @@ abstract public class TManualObjectHash<T> extends THash {
             // one we have.
             if ( cur == REMOVED ) {
                 int firstRemoved = index;
-                while ( cur != FREE
+	            //noinspection unchecked
+	            while ( cur != FREE
 					&& ( cur == REMOVED || cur != obj ||
-					!strategy.equals( ( T ) cur, ( T ) obj ) ) ) {
+					!strategy.equals( ( T ) cur, obj ) ) ) {
 
                     index -= probe;
                     if ( index < 0 ) {
@@ -274,34 +210,6 @@ abstract public class TManualObjectHash<T> extends THash {
     }
 
 
-    /**
-     * Convenience methods for subclasses to use in throwing exceptions about
-     * badly behaved user objects employed as keys.  We have to throw an
-     * IllegalArgumentException with a rather verbose message telling the
-     * user that they need to fix their object implementation to conform
-     * to the general contract for java.lang.Object.
-     *
-     * @param o1 the first of the equal elements with unequal hash codes.
-     * @param o2 the second of the equal elements with unequal hash codes.
-     * @throws IllegalArgumentException the whole point of this method.
-     */
-    protected final void throwObjectContractViolation( Object o1, Object o2 )
-		throws IllegalArgumentException {
-
-        throw new IllegalArgumentException( "Equal objects must have equal hashcodes. "
-                                            + "During rehashing, Trove discovered that "
-                                            + "the following two objects claim to be "
-                                            + "equal (as in java.lang.Object.equals()) "
-                                            + "but their hashCodes (or those calculated by "
-                                            + "your TObjectHashingStrategy) are not equal."
-                                            + "This violates the general contract of "
-                                            + "java.lang.Object.hashCode().  See bullet point two "
-                                            + "in that method's documentation. "
-                                            + "object #1 =" + o1
-                                            + "; object #2 =" + o2 );
-    }
-
-
     @Override
     public void writeExternal( ObjectOutput out ) throws IOException {
 
@@ -310,6 +218,9 @@ abstract public class TManualObjectHash<T> extends THash {
 
         // SUPER
         super.writeExternal( out );
+
+	    // STRATEGY
+	    out.writeObject( strategy );
     }
 
 
@@ -322,5 +233,9 @@ abstract public class TManualObjectHash<T> extends THash {
 
         // SUPER
         super.readExternal( in );
+
+	    // STRATEGY
+	    //noinspection unchecked
+	    strategy = ( HashingStrategy<T> ) in.readObject();
     }
-} // TObjectHash
+} // TCustomObjectHash

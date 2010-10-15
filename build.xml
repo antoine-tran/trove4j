@@ -23,7 +23,7 @@
     
     <property name="Name" value="Trove"/>
     <property name="name" value="trove"/>
-    <property name="version" value="3.0.0a4"/>
+    <property name="version" value="3.0.0a5"/>
     <property name="year" value="2001-2010"/>
     
     <property name="debug" value="on"/>
