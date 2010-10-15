@@ -60,8 +60,8 @@
     <target name="release"
         description="Do everything for a release: clean, build everything and test">
         <antcall target="clean"/>
-        <antcall target="dist"/>
         <antcall target="test"/>
+        <antcall target="dist"/>
         <antcall target="benchmark"/>
         
         <tar tarfile="${name}-${version}.tar" basedir="${dist.root}"/>
@@ -233,19 +233,23 @@
             </fileset>
         </copy>
         
-        <!-- Verify that JUnit is available on the classpath -->
-        <available classname="junit.framework.TestCase" property="junit.present"/>
-        <fail unless="junit.present" message="To run this task, install junit.jar and optional.jar into ${ant.home}/lib/ JUnit is available free at http://www.junit.org"/>
         <!-- Execute JUnit tests -->
-        <junit printsummary="no" showoutput="no" fork="true"
+        <junit printsummary="no" showoutput="no"
             errorProperty="test.failed" failureProperty="test.failed">
-            <assertions>
-                <enable/>
-            </assertions>
+            
             <classpath path="${output.tests}:${output.dest}:${lib}/junit.jar"/>
-            <batchtest fork="true" todir="${output.dir}">
+
+			<classpath>
+				<pathelement location="${output.tests}"/>
+				<pathelement location="${output.dest}"/>
+				<pathelement path="${lib}\junit.jar"/>
+				<fileset dir="${lib}">
+					<include name="*.jar"/>
+				</fileset>
+			</classpath>
+            <batchtest fork="yes" todir="${output.dir}">
 				<formatter type="xml"/>
-                <fileset dir="${output.tests}/" includes="**/**Test.class"/>
+                <fileset dir="${output.tests}/" includes="**/*Test.class"/>
             </batchtest>
         </junit>
         <fail message="Tests failed. Check test output." if="test.failed"/>
