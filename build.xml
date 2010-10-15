@@ -162,7 +162,10 @@
         <mkdir dir="${dist.root}"/>
         <mkdir dir="${dist.dir}"/>
         <mkdir dir="${dist.dir}/src"/>
-        
+
+        <!-- Save build number -->
+        <antcall target="-print_buildNumber"/>
+
         <!-- Copy source -->
         <copy todir="${dist.dir}/src">
             <fileset dir="${src}"/>
@@ -234,13 +237,13 @@
         <available classname="junit.framework.TestCase" property="junit.present"/>
         <fail unless="junit.present" message="To run this task, install junit.jar and optional.jar into ${ant.home}/lib/ JUnit is available free at http://www.junit.org"/>
         <!-- Execute JUnit tests -->
-        <junit printsummary="no" showoutput="no"
+        <junit printsummary="no" showoutput="no" fork="true"
             errorProperty="test.failed" failureProperty="test.failed">
             <assertions>
                 <enable/>
             </assertions>
             <classpath path="${output.tests}:${output.dest}:${lib}/junit.jar"/>
-            <batchtest fork="yes" todir="${output.dir}">
+            <batchtest fork="true" todir="${output.dir}">
 				<formatter type="xml"/>
                 <fileset dir="${output.tests}/" includes="**/**Test.class"/>
             </batchtest>
@@ -376,5 +379,9 @@
                 <pathelement location="${output.tests}"/>
             </classpath>
         </javac>
+    </target>
+
+    <target name="-print_buildNumber" if="build.number">
+        <echo file="${dist.dir}\trove.build" append="false">${build.number}</echo>
     </target>
 </project>
