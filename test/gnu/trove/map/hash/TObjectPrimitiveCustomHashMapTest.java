@@ -1,8 +1,8 @@
 package gnu.trove.map.hash;
 
-import gnu.trove.strategy.HashingStrategy;
 import gnu.trove.map.TObjectIntMap;
-import gnu.trove.map.custom_hash.TCustomObjectIntHashMap;
+import gnu.trove.map.custom_hash.TObjectIntCustomHashMap;
+import gnu.trove.strategy.HashingStrategy;
 import junit.framework.TestCase;
 
 import java.io.ByteArrayInputStream;
@@ -15,7 +15,7 @@ import java.util.Set;
 /**
  *
  */
-public class TCustomObjectPrimitiveMapTest extends TestCase {
+public class TObjectPrimitiveCustomHashMapTest extends TestCase {
 	// Example from Trove overview doc
 	public void testArray() {
 		char[] foo = new char[] { 'a', 'b', 'c' };
@@ -30,7 +30,7 @@ public class TCustomObjectPrimitiveMapTest extends TestCase {
 			strategy.computeHashCode( bar ) );
 		assertTrue( strategy.equals( foo, bar ) );
 
-		TObjectIntMap<char[]> map = new TCustomObjectIntHashMap<char[]>( strategy );
+		TObjectIntMap<char[]> map = new TObjectIntCustomHashMap<char[]>( strategy );
 		map.put( foo, 12 );
 		assertTrue( map.containsKey( foo ) );
 		assertTrue( map.containsKey( bar ) );
@@ -48,7 +48,7 @@ public class TCustomObjectPrimitiveMapTest extends TestCase {
 		char[] bar = new char[] { 'a', 'b', 'c' };
 
 		HashingStrategy<char[]> strategy = new ArrayHashingStrategy();
-		TObjectIntMap<char[]> map = new TCustomObjectIntHashMap<char[]>( strategy );
+		TObjectIntMap<char[]> map = new TObjectIntCustomHashMap<char[]>( strategy );
 
 		map.put( foo, 33 );
 

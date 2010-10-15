@@ -1,3 +1,20 @@
+--- 3.0.0 a5 ---
+  - Re-introduce custom hashing and the HashingStrategy interface. New collections
+    are:
+       - TCustomHashMap
+       - TCustomHashSet
+       - TObject*CustomHashMap (ex: TObjectIntCustomHashMap)
+    IdentityHashingStrategy is available for identity-based hash maps.
+
+--- 3.0.0 a1 - a4 ---
+  - !!! Major restructuring of classes and packages !!!
+    Interfaces have been broken out to allow for alternate implementations.
+    The package changes will require code migration, although it should mainly
+    consist of simply updating import statements. However, because everything is
+    in new packages, both Trove 2.x and Trove 3.x can co-exist in a classpath
+    (to hopefully ease the migration burden).
+  - Many bug fixes, particularly to TLinkedList.
+
 --- 2.1.0 ---
 No substantial changes.
 

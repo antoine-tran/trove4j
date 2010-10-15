@@ -50,7 +50,7 @@ import java.util.*;
  *
  * @author Rob Eden
  */
-public class TCustomObject#E#HashMap<K> extends TCustomObjectHash<K>
+public class TObject#E#CustomHashMap<K> extends TCustomObjectHash<K>
     implements TObject#E#Map<K>, Externalizable {
 
     static final long serialVersionUID = 1L;
@@ -70,14 +70,14 @@ public class TCustomObject#E#HashMap<K> extends TCustomObjectHash<K>
 
 
 	/** FOR EXTERNALIZATION ONLY!!! */
-	public TCustomObject#E#HashMap() {}
+	public TObject#E#CustomHashMap() {}
 
 
     /**
      * Creates a new <code>TObject#E#HashMap</code> instance with the default
      * capacity and load factor.
      */
-    public TCustomObject#E#HashMap( HashingStrategy<K> strategy ) {
+    public TObject#E#CustomHashMap( HashingStrategy<K> strategy ) {
         super( strategy );
     }
 
@@ -89,7 +89,7 @@ public class TCustomObject#E#HashMap<K> extends TCustomObjectHash<K>
      *
      * @param initialCapacity an <code>int</code> value
      */
-    public TCustomObject#E#HashMap( HashingStrategy<K> strategy, int initialCapacity ) {
+    public TObject#E#CustomHashMap( HashingStrategy<K> strategy, int initialCapacity ) {
         super( strategy, initialCapacity );
 
         no_entry_value = Constants.DEFAULT_#EC#_NO_ENTRY_VALUE;
@@ -104,7 +104,7 @@ public class TCustomObject#E#HashMap<K> extends TCustomObjectHash<K>
      * @param initialCapacity an <code>int</code> value
      * @param loadFactor a <code>float</code> value
      */
-    public TCustomObject#E#HashMap( HashingStrategy<K> strategy, int initialCapacity,
+    public TObject#E#CustomHashMap( HashingStrategy<K> strategy, int initialCapacity,
 		float loadFactor ) {
 
         super( strategy, initialCapacity, loadFactor );
@@ -122,7 +122,7 @@ public class TCustomObject#E#HashMap<K> extends TCustomObjectHash<K>
      * rehashing takes place.
      * @param noEntryValue the value used to represent null.
      */
-    public TCustomObject#E#HashMap( HashingStrategy<K> strategy, int initialCapacity,
+    public TObject#E#CustomHashMap( HashingStrategy<K> strategy, int initialCapacity,
 		float loadFactor, #e# noEntryValue ) {
 
         super( strategy, initialCapacity, loadFactor );
@@ -136,16 +136,16 @@ public class TCustomObject#E#HashMap<K> extends TCustomObjectHash<K>
 
 
     /**
-     * Creates a new <code>TCustomObject#E#HashMap</code> that contains the entries
+     * Creates a new <code>TObject#E#CustomHashMap</code> that contains the entries
      * in the map passed to it.
      *
      * @param map the <tt>TObject#E#Map</tt> to be copied.
      */
-    public TCustomObject#E#HashMap( HashingStrategy<K> strategy, TObject#E#Map<K> map ) {
+    public TObject#E#CustomHashMap( HashingStrategy<K> strategy, TObject#E#Map<K> map ) {
         this( strategy, map.size(), 0.5f, map.getNoEntryValue() );
 
-        if ( map instanceof TCustomObject#E#HashMap ) {
-            TCustomObject#E#HashMap hashmap = ( TCustomObject#E#HashMap ) map;
+        if ( map instanceof TObject#E#CustomHashMap ) {
+            TObject#E#CustomHashMap hashmap = ( TObject#E#CustomHashMap ) map;
             this._loadFactor = hashmap._loadFactor;
             this.no_entry_value = hashmap.no_entry_value;
             this.strategy = hashmap.strategy;
@@ -635,15 +635,15 @@ public class TCustomObject#E#HashMap<K> extends TCustomObjectHash<K>
 
         @SuppressWarnings({"unchecked"})
         public Iterator<K> iterator() {
-            return new TObjectHashIterator( TCustomObject#E#HashMap.this );
+            return new TObjectHashIterator( TObject#E#CustomHashMap.this );
         }
 
         public boolean removeElement( K key ) {
-            return no_entry_value != TCustomObject#E#HashMap.this.remove( key );
+            return no_entry_value != TObject#E#CustomHashMap.this.remove( key );
         }
 
         public boolean containsElement( K key ) {
-            return TCustomObject#E#HashMap.this.contains( key );
+            return TObject#E#CustomHashMap.this.contains( key );
         }
     }
 
@@ -666,7 +666,7 @@ public class TCustomObject#E#HashMap<K> extends TCustomObjectHash<K>
         }
 
         public void clear() {
-            TCustomObject#E#HashMap.this.clear();
+            TObject#E#CustomHashMap.this.clear();
         }
 
         public boolean add( E obj ) {
@@ -674,7 +674,7 @@ public class TCustomObject#E#HashMap<K> extends TCustomObjectHash<K>
         }
 
         public int size() {
-            return TCustomObject#E#HashMap.this.size();
+            return TObject#E#CustomHashMap.this.size();
         }
 
         public Object[] toArray() {
@@ -707,7 +707,7 @@ public class TCustomObject#E#HashMap<K> extends TCustomObjectHash<K>
         }
 
         public boolean isEmpty() {
-            return TCustomObject#E#HashMap.this.isEmpty();
+            return TObject#E#CustomHashMap.this.isEmpty();
         }
 
         public boolean addAll( Collection<? extends E> collection ) {
@@ -753,17 +753,17 @@ public class TCustomObject#E#HashMap<K> extends TCustomObjectHash<K>
 
         /** {@inheritDoc} */
         public boolean contains( #e# entry ) {
-            return TCustomObject#E#HashMap.this.containsValue( entry );
+            return TObject#E#CustomHashMap.this.containsValue( entry );
         }
 
         /** {@inheritDoc} */
         public #e#[] toArray() {
-            return TCustomObject#E#HashMap.this.values();
+            return TObject#E#CustomHashMap.this.values();
         }
 
         /** {@inheritDoc} */
         public #e#[] toArray( #e#[] dest ) {
-            return TCustomObject#E#HashMap.this.values( dest );
+            return TObject#E#CustomHashMap.this.values( dest );
         }
 
         public boolean add( #e# entry ) {
@@ -789,7 +789,7 @@ public class TCustomObject#E#HashMap<K> extends TCustomObjectHash<K>
             for ( Object element : collection ) {
                 if ( element instanceof #ET# ) {
                     #e# ele = ( ( #ET# ) element ).#e#Value();
-                    if ( ! TCustomObject#E#HashMap.this.containsValue( ele ) ) {
+                    if ( ! TObject#E#CustomHashMap.this.containsValue( ele ) ) {
                         return false;
                     }
                 } else {
@@ -803,7 +803,7 @@ public class TCustomObject#E#HashMap<K> extends TCustomObjectHash<K>
         public boolean containsAll( T#E#Collection collection ) {
             T#E#Iterator iter = collection.iterator();
             while ( iter.hasNext() ) {
-                if ( ! TCustomObject#E#HashMap.this.containsValue( iter.next() ) ) {
+                if ( ! TObject#E#CustomHashMap.this.containsValue( iter.next() ) ) {
                     return false;
                 }
             }
@@ -813,7 +813,7 @@ public class TCustomObject#E#HashMap<K> extends TCustomObjectHash<K>
         /** {@inheritDoc} */
         public boolean containsAll( #e#[] array ) {
             for ( #e# element : array ) {
-                if ( ! TCustomObject#E#HashMap.this.containsValue( element ) ) {
+                if ( ! TObject#E#CustomHashMap.this.containsValue( element ) ) {
                     return false;
                 }
             }
@@ -927,12 +927,12 @@ public class TCustomObject#E#HashMap<K> extends TCustomObjectHash<K>
 
         /** {@inheritDoc} */
         public void clear() {
-            TCustomObject#E#HashMap.this.clear();
+            TObject#E#CustomHashMap.this.clear();
         }
 
         /** {@inheritDoc} */
         public boolean forEach( T#E#Procedure procedure ) {
-            return TCustomObject#E#HashMap.this.forEachValue( procedure );
+            return TObject#E#CustomHashMap.this.forEachValue( procedure );
         }
 
 
@@ -960,7 +960,7 @@ public class TCustomObject#E#HashMap<K> extends TCustomObjectHash<K>
 
         class TObject#E#ValueHashIterator implements T#E#Iterator {
 
-            protected THash _hash = TCustomObject#E#HashMap.this;
+            protected THash _hash = TObject#E#CustomHashMap.this;
 
             /**
              * the number of elements this iterator believes are in the
@@ -997,7 +997,7 @@ public class TCustomObject#E#HashMap<K> extends TCustomObjectHash<K>
                 // Disable auto compaction during the remove. This is a workaround for bug 1642768.
                 try {
                     _hash.tempDisableAutoCompaction();
-                    TCustomObject#E#HashMap.this.removeAt( _index );
+                    TObject#E#CustomHashMap.this.removeAt( _index );
                 }
                 finally {
                     _hash.reenableAutoCompaction( false );
@@ -1033,7 +1033,7 @@ public class TCustomObject#E#HashMap<K> extends TCustomObjectHash<K>
                     throw new ConcurrentModificationException();
                 }
 
-                Object[] set = TCustomObject#E#HashMap.this._set;
+                Object[] set = TObject#E#CustomHashMap.this._set;
                 int i = _index;
                 while ( i-- > 0 && ( set[i] == TCustomObjectHash.FREE ||
 					set[i] == TCustomObjectHash.REMOVED ) ) {
@@ -1049,9 +1049,9 @@ public class TCustomObject#E#HashMap<K> extends TCustomObjectHash<K>
         implements TObject#E#Iterator<K> {
 
         /** the collection being iterated over */
-        private final TCustomObject#E#HashMap<K> _map;
+        private final TObject#E#CustomHashMap<K> _map;
 
-        public TObject#E#HashIterator( TCustomObject#E#HashMap<K> map ) {
+        public TObject#E#HashIterator( TObject#E#CustomHashMap<K> map ) {
             super( map );
             this._map = map;
         }
