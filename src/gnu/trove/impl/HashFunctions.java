@@ -51,8 +51,7 @@ public final class HashFunctions {
      * @return  a hash code value for the specified value.
      */
     public static int hash(int value) {
-        // Multiply by prime to make sure hash can't be negative (see Knuth v3, p. 515-516)
-        return value * 31;
+		return value;
     }
 
     /**
@@ -61,8 +60,7 @@ public final class HashFunctions {
      * @return  a hash code value for the specified value.
      */
     public static int hash(long value) {
-        // Multiply by prime to make sure hash can't be negative (see Knuth v3, p. 515-516)
-        return ((int)(value ^ (value >>> 32))) * 31;
+        return ((int)(value ^ (value >>> 32)));
     }
 
     /**

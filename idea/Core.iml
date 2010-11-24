@@ -16,16 +16,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="Generator" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$TROVE_VCS_ROOT$/lib/caliper-0.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
+    <orderEntry type="module" module-name="Generator" exported="" />
   </component>
 </module>
 
