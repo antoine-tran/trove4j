@@ -1717,21 +1717,52 @@ public class TPrimitivePrimitiveHashMapTest extends TestCase {
         iterator = map.iterator();
         assertTrue( iterator.hasNext() );
         iterator.advance();
+		boolean found_one;
+		if ( iterator.value() == 1 ) {
+			assertEquals( KEY_ONE, iterator.key() );
+			found_one = true;
+		}
+		else {
+			assertEquals( 2, iterator.value() );
+			assertEquals( KEY_TWO, iterator.key() );
+			found_one = false;
+		}
+
+
         assertTrue( iterator.hasNext() );
         iterator.advance();
+		if ( found_one ) {
+			assertEquals( 2, iterator.value() );
+			assertEquals( KEY_TWO, iterator.key() );
+		}
+		else {
+			assertEquals( 1, iterator.value() );
+			assertEquals( KEY_ONE, iterator.key() );
+		}
+
         assertFalse( iterator.hasNext() );
 
         int key = iterator.key();
         long old_value = iterator.value();
-        assertEquals( old_value, iterator.setValue( old_value * 2 ) );
-        assertEquals( old_value * 2, iterator.value() );
+
+		if ( found_one ) {
+			assertEquals( 2, old_value );
+			assertEquals( KEY_TWO, iterator.key() );
+		}
+		else {
+			assertEquals( 1, old_value );
+			assertEquals( KEY_ONE, iterator.key() );
+		}
+
+        assertEquals( old_value, iterator.setValue( old_value * 10 ) );
+        assertEquals( old_value * 10, iterator.value() );
 
         assertFalse( map.containsValue( old_value ) );
-        assertTrue( map.containsValue( old_value * 2 ) );
-        assertEquals( old_value * 2, map.get( key ) );
+        assertTrue( map.containsValue( old_value * 10 ) );
+        assertEquals( old_value * 10, map.get( key ) );
 
         iterator.remove();
-        assertFalse( map.containsValue( old_value * 2 ) );
+        assertFalse( map.containsValue( old_value * 10 ) );
         assertEquals( map.getNoEntryValue(), map.get( key ) );
         assertEquals( 1, map.size() );
     }

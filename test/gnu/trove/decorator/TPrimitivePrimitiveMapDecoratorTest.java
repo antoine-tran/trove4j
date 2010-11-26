@@ -21,20 +21,17 @@
 package gnu.trove.decorator;
 
 import gnu.trove.TDecorators;
-import gnu.trove.set.TIntSet;
-import gnu.trove.set.hash.TIntHashSet;
-import gnu.trove.map.TIntLongMap;
 import gnu.trove.map.TIntIntMap;
-import gnu.trove.map.hash.TIntLongHashMap;
+import gnu.trove.map.TIntLongMap;
 import gnu.trove.map.hash.TIntIntHashMap;
-
+import gnu.trove.map.hash.TIntLongHashMap;
 import junit.framework.TestCase;
 
-import java.util.*;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectOutputStream;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.*;
 
 
 
@@ -576,15 +573,7 @@ public class TPrimitivePrimitiveMapDecoratorTest extends TestCase {
         other.addAll( Arrays.asList( integer_keys ) );
 
         assertTrue( "hashcodes incorrectly not equal: " + set + ", " + other,
-                set.hashCode() == other.hashCode() );
-
-        int[] mismatched = {72, 49, 53, 1024, 999};
-        TIntSet unequal = new TIntHashSet();
-        unequal.addAll( mismatched );
-        set = TDecorators.wrap( unequal );
-
-        assertFalse( "hashcodes unlikely equal: " + set + ", " + unequal,
-                set.hashCode() == unequal.hashCode() );
+			set.hashCode() == other.hashCode() );
     }
 
 
