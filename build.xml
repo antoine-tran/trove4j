@@ -83,12 +83,12 @@
     </target>
 
     <target name="-release_buildNumber" if="build.number">
-        <tar tarfile="${name}-${version.number}.tar" basedir="${dist.root}"/>
-        <gzip src="${name}-${version.number}.tar"
-            zipfile="${dist.root}/${name}-${version.number}.tar.gz" />
-        <delete file="${name}-${version.number}.tar" />
+        <tar tarfile="${name}-${build.number}.tar" basedir="${dist.root}"/>
+        <gzip src="${name}-${build.number}.tar"
+            zipfile="${dist.root}/${name}-${build.number}.tar.gz" />
+        <delete file="${name}-${build.number}.tar" />
 
-        <zip destfile="${dist.root}/${name}-${version.number}.zip" basedir="${dist.root}"
+        <zip destfile="${dist.root}/${name}-${build.number}.zip" basedir="${dist.root}"
             excludes="**/*.tar, **/*.tar.gz, **/*.tgz"/>
     </target>
 
