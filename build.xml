@@ -23,7 +23,6 @@
     
     <property name="Name" value="Trove"/>
     <property name="name" value="trove"/>
-    <property name="version" value="3.0.0a5"/>
     <property name="year" value="2001-2010"/>
     
     <property name="debug" value="on"/>
@@ -43,7 +42,6 @@
     <property name="output.tmp" value="${output.dir}/tmp"/>
 
     <property name="dist.root" value="${output.dir}/dist"/>
-    <property name="dist.dir" value="${dist.root}/${name}-${version}"/>
     
     <property name="src" value="src"/>
     <property name="generator_src" value="generator_src"/>
@@ -63,14 +61,39 @@
         <antcall target="test"/>
         <antcall target="dist"/>
         <antcall target="benchmark"/>
-        
-        <tar tarfile="${name}-${version}.tar" basedir="${dist.root}"/>
-        <gzip src="${name}-${version}.tar" 
-            zipfile="${dist.root}/${name}-${version}.tar.gz" />
-        <delete file="${name}-${version}.tar" />
 
-        <zip destfile="${dist.root}/${name}-${version}.zip" basedir="${dist.root}"
+        <antcall target="-release_versionNumber"/>
+        <antcall target="-release_noVersionNumber"/>
+    </target>
+
+
+    <target name="-release_versionNumber" if="version.number">
+        <tar tarfile="${name}-${version.number}.tar" basedir="${dist.root}"/>
+        <gzip src="${name}-${version.number}.tar"
+            zipfile="${dist.root}/${name}-${version.number}.tar.gz" />
+        <delete file="${name}-${version.number}.tar" />
+
+        <zip destfile="${dist.root}/${name}-${version.number}.zip" basedir="${dist.root}"
             excludes="**/*.tar, **/*.tar.gz, **/*.tgz"/>
+    </target>
+
+    <target name="-release_noVersionNumber" unless="version.number">
+        <antcall target="-release_buildNumber"/>
+        <antcall target="-release_noBuildNumber"/>
+    </target>
+
+    <target name="-release_buildNumber" if="build.number">
+        <tar tarfile="${name}-${version.number}.tar" basedir="${dist.root}"/>
+        <gzip src="${name}-${version.number}.tar"
+            zipfile="${dist.root}/${name}-${version.number}.tar.gz" />
+        <delete file="${name}-${version.number}.tar" />
+
+        <zip destfile="${dist.root}/${name}-${version.number}.zip" basedir="${dist.root}"
+            excludes="**/*.tar, **/*.tar.gz, **/*.tgz"/>
+    </target>
+
+    <target name="-release_noBuildNumber" unless="build.number">
+        <fail message="Either 'version.number' or 'build.number' must be set to do a release."/>
     </target>
     
     
@@ -115,7 +138,13 @@
     <!-- Build the main jar.                                             -->
     <!-- =============================================================== -->
     <target name="jar" depends="compile">
-        <jar destfile="${output.lib}/${name}-${version}.jar">
+        <antcall target="-jar_versionNumber"/>
+        <antcall target="-jar_noVersionNumber"/>
+    </target>
+
+
+    <target name="-jar_versionNumber" if="version.number">
+        <jar destfile="${output.lib}/${name}-${version.number}.jar">
             <fileset dir="${output.dest}">
                 <exclude name="gnu/trove/benchmark/**"/>
                 <exclude name="gnu/trove/test/**"/>
@@ -124,28 +153,45 @@
             <manifest>
                 <attribute name="Built-By" value="${user.name}"/>
                 <attribute name="Implementation-Title" value="${Name}"/>
-                <attribute name="Implementation-Version" value="${version}"/>
+                <attribute name="Implementation-Version" value="${version.number}"/>
                 <attribute name="Implementation-URL" value="http://trove4j.sourceforge.net/"/>
                 <attribute name="Sealed" value="false"/>
             </manifest>
         </jar>
     </target>
 
+    <target name="-jar_noVersionNumber" unless="version.number">
+        <antcall target="-jar_buildNumber"/>
+        <antcall target="-jar_noBuildNumber"/>
+    </target>
 
-    <!-- =============================================================== -->
-    <!-- Build the source jar.                                           -->
-    <!-- =============================================================== -->
-    <target name="jarsrc" depends="compile">
-        <jar destfile="${output.lib}/${name}-src-${version}.jar">
-            <fileset dir="${src}">
-                <exclude name="gnu/trove/generate/**"/>
+    <target name="-jar_buildNumber" if="build.number">
+        <jar destfile="${output.lib}/${name}-${build.number}.jar">
+            <fileset dir="${output.dest}">
                 <exclude name="gnu/trove/benchmark/**"/>
+                <exclude name="gnu/trove/test/**"/>
+                <exclude name="gnu/trove/generate/**"/>
             </fileset>
-            <fileset dir="${output.generated}"/>
             <manifest>
                 <attribute name="Built-By" value="${user.name}"/>
                 <attribute name="Implementation-Title" value="${Name}"/>
-                <attribute name="Implementation-Version" value="${version}"/>
+                <attribute name="Implementation-Version" value="Build ${build.number}"/>
+                <attribute name="Implementation-URL" value="http://trove4j.sourceforge.net/"/>
+                <attribute name="Sealed" value="false"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="-jar_noBuildNumber" unless="build.number">
+        <jar destfile="${output.lib}/${name}.jar">
+            <fileset dir="${output.dest}">
+                <exclude name="gnu/trove/benchmark/**"/>
+                <exclude name="gnu/trove/test/**"/>
+                <exclude name="gnu/trove/generate/**"/>
+            </fileset>
+            <manifest>
+                <attribute name="Built-By" value="${user.name}"/>
+                <attribute name="Implementation-Title" value="${Name}"/>
                 <attribute name="Implementation-URL" value="http://trove4j.sourceforge.net/"/>
                 <attribute name="Sealed" value="false"/>
             </manifest>
@@ -157,45 +203,43 @@
     <!-- Places files to prepare for a release.                          -->
     <!-- This build javadocs and copies misc. files.                     -->
     <!-- =============================================================== -->
-    <target name="dist" depends="jar,jarsrc,javadoc"
+    <target name="dist" depends="jar,javadoc"
         description="Build all files for distribution">
 
         <mkdir dir="${dist.root}"/>
-        <mkdir dir="${dist.dir}"/>
-        <mkdir dir="${dist.dir}/src"/>
 
         <!-- Save build number -->
         <antcall target="-print_buildNumber"/>
 
         <!-- Copy source -->
-        <copy todir="${dist.dir}/src">
+        <copy todir="${dist.root}/src">
             <fileset dir="${src}"/>
         </copy>
-        <copy todir="${dist.dir}/test">
+        <copy todir="${dist.root}/test">
             <fileset dir="${test_src}"/>
         </copy>
-        <copy todir="${dist.dir}/templates">
+        <copy todir="${dist.root}/templates">
             <fileset dir="${templates}"/>
         </copy>
-        <copy todir="${dist.dir}/generator_src">
+        <copy todir="${dist.root}/generator_src">
             <fileset dir="${generator_src}"/>
         </copy>
-        <copy todir="${dist.dir}/generator_test">
+        <copy todir="${dist.root}/generator_test">
             <fileset dir="${generator_test}"/>
         </copy>
 
         
         <!-- Copy javadocs & libs -->
-        <copy todir="${dist.dir}">
+        <copy todir="${dist.root}">
             <fileset dir="${output.dir}" includes="lib/**,javadocs/**" />
         </copy>
-        <copy todir="${dist.dir}/lib" file="${lib}/junit.jar"/>
+        <copy todir="${dist.root}/lib" file="${lib}/junit.jar"/>
         
         <!-- Misc. Files -->
-        <copy todir="${dist.dir}">
+        <copy todir="${dist.root}">
 			<fileset dir="${basedir}" includes="*.txt"/>
 		</copy>
-        <copy todir="${dist.dir}" file="build.xml"/>
+        <copy todir="${dist.root}" file="build.xml"/>
     </target>
     
     
@@ -204,15 +248,60 @@
     <!-- =============================================================== -->
     <target name="javadoc" depends="compile">
         <mkdir dir="${output.javadocs}"/>
-    
+
+        <antcall target="-javadoc_versionNumber"/>
+        <antcall target="-javadoc_noVersionNumber"/>
+    </target>
+
+
+    <target name="-javadoc_versionNumber" if="version.number">
         <javadoc destdir="${output.javadocs}"
             maxmemory="256m"
             packagenames="gnu.trove.*"
             excludepackagenames="gnu.trove.impl.*"
             author="false"
             version="false"
-            windowtitle="${Name} ${version}"
-            doctitle="${Name} ${version}"
+            windowtitle="${Name} ${version.number}"
+            doctitle="${Name} ${version.number}"
+            header="&lt;a href=&quot;http://trove4j.sourceforge.net/&quot;>GNU Trove&lt;/a>">
+            <sourcepath>
+                <path location="src"/>
+                <path location="${output.generated}"/>
+            </sourcepath>
+        </javadoc>
+    </target>
+
+    <target name="-javadoc_noVersionNumber" unless="version.number">
+        <antcall target="-javadoc_buildNumber"/>
+        <antcall target="-javadoc_noBuildNumber"/>
+    </target>
+
+    <target name="-javadoc_buildNumber" if="build.number">
+        <javadoc destdir="${output.javadocs}"
+            maxmemory="256m"
+            packagenames="gnu.trove.*"
+            excludepackagenames="gnu.trove.impl.*"
+            author="false"
+            version="false"
+            windowtitle="${Name} build ${build.number}"
+            doctitle="${Name} build ${build.number}"
+            header="&lt;a href=&quot;http://trove4j.sourceforge.net/&quot;>GNU Trove&lt;/a>">
+            <sourcepath>
+                <path location="src"/>
+                <path location="${output.generated}"/>
+            </sourcepath>
+        </javadoc>
+    </target>
+
+    <target name="-javadoc_noBuildNumber" unless="build.number">
+        <javadoc destdir="${output.javadocs}"
+            maxmemory="256m"
+            packagenames="gnu.trove.*"
+            excludepackagenames="gnu.trove.impl.*"
+            author="false"
+            version="false"
+            windowtitle="${Name}"
+            doctitle="${Name}"
             header="&lt;a href=&quot;http://trove4j.sourceforge.net/&quot;>GNU Trove&lt;/a>">
             <sourcepath>
                 <path location="src"/>
@@ -307,8 +396,6 @@
         <mkdir dir="${output.generated}/gnu/trove"/>
         <mkdir dir="${output.lib}"/>
         <mkdir dir="${dist.root}"/>
-
-        <echo message="----------- ${Name} ${version} [${year}] ------------"/>
     </target>
 
 
@@ -387,6 +474,6 @@
     </target>
 
     <target name="-print_buildNumber" if="build.number">
-        <echo file="${dist.dir}\trove.build" append="false">${build.number}</echo>
+        <echo file="${dist.root}\trove.build" append="false">${build.number}</echo>
     </target>
 </project>
