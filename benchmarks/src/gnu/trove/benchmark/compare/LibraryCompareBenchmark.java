@@ -84,6 +84,9 @@ public class LibraryCompareBenchmark extends SimpleBenchmark {
 	}
 
 
+	/////////////////////////////////////////////////////
+	// put
+
 	public void timeJavaPut( int reps ) {
 		for( int r = 0; r < reps; r++ ) {
 			for( int i = 0; i < size; i ++ ) {
@@ -92,27 +95,38 @@ public class LibraryCompareBenchmark extends SimpleBenchmark {
 		}
 	}
 
-	public void timeJavaGet( int reps ) {
-		for( int r = 0; r < reps; r++ ) {
-			for( int i = 0; i < size; i++ ) {
-				java_populated_map.get( int_obj_array[ i ] );
-			}
-		}
-	}
-
-	public void timeJavaContainsKey( int reps ) {
-		for( int r = 0; r < reps; r++ ) {
-			for( int i = 0; i < size; i++ ) {
-				java_populated_map.containsKey( int_obj_array[ i ] );
-			}
-		}
-	}
-
-
 	public void timeColtPut( int reps ) {
 		for( int r = 0; r < reps; r++ ) {
 			for( int i = 0; i < size; i ++ ) {
 				colt_empty_map.put( i, "value" );
+			}
+		}
+	}
+
+	public void timeTrove2Put( int reps ) {
+		for( int r = 0; r < reps; r++ ) {
+			for( int i = 0; i < size; i ++ ) {
+				trove2_empty_map.put( i, "value" );
+			}
+		}
+	}
+
+	public void timeTrove3Put( int reps ) {
+		for( int r = 0; r < reps; r++ ) {
+			for( int i = 0; i < size; i ++ ) {
+				trove3_empty_map.put( i, "value" );
+			}
+		}
+	}
+
+
+	/////////////////////////////////////////////////////
+	// get
+
+	public void timeJavaGet( int reps ) {
+		for( int r = 0; r < reps; r++ ) {
+			for( int i = 0; i < size; i++ ) {
+				java_populated_map.get( int_obj_array[ i ] );
 			}
 		}
 	}
@@ -125,23 +139,6 @@ public class LibraryCompareBenchmark extends SimpleBenchmark {
 		}
 	}
 
-	public void timeColtContainsKey( int reps ) {
-		for( int r = 0; r < reps; r++ ) {
-			for( int i = 0; i < size; i++ ) {
-				colt_populated_map.containsKey( i );
-			}
-		}
-	}
-
-
-	public void timeTrove2Put( int reps ) {
-		for( int r = 0; r < reps; r++ ) {
-			for( int i = 0; i < size; i ++ ) {
-				trove2_empty_map.put( i, "value" );
-			}
-		}
-	}
-
 	public void timeTrove2Get( int reps ) {
 		for( int r = 0; r < reps; r++ ) {
 			for( int i = 0; i < size; i++ ) {
@@ -150,27 +147,38 @@ public class LibraryCompareBenchmark extends SimpleBenchmark {
 		}
 	}
 
-	public void timeTrove2ContainsKey( int reps ) {
-		for( int r = 0; r < reps; r++ ) {
-			for( int i = 0; i < size; i++ ) {
-				trove2_populated_map.containsKey( i );
-			}
-		}
-	}
-
-
-	public void timeTrove3Put( int reps ) {
-		for( int r = 0; r < reps; r++ ) {
-			for( int i = 0; i < size; i ++ ) {
-				trove3_empty_map.put( i, "value" );
-			}
-		}
-	}
-
 	public void timeTrove3Get( int reps ) {
 		for( int r = 0; r < reps; r++ ) {
 			for( int i = 0; i < size; i++ ) {
 				trove3_populated_map.get( i );
+			}
+		}
+	}
+
+
+	/////////////////////////////////////////////////////
+	// containsKey
+
+	public void timeJavaContainsKey( int reps ) {
+		for( int r = 0; r < reps; r++ ) {
+			for( int i = 0; i < size; i++ ) {
+				java_populated_map.containsKey( int_obj_array[ i ] );
+			}
+		}
+	}
+
+	public void timeColtContainsKey( int reps ) {
+		for( int r = 0; r < reps; r++ ) {
+			for( int i = 0; i < size; i++ ) {
+				colt_populated_map.containsKey( i );
+			}
+		}
+	}
+
+	public void timeTrove2ContainsKey( int reps ) {
+		for( int r = 0; r < reps; r++ ) {
+			for( int i = 0; i < size; i++ ) {
+				trove2_populated_map.containsKey( i );
 			}
 		}
 	}
