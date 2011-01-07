@@ -20,13 +20,12 @@
 
 package gnu.trove.impl.hash;
 
-import gnu.trove.impl.HashFunctions;
 import gnu.trove.procedure.TObjectProcedure;
 
-import java.util.Arrays;
-import java.io.ObjectOutput;
 import java.io.IOException;
 import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.util.Arrays;
 
 
 
@@ -42,6 +41,7 @@ import java.io.ObjectInput;
  */
 abstract public class TObjectHash<T> extends THash {
 
+    @SuppressWarnings( { "UnusedDeclaration" } )
     static final long serialVersionUID = -3461112548087185871L;
 
 
@@ -152,10 +152,9 @@ abstract public class TObjectHash<T> extends THash {
      * @return the index of <tt>obj</tt> or -1 if it isn't in the set.
      */
     protected int index( Object obj ) {
-
         final Object[] set = _set;
         final int length = set.length;
-        final int hash = HashFunctions.hash( obj ) & 0x7fffffff;
+        final int hash = hash( obj ) & 0x7fffffff;
         int index = hash % length;
         Object cur = set[index];
 
@@ -168,7 +167,7 @@ abstract public class TObjectHash<T> extends THash {
         }
 
         // NOTE: here it has to be REMOVED or FULL (some user-given value)
-        if ( cur == REMOVED || !cur.equals( obj ) ) {
+        if ( cur == REMOVED || !equals( cur, obj ) ) {
             // see Knuth, p. 529
             final int probe = 1 + ( hash % ( length - 2 ) );
 
@@ -179,7 +178,7 @@ abstract public class TObjectHash<T> extends THash {
                 }
                 cur = set[index];
             } while ( cur != FREE
-                      && ( cur == REMOVED || !cur.equals( obj ) ) );
+                      && ( cur == REMOVED || !equals( cur, obj ) ) );
         }
 
         return cur == FREE ? -1 : index;
@@ -197,16 +196,15 @@ abstract public class TObjectHash<T> extends THash {
      *         that index, minus 1: -index -1.
      */
     protected int insertionIndex( T obj ) {
-
         final Object[] set = _set;
         final int length = set.length;
-        final int hash = HashFunctions.hash( obj ) & 0x7fffffff;
+        final int hash = hash( obj ) & 0x7fffffff;
         int index = hash % length;
         Object cur = set[index];
 
         if ( cur == FREE ) {
             return index;       // empty, all done
-        } else if ( cur == obj || ( cur != REMOVED && cur.equals( obj ) ) ) {
+        } else if ( cur == obj || ( cur != REMOVED && equals( cur, obj ) ) ) {
             return -index - 1;   // already stored
         } else {                // already FULL or REMOVED, must probe
             // compute the double hash
@@ -235,7 +233,7 @@ abstract public class TObjectHash<T> extends THash {
                 } while ( cur != FREE
                           && cur != REMOVED
                           && cur != obj
-                          && !cur.equals( obj ) );
+                          && !equals( cur, obj ) );
             }
 
             // if the index we found was removed: continue probing until we
@@ -244,7 +242,7 @@ abstract public class TObjectHash<T> extends THash {
             if ( cur == REMOVED ) {
                 int firstRemoved = index;
                 while ( cur != FREE
-                        && ( cur == REMOVED || cur != obj || !cur.equals( obj ) ) ) {
+                        && ( cur == REMOVED || cur != obj || !equals( cur, obj ) ) ) {
                     index -= probe;
                     if ( index < 0 ) {
                         index += length;
@@ -273,7 +271,8 @@ abstract public class TObjectHash<T> extends THash {
      * @throws IllegalArgumentException the whole point of this method.
      */
     protected final void throwObjectContractViolation( Object o1, Object o2 )
-            throws IllegalArgumentException {
+		throws IllegalArgumentException {
+
         throw new IllegalArgumentException( "Equal objects must have equal hashcodes. "
                                             + "During rehashing, Trove discovered that "
                                             + "the following two objects claim to be "
@@ -288,9 +287,17 @@ abstract public class TObjectHash<T> extends THash {
     }
 
 
+	protected boolean equals( Object one, Object two ) {
+		return one == null ? two == null : one.equals( two );
+	}
+
+	protected int hash( Object obj ) {
+		return obj == null ? 0 : obj.hashCode();
+	}
+
+
     @Override
     public void writeExternal( ObjectOutput out ) throws IOException {
-
         // VERSION
         out.writeByte( 0 );
 
@@ -301,7 +308,7 @@ abstract public class TObjectHash<T> extends THash {
 
     @Override
     public void readExternal( ObjectInput in )
-            throws IOException, ClassNotFoundException {
+		throws IOException, ClassNotFoundException {
 
         // VERSION
         in.readByte();

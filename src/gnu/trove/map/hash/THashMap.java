@@ -245,10 +245,8 @@ public class THashMap<K, V> extends TObjectHash<K> implements Map<K, V>, Externa
         }
     }
 
-    private static final class EqProcedure<K, V> implements TObjectObjectProcedure<K, V> {
-
+    private final class EqProcedure<K, V> implements TObjectObjectProcedure<K, V> {
         private final Map<K, V> _otherMap;
-
 
         EqProcedure( Map<K, V> otherMap ) {
             _otherMap = otherMap;
@@ -264,7 +262,8 @@ public class THashMap<K, V> extends TObjectHash<K> implements Map<K, V>, Externa
             }
 
             V oValue = _otherMap.get( key );
-            return oValue == value || ( oValue != null && oValue.equals( value ) );
+            return oValue == value || ( oValue != null &&
+	            THashMap.this.equals( oValue, value ) );
         }
     }
 
@@ -415,7 +414,7 @@ public class THashMap<K, V> extends TObjectHash<K> implements Map<K, V>, Externa
     @SuppressWarnings({"unchecked"})
     public V get( Object key ) {
         int index = index( key );
-        if ( index < 0 || ! _set[index].equals( key ) ) {
+        if ( index < 0 || ! equals( _set[index], key ) ) {
             return null; 
         }
         return _values[index];
@@ -516,7 +515,7 @@ public class THashMap<K, V> extends TObjectHash<K> implements Map<K, V>, Externa
         } else {
             for ( int i = vals.length; i-- > 0; ) {
                 if ( ( set[i] != FREE && set[i] != REMOVED ) &&
-                     ( val == vals[i] || val.equals( vals[i] ) ) ) {
+                     ( val == vals[i] || equals( val, vals[i] ) ) ) {
                     return true;
                 }
             }
@@ -532,6 +531,7 @@ public class THashMap<K, V> extends TObjectHash<K> implements Map<K, V>, Externa
      * @return a <code>boolean</code> value
      */
     public boolean containsKey( Object key ) {
+	    //noinspection unchecked
         return contains( key );
     }
 
@@ -575,7 +575,7 @@ public class THashMap<K, V> extends TObjectHash<K> implements Map<K, V>, Externa
             for ( int i = values.length; i-- > 0; ) {
                 if ( ( set[i] != FREE && set[i] != REMOVED ) &&
                      value == values[i] ||
-                     ( null != values[i] && values[i].equals( value ) ) ) {
+                     ( null != values[i] && THashMap.this.equals( values[ i ], value ) ) ) {
 
                     removeAt( i );
                     return true;
@@ -627,7 +627,7 @@ public class THashMap<K, V> extends TObjectHash<K> implements Map<K, V>, Externa
             if ( index >= 0 ) {
                 val = valueForEntry( entry );
                 if ( val == _values[index] ||
-                     ( null != val && val.equals( _values[index] ) ) ) {
+                     ( null != val && THashMap.this.equals( val, _values[index] ) ) ) {
                     removeAt( index );    // clear key,state; adjust size
                     return true;
                 }
@@ -640,7 +640,7 @@ public class THashMap<K, V> extends TObjectHash<K> implements Map<K, V>, Externa
             Object val = get( keyForEntry( entry ) );
             Object entryValue = entry.getValue();
             return entryValue == val ||
-                   ( null != val && val.equals( entryValue ) );
+			   ( null != val && THashMap.this.equals( val, entryValue ) );
         }
 
 
@@ -832,8 +832,8 @@ public class THashMap<K, V> extends TObjectHash<K> implements Map<K, V>, Externa
             if ( o instanceof Map.Entry ) {
                 Map.Entry<K, V> e1 = this;
                 Map.Entry e2 = (Map.Entry) o;
-                return ( e1.getKey() == null ? e2.getKey() == null : e1.getKey().equals( e2.getKey() ) )
-                       && ( e1.getValue() == null ? e2.getValue() == null : e1.getValue().equals( e2.getValue() ) );
+                return ( THashMap.this.equals( e1.getKey(), e2.getKey() ) )
+				   && ( THashMap.this.equals( e1.getValue(), e1.getValue() ) );
             }
             return false;
         }

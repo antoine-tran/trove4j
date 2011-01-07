@@ -601,8 +601,21 @@ public class THashMapTest extends TestCase {
 
 
     public void testNullKey() {
-        ss_map.put( null, null );
+        ss_map.put( null, "null" );
         assertEquals( null, ss_map.keySet().iterator().next() );
+
+		ss_map.put( "one", "1" );
+		ss_map.put( "two", "2" );
+		ss_map.put( "three", "3" );
+
+	    assertEquals( "null", ss_map.get( null ) );
+	    assertEquals( "1", ss_map.get( "one" ) );
+	    assertEquals( "2", ss_map.get( "two" ) );
+	    assertEquals( "3", ss_map.get( "three" ) );
+
+	    String old_value = ss_map.put( null, "null_new" );
+	    assertEquals( "null", old_value );
+	    assertEquals( "null_new", ss_map.get( null ) );
     }
 
 
