@@ -1,3 +1,11 @@
+--- 3.0.0 a7 ---
+  - [ 3153005 ] fix for null keys in Object maps
+  - Benchmarks for comparing different libraries. Currently java.util, Colt,
+    Trove 2 and Trove 3.
+  - Fixes to serialVersionUID's and where Serializable is marked. For example,
+    Serializable has been removed from the interfaces for various collections
+    (to better match how it's done in java.util).
+
 --- 3.0.0 a5 ---
   - Re-introduce custom hashing and the HashingStrategy interface. New collections
     are:
