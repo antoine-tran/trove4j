@@ -36,8 +36,7 @@ import java.io.Serializable;
 /**
  * Interface for a primitive map of #k# keys and #v# values.
  */
-public interface T#K##V#Map extends Serializable {
-
+public interface T#K##V#Map {
     /**
      * Returns the value that will be returned from {@link #get} or {@link #put} if no
      * entry exists for a given key. The default value is generally zero, but can be

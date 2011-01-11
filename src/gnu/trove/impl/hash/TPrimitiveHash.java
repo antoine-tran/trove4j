@@ -36,6 +36,8 @@ import gnu.trove.impl.HashFunctions;
  * @version $Id: TPrimitiveHash.java,v 1.1.2.6 2010/03/01 23:39:07 robeden Exp $
  */
 abstract public class TPrimitiveHash extends THash {
+	@SuppressWarnings( { "UnusedDeclaration" } )
+	static final long serialVersionUID = 1L;
 
     /**
      * flags indicating whether each position in the hash is

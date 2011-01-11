@@ -31,6 +31,7 @@ import java.io.Serializable;
  */
 
 public interface TLinkable<T extends TLinkable> extends Serializable {
+	static final long serialVersionUID = 997545054865482562L;
 
     /**
      * Returns the linked list node after this one.

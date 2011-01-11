@@ -28,7 +28,7 @@ import java.io.Serializable;
  *
  * @see java.util.Queue
  */
-public interface T#E#Queue extends T#E#Collection, Serializable {
+public interface T#E#Queue extends T#E#Collection {
 	/**
 	 * Retrieves and removes the head of this queue. This method differs from
 	 * {@link #poll} only in that it throws an exception if this queue is empty.

@@ -40,7 +40,8 @@ import java.io.Serializable;
  * @version $Id: _E_Collection.template,v 1.1.2.2 2009/09/15 02:38:30 upholderoftruth Exp $
  */
 
-public interface T#E#Collection extends Serializable {
+public interface T#E#Collection {
+	static final long serialVersionUID = 1L;
 
     /**
      * Returns the value that is used to represent null. The default

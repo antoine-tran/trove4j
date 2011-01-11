@@ -44,7 +44,7 @@ import java.io.ObjectInput;
  * @version $Id: THash.java,v 1.1.2.4 2010/03/02 00:55:34 robeden Exp $
  */
 abstract public class THash implements Externalizable {
-
+    @SuppressWarnings( { "UnusedDeclaration" } )
     static final long serialVersionUID = -1792948471915530295L;
 
     /** the load above which rehashing occurs. */

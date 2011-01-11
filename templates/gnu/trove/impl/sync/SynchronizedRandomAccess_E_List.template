@@ -52,6 +52,8 @@ import java.io.IOException;
 public  class TSynchronizedRandomAccess#E#List extends TSynchronized#E#List
 	implements RandomAccess {
 
+	static final long serialVersionUID = 1530674583602358482L;
+
 	public TSynchronizedRandomAccess#E#List( T#E#List list ) {
 		super( list );
 	}
@@ -66,8 +68,6 @@ public  class TSynchronizedRandomAccess#E#List extends TSynchronized#E#List
 				list.subList( fromIndex, toIndex ), mutex );
 		}
 	}
-
-	static final long serialVersionUID = 1530674583602358482L;
 
 	/**
 	 * Allows instances to be deserialized in pre-1.4 JREs (which do

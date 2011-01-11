@@ -40,6 +40,7 @@ import java.io.IOException;
  * A stack of #e# primitives, backed by a T#E#ArrayList
  */
 public class T#E#ArrayStack implements T#E#Stack, Externalizable {
+	static final long serialVersionUID = 1L;
 
     /** the list used to hold the stack values. */
     protected T#E#ArrayList _list;

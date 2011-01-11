@@ -54,6 +54,8 @@ import java.util.Set;
 public class T#E#SetDecorator extends AbstractSet<#ET#>
     implements Set<#ET#>, Externalizable {
 
+	static final long serialVersionUID = 1L;
+
     /** the wrapped primitive set */
     protected T#E#Set _set;
 

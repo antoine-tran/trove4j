@@ -36,8 +36,7 @@ import java.util.Random;
 /**
  * Interface for Trove list implementations.
  */
-public interface T#E#List extends T#E#Collection, Serializable {
-
+public interface T#E#List extends T#E#Collection {
     /**
      * Returns the value that is used to represent null. The default
      * value is generally zero, but can be changed during construction

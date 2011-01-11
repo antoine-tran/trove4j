@@ -44,6 +44,7 @@ import java.io.IOException;
  * @version $Id: _K__V_Hash.template,v 1.1.2.6 2009/11/07 03:36:44 robeden Exp $
  */
 abstract public class T#K##V#Hash extends TPrimitiveHash {
+	static final long serialVersionUID = 1L;
 
     /** the set of #k#s */
     public transient #k#[] _set;

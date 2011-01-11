@@ -48,6 +48,8 @@ import java.util.List;
 public class T#E#ListDecorator extends AbstractList<#ET#>
 	implements List<#ET#>, Externalizable, Cloneable {
 
+	static final long serialVersionUID = 1L;
+
     /** the wrapped primitive list */
     protected T#E#List list;
 

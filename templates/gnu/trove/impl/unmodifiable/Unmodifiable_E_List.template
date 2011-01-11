@@ -51,6 +51,7 @@ import java.io.IOException;
 
 public class TUnmodifiable#E#List extends TUnmodifiable#E#Collection implements T#E#List {
 	static final long serialVersionUID = -283967356065247728L;
+
 	final T#E#List list;
 
 	public TUnmodifiable#E#List( T#E#List list ) {

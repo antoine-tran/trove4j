@@ -37,6 +37,8 @@ import java.io.ObjectOutput;
  */
 @SuppressWarnings( { "UnusedDeclaration" } )
 abstract public class TCustomObjectHash<T> extends TObjectHash<T> {
+	static final long serialVersionUID = 8766048185963756400L;
+
 	protected HashingStrategy<T> strategy;
 
 

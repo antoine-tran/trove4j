@@ -43,7 +43,7 @@ import java.io.Serializable;
  * @version $Id: _E_Set.template,v 1.1.2.5 2009/09/15 02:38:31 upholderoftruth Exp $
  */
 
-public interface T#E#Set extends T#E#Collection, Serializable {
+public interface T#E#Set extends T#E#Collection {
 
 
     /**

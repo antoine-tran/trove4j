@@ -50,6 +50,8 @@ import java.util.*;
 public class T#E#ObjectMapDecorator<V> extends AbstractMap<#ET#, V>
 	implements Map<#ET#, V>, Externalizable, Cloneable {
 
+	static final long serialVersionUID = 1L;
+
     /** the wrapped primitive map */
     protected T#E#ObjectMap<V> _map;
 

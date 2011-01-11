@@ -32,6 +32,8 @@ import java.io.Serializable;
  */
 
 public interface HashingStrategy<T> extends Serializable {
+	static final long serialVersionUID = 5674097166776615540L;
+
 	/**
 	 * Computes a hash code for the specified object.  Implementers
 	 * can use the object's own <tt>hashCode</tt> method, the Java

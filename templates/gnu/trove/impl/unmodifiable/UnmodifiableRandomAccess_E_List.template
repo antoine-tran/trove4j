@@ -52,6 +52,8 @@ import java.io.IOException;
 public class TUnmodifiableRandomAccess#E#List extends TUnmodifiable#E#List
 	implements RandomAccess {
 
+	private static final long serialVersionUID = -2542308836966382001L;
+
 	public TUnmodifiableRandomAccess#E#List( T#E#List list ) {
 		super( list );
 	}
@@ -59,8 +61,6 @@ public class TUnmodifiableRandomAccess#E#List extends TUnmodifiable#E#List
 	public T#E#List subList( int fromIndex, int toIndex ) {
 		return new TUnmodifiableRandomAccess#E#List( list.subList( fromIndex, toIndex ) );
 	}
-
-	private static final long serialVersionUID = -2542308836966382001L;
 
 	/**
 	 * Allows instances to be deserialized in pre-1.4 JREs (which do

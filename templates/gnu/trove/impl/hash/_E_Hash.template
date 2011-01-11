@@ -40,6 +40,7 @@ import java.util.Arrays;
  * @version $Id: _E_Hash.template,v 1.1.2.6 2009/11/07 03:36:44 robeden Exp $
  */
 abstract public class T#E#Hash extends TPrimitiveHash {
+	static final long serialVersionUID = 1L;
 
     /** the set of #e#s */
     public transient #e#[] _set;
