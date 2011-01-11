@@ -288,7 +288,7 @@ abstract public class TObjectHash<T> extends THash {
 
 
 	protected boolean equals( Object one, Object two ) {
-		return one == null ? two == null : one.equals( two );
+		return one == null ? two == null : ( two != null && one.equals( two ) );
 	}
 
 	protected int hash( Object obj ) {
