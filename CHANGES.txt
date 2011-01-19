@@ -1,3 +1,6 @@
+--- 3.0.0 rc1 ---
+  - [ 3159432 ] THashMap.entrySet().remove() throws on non-Entries
+
 --- 3.0.0 a7 ---
   - [ 3153005 ] fix for null keys in Object maps
   - Benchmarks for comparing different libraries. Currently java.util, Colt,
