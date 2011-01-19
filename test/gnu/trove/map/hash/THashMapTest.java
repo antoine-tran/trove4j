@@ -1174,4 +1174,20 @@ public class THashMapTest extends TestCase {
 		HashTestKit.checkFreeSlotCount( map, map._set, TObjectHash.FREE );
 	}
 
+
+	// Test for issue 3159432
+	public void testEntrySetRemove() {
+		THashMap<String,String> map = new THashMap<String,String>();
+		map.put( "ONE", "1" );
+		map.put( "TWO", "2" );
+		map.put( "THREE", "3" );
+
+		Set<Map.Entry<String,String>> set = map.entrySet();
+		set.remove( null );
+
+		//noinspection SuspiciousMethodCalls
+		set.remove( "Blargh" );
+	}
+
+
 } // THashMapTests

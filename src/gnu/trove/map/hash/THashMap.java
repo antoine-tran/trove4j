@@ -610,6 +610,8 @@ public class THashMap<K, V> extends TObjectHash<K> implements Map<K, V>, Externa
 
 
         public boolean removeElement( Map.Entry<K, V> entry ) {
+	        if ( entry == null ) return false;
+	        
             // have to effectively reimplement Map.remove here
             // because we need to return true/false depending on
             // whether the removal took place.  Since the Entry's
@@ -655,7 +657,7 @@ public class THashMap<K, V> extends TObjectHash<K> implements Map<K, V>, Externa
     }
 
     private abstract class MapBackedView<E> extends AbstractSet<E>
-            implements Set<E>, Iterable<E> {
+		implements Set<E>, Iterable<E> {
 
         public abstract Iterator<E> iterator();
 
@@ -674,7 +676,12 @@ public class THashMap<K, V> extends TObjectHash<K> implements Map<K, V>, Externa
 
         @SuppressWarnings({"unchecked"})
         public boolean remove( Object o ) {
-            return removeElement( (E) o );
+	        try {
+                return removeElement( (E) o );
+	        }
+	        catch( ClassCastException ex ) {
+		        return false;
+	        }
         }
 
 
