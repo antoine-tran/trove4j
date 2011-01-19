@@ -44,8 +44,8 @@ Hashing strategies
     char[] foo, bar;
     foo = new char[] {'a','b','c'};
     bar = new char[] {'a','b','c'};
-    System.out.println(foo.hashCode() == bar.hashCode() ? "equal" : "not equal"
-);
+    System.out.println(foo.hashCode() == bar.hashCode() ?
+      "equal" : "not equal");
     System.out.println(foo.equals(bar) ? "equal" : "not equal");
     
 
@@ -60,16 +60,16 @@ Hashing strategies
 
    In a gnu.trove.THashMap, however, you can implement a
    TObjectHashingStrategy to enable hashing on arrays:
-    class CharArrayStrategy implements TObjectHashingStrategy {
+    class CharArrayStrategy implements HashingStrategy {
         public int computeHashCode(Object o) {
             char[] c = (char[])o;
             // use the shift-add-xor class of string hashing functions
-            // cf. Ramakrishna and Zobel, "Performance in Practice of String Ha
-shing Functions"
+            // cf. Ramakrishna and Zobel,
+            //     "Performance in Practice of String Hashing Functions"
             int h = 31; // seed chosen at random
             for (int i = 0; i < c.length; i++) { // could skip invariants
-                h = h ^ ((h << 5) + (h >> 2) + c[i]); // L=5, R=2 works well fo
-r ASCII input
+                // L=5, R=2 works well for ASCII input
+                h = h ^ ((h << 5) + (h >> 2) + c[i]);
             }
             return h;
         }
@@ -77,12 +77,12 @@ r ASCII input
         public boolean equals(Object o1, Object o2) {
             char[] c1 = (char[])o1;
             char[] c2 = (char[])o2;
-            if (c1.length != c2.length) { // could drop this check for fixed-le
-ngth keys
+            // could drop this check for fixed-length keys
+            if (c1.length != c2.length) {
                 return false;
             }
-            for (int i = 0, len = c1.length; i < len; i++) { // could skip inva
-riants
+            // could skip invariants
+            for (int i = 0, len = c1.length; i < len; i++) {
                 if (c1[i] != c2[i]) {
                     return false;
                 }
@@ -113,4 +113,4 @@ Miscellaneous
    java.util.Map.
      _________________________________________________________________
 
-   Last modified: Mon Sep 23 18:22:39 PDT 2002
+   Last modified: Jan 19, 2011
