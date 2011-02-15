@@ -240,7 +240,7 @@ public interface TObject#E#Map<K> {
      *
      * @param map   The map from which entries will be obtained to put into this map.
      */
-    void putAll( TObject#E#Map<K> map );
+    void putAll( TObject#E#Map<? extends K> map );
 
 
     /**
@@ -385,7 +385,7 @@ public interface TObject#E#Map<K> {
      * @return false if the loop over the keys terminated because
      *         the procedure returned false for some key.
      */
-    public boolean forEachKey( TObjectProcedure<K> procedure );
+    public boolean forEachKey( TObjectProcedure<? super K> procedure );
 
 
     /**
@@ -406,7 +406,7 @@ public interface TObject#E#Map<K> {
      * @return false if the loop over the entries terminated because
      *         the procedure returned false for some entry.
      */
-    public boolean forEachEntry( TObject#E#Procedure<K> procedure );
+    public boolean forEachEntry( TObject#E#Procedure<? super K> procedure );
 
 
     /**
@@ -424,7 +424,7 @@ public interface TObject#E#Map<K> {
      * @param procedure determines which entries to keep
      * @return true if the map was modified.
      */
-    public boolean retainEntries( TObject#E#Procedure<K> procedure );
+    public boolean retainEntries( TObject#E#Procedure<? super K> procedure );
 
 
     // Comparison and hashing

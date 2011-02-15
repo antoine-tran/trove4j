@@ -77,7 +77,7 @@ public class TObject#E#CustomHashMap<K> extends TCustomObjectHash<K>
      * Creates a new <code>TObject#E#HashMap</code> instance with the default
      * capacity and load factor.
      */
-    public TObject#E#CustomHashMap( HashingStrategy<K> strategy ) {
+    public TObject#E#CustomHashMap( HashingStrategy<? super K> strategy ) {
         super( strategy );
     }
 
@@ -89,7 +89,9 @@ public class TObject#E#CustomHashMap<K> extends TCustomObjectHash<K>
      *
      * @param initialCapacity an <code>int</code> value
      */
-    public TObject#E#CustomHashMap( HashingStrategy<K> strategy, int initialCapacity ) {
+    public TObject#E#CustomHashMap( HashingStrategy<? super K> strategy,
+		int initialCapacity ) {
+
         super( strategy, initialCapacity );
 
         no_entry_value = Constants.DEFAULT_#EC#_NO_ENTRY_VALUE;
@@ -104,8 +106,8 @@ public class TObject#E#CustomHashMap<K> extends TCustomObjectHash<K>
      * @param initialCapacity an <code>int</code> value
      * @param loadFactor a <code>float</code> value
      */
-    public TObject#E#CustomHashMap( HashingStrategy<K> strategy, int initialCapacity,
-		float loadFactor ) {
+    public TObject#E#CustomHashMap( HashingStrategy<? super K> strategy,
+		int initialCapacity, float loadFactor ) {
 
         super( strategy, initialCapacity, loadFactor );
 
@@ -122,8 +124,8 @@ public class TObject#E#CustomHashMap<K> extends TCustomObjectHash<K>
      * rehashing takes place.
      * @param noEntryValue the value used to represent null.
      */
-    public TObject#E#CustomHashMap( HashingStrategy<K> strategy, int initialCapacity,
-		float loadFactor, #e# noEntryValue ) {
+    public TObject#E#CustomHashMap( HashingStrategy<? super K> strategy,
+		int initialCapacity, float loadFactor, #e# noEntryValue ) {
 
         super( strategy, initialCapacity, loadFactor );
 
@@ -141,7 +143,9 @@ public class TObject#E#CustomHashMap<K> extends TCustomObjectHash<K>
      *
      * @param map the <tt>TObject#E#Map</tt> to be copied.
      */
-    public TObject#E#CustomHashMap( HashingStrategy<K> strategy, TObject#E#Map<K> map ) {
+    public TObject#E#CustomHashMap( HashingStrategy<? super K> strategy,
+		TObject#E#Map<? extends K> map ) {
+	
         this( strategy, map.size(), 0.5f, map.getNoEntryValue() );
 
         if ( map instanceof TObject#E#CustomHashMap ) {
@@ -316,7 +320,7 @@ public class TObject#E#CustomHashMap<K> extends TCustomObjectHash<K>
     
 
     /** {@inheritDoc} */
-    public void putAll( TObject#E#Map<K> map ){
+    public void putAll( TObject#E#Map<? extends K> map ){
         map.forEachEntry( PUT_ALL_PROC );
     }
 
@@ -446,7 +450,9 @@ public class TObject#E#CustomHashMap<K> extends TCustomObjectHash<K>
 
 
     /** {@inheritDoc} */
-    public #e# adjustOrPutValue( final K key, final #e# adjust_amount, final #e# put_amount ) {
+    public #e# adjustOrPutValue( final K key, final #e# adjust_amount,
+		final #e# put_amount ) {
+
         int index = insertionIndex( key );
         final boolean isNewMapping;
         final #e# newValue;
@@ -478,7 +484,7 @@ public class TObject#E#CustomHashMap<K> extends TCustomObjectHash<K>
      * @return false if the loop over the keys terminated because
      * the procedure returned false for some key.
      */
-    public boolean forEachKey( TObjectProcedure<K> procedure ) {
+    public boolean forEachKey( TObjectProcedure<? super K> procedure ) {
         return forEach( procedure );
     }
 
@@ -512,7 +518,7 @@ public class TObject#E#CustomHashMap<K> extends TCustomObjectHash<K>
      * the procedure returned false for some entry.
      */
     @SuppressWarnings({"unchecked"})
-    public boolean forEachEntry( TObject#E#Procedure<K> procedure ) {
+    public boolean forEachEntry( TObject#E#Procedure<? super K> procedure ) {
         Object[] keys = _set;
         #e#[] values = _values;
         for ( int i = keys.length; i-- > 0; ) {
@@ -533,7 +539,7 @@ public class TObject#E#CustomHashMap<K> extends TCustomObjectHash<K>
      * @param procedure determines which entries to keep
      * @return true if the map was modified.
      */
-    public boolean retainEntries( TObject#E#Procedure<K> procedure ) {
+    public boolean retainEntries( TObject#E#Procedure<? super K> procedure ) {
         boolean modified = false;
         //noinspection unchecked
         K[] keys = ( K[] ) _set;
@@ -599,7 +605,9 @@ public class TObject#E#CustomHashMap<K> extends TCustomObjectHash<K>
                 Object key = iter.key();
                 #e# value = iter.value();
                 if ( value == no_entry_value ) {
-                    if ( !( that.get( key ) == that.getNoEntryValue() && that.containsKey( key ) ) ) {
+                    if ( !( that.get( key ) == that.getNoEntryValue() &&
+	                    that.containsKey( key ) ) ) {
+
                         return false;
                     }
                 } else {
@@ -649,7 +657,7 @@ public class TObject#E#CustomHashMap<K> extends TCustomObjectHash<K>
 
 
     private abstract class MapBackedView<E> extends AbstractSet<E>
-            implements Set<E>, Iterable<E> {
+        implements Set<E>, Iterable<E> {
 
         public abstract boolean removeElement( E key );
 
@@ -690,7 +698,8 @@ public class TObject#E#CustomHashMap<K> extends TCustomObjectHash<K>
             int size = size();
             if ( a.length < size ) {
                 //noinspection unchecked
-                a = (T[]) java.lang.reflect.Array.newInstance( a.getClass().getComponentType(), size );
+                a = (T[]) java.lang.reflect.Array.newInstance(
+	                a.getClass().getComponentType(), size );
             }
 
             Iterator<E> it = iterator();
@@ -994,7 +1003,8 @@ public class TObject#E#CustomHashMap<K> extends TCustomObjectHash<K>
                     throw new ConcurrentModificationException();
                 }
 
-                // Disable auto compaction during the remove. This is a workaround for bug 1642768.
+                // Disable auto compaction during the remove. This is a workaround for
+                // bug 1642768.
                 try {
                     _hash.tempDisableAutoCompaction();
                     TObject#E#CustomHashMap.this.removeAt( _index );

@@ -63,7 +63,7 @@ public class TUnmodifiableObject#E#Map<K> implements TObject#E#Map<K>, Serializa
 
 	public #e# put( K key, #e# value ) { throw new UnsupportedOperationException(); }
 	public #e# remove( Object key ) { throw new UnsupportedOperationException(); }
-	public void putAll( TObject#E#Map m ) { throw new UnsupportedOperationException(); }
+	public void putAll( TObject#E#Map<? extends K> m ) { throw new UnsupportedOperationException(); }
 	public void putAll( Map<? extends K, ? extends #ET#> map ) { throw new UnsupportedOperationException(); }
 	public void clear() { throw new UnsupportedOperationException(); }
 
@@ -91,13 +91,13 @@ public class TUnmodifiableObject#E#Map<K> implements TObject#E#Map<K>, Serializa
 	public String toString()        { return m.toString(); }
 	public #e# getNoEntryValue()    { return m.getNoEntryValue(); }
 
-	public boolean forEachKey( TObjectProcedure<K> procedure ) {
+	public boolean forEachKey( TObjectProcedure<? super K> procedure ) {
 		return m.forEachKey( procedure );
 	}
 	public boolean forEachValue( T#E#Procedure procedure ) {
 		return m.forEachValue( procedure );
 	}
-	public boolean forEachEntry( TObject#E#Procedure<K> procedure ) {
+	public boolean forEachEntry( TObject#E#Procedure<? super K> procedure ) {
 		return m.forEachEntry( procedure );
 	}
 
@@ -116,7 +116,7 @@ public class TUnmodifiableObject#E#Map<K> implements TObject#E#Map<K>, Serializa
 
 	public #e# putIfAbsent( K key, #e# value ) { throw new UnsupportedOperationException(); }
 	public void transformValues( T#E#Function function ) { throw new UnsupportedOperationException(); }
-	public boolean retainEntries( TObject#E#Procedure procedure ) { throw new UnsupportedOperationException(); }
+	public boolean retainEntries( TObject#E#Procedure<? super K> procedure ) { throw new UnsupportedOperationException(); }
 	public boolean increment( K key ) { throw new UnsupportedOperationException(); }
 	public boolean adjustValue( K key, #e# amount ) { throw new UnsupportedOperationException(); }
 	public #e# adjustOrPutValue( K key, #e# adjust_amount, #e# put_amount ) { throw new UnsupportedOperationException(); }

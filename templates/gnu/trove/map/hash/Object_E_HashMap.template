@@ -117,7 +117,7 @@ public class TObject#E#HashMap<K> extends TObjectHash<K>
      * rehashing takes place.
      * @param noEntryValue the value used to represent null.
      */
-    public TObject#E#HashMap(int initialCapacity, float loadFactor, #e# noEntryValue) {
+    public TObject#E#HashMap( int initialCapacity, float loadFactor, #e# noEntryValue ) {
         super( initialCapacity, loadFactor );
         no_entry_value = noEntryValue;
         //noinspection RedundantCast
@@ -133,7 +133,7 @@ public class TObject#E#HashMap<K> extends TObjectHash<K>
      *
      * @param map the <tt>TObject#E#Map</tt> to be copied.
      */
-    public TObject#E#HashMap( TObject#E#Map<K> map ) {
+    public TObject#E#HashMap( TObject#E#Map<? extends K> map ) {
         this( map.size(), 0.5f, map.getNoEntryValue() );
         if ( map instanceof TObject#E#HashMap ) {
             TObject#E#HashMap hashmap = ( TObject#E#HashMap ) map;
@@ -306,7 +306,7 @@ public class TObject#E#HashMap<K> extends TObjectHash<K>
     
 
     /** {@inheritDoc} */
-    public void putAll( TObject#E#Map<K> map ){
+    public void putAll( TObject#E#Map<? extends K> map ){
         map.forEachEntry( PUT_ALL_PROC );
     }
 
@@ -436,7 +436,9 @@ public class TObject#E#HashMap<K> extends TObjectHash<K>
 
 
     /** {@inheritDoc} */
-    public #e# adjustOrPutValue( final K key, final #e# adjust_amount, final #e# put_amount ) {
+    public #e# adjustOrPutValue( final K key, final #e# adjust_amount,
+		final #e# put_amount ) {
+
         int index = insertionIndex( key );
         final boolean isNewMapping;
         final #e# newValue;
@@ -468,7 +470,7 @@ public class TObject#E#HashMap<K> extends TObjectHash<K>
      * @return false if the loop over the keys terminated because
      * the procedure returned false for some key.
      */
-    public boolean forEachKey( TObjectProcedure<K> procedure ) {
+    public boolean forEachKey( TObjectProcedure<? super K> procedure ) {
         return forEach( procedure );
     }
 
@@ -502,7 +504,7 @@ public class TObject#E#HashMap<K> extends TObjectHash<K>
      * the procedure returned false for some entry.
      */
     @SuppressWarnings({"unchecked"})
-    public boolean forEachEntry( TObject#E#Procedure<K> procedure ) {
+    public boolean forEachEntry( TObject#E#Procedure<? super K> procedure ) {
         Object[] keys = _set;
         #e#[] values = _values;
         for ( int i = keys.length; i-- > 0; ) {
@@ -523,7 +525,7 @@ public class TObject#E#HashMap<K> extends TObjectHash<K>
      * @param procedure determines which entries to keep
      * @return true if the map was modified.
      */
-    public boolean retainEntries( TObject#E#Procedure<K> procedure ) {
+    public boolean retainEntries( TObject#E#Procedure<? super K> procedure ) {
         boolean modified = false;
         //noinspection unchecked
         K[] keys = ( K[] ) _set;
@@ -589,7 +591,9 @@ public class TObject#E#HashMap<K> extends TObjectHash<K>
                 Object key = iter.key();
                 #e# value = iter.value();
                 if ( value == no_entry_value ) {
-                    if ( !( that.get( key ) == that.getNoEntryValue() && that.containsKey( key ) ) ) {
+                    if ( !( that.get( key ) == that.getNoEntryValue() &&
+	                    that.containsKey( key ) ) ) {
+
                         return false;
                     }
                 } else {
@@ -680,7 +684,8 @@ public class TObject#E#HashMap<K> extends TObjectHash<K>
             int size = size();
             if ( a.length < size ) {
                 //noinspection unchecked
-                a = (T[]) java.lang.reflect.Array.newInstance( a.getClass().getComponentType(), size );
+                a = (T[]) java.lang.reflect.Array.newInstance(
+					a.getClass().getComponentType(), size );
             }
 
             Iterator<E> it = iterator();
@@ -984,7 +989,8 @@ public class TObject#E#HashMap<K> extends TObjectHash<K>
                     throw new ConcurrentModificationException();
                 }
 
-                // Disable auto compaction during the remove. This is a workaround for bug 1642768.
+                // Disable auto compaction during the remove. This is a workaround for
+                // bug 1642768.
                 try {
                     _hash.tempDisableAutoCompaction();
                     TObject#E#HashMap.this.removeAt( _index );
@@ -1025,8 +1031,10 @@ public class TObject#E#HashMap<K> extends TObjectHash<K>
 
                 Object[] set = TObject#E#HashMap.this._set;
                 int i = _index;
-                while ( i-- > 0 && ( set[i] == TObjectHash.FREE || set[i] == TObjectHash.REMOVED ) ) {
-                    ;
+                while ( i-- > 0 && ( set[i] == TObjectHash.FREE ||
+	                set[i] == TObjectHash.REMOVED ) ) {
+
+					// do nothing
                 }
                 return i;
             }

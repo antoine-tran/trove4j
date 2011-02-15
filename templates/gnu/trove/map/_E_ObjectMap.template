@@ -236,7 +236,7 @@ public interface T#E#ObjectMap<V> {
      *
      * @param map   The map from which entries will be obtained to put into this map.
      */
-    void putAll( T#E#ObjectMap<V> map );
+    void putAll( T#E#ObjectMap<? extends V> map );
 
 
     /**
@@ -359,7 +359,7 @@ public interface T#E#ObjectMap<V> {
      * @return false if the loop over the values terminated because
      *         the procedure returned false for some value.
      */
-    public boolean forEachValue( TObjectProcedure<V> procedure );
+    public boolean forEachValue( TObjectProcedure<? super V> procedure );
 
 
     /**
@@ -370,7 +370,7 @@ public interface T#E#ObjectMap<V> {
      * @return false if the loop over the entries terminated because
      *         the procedure returned false for some entry.
      */
-    public boolean forEachEntry( T#E#ObjectProcedure<V> procedure );
+    public boolean forEachEntry( T#E#ObjectProcedure<? super V> procedure );
 
 
     /**
@@ -388,7 +388,7 @@ public interface T#E#ObjectMap<V> {
      * @param procedure determines which entries to keep
      * @return true if the map was modified.
      */
-    public boolean retainEntries( T#E#ObjectProcedure<V> procedure );
+    public boolean retainEntries( T#E#ObjectProcedure<? super V> procedure );
 
 
     // Comparison and hashing

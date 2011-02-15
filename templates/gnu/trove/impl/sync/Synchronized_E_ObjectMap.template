@@ -94,7 +94,7 @@ public class TSynchronized#E#ObjectMap<V>
 	public void putAll( Map<? extends #ET#, ? extends V> map ) {
 		synchronized( mutex ) { m.putAll( map ); }
 	}
-	public void putAll( T#E#ObjectMap<V> map ) {
+	public void putAll( T#E#ObjectMap<? extends V> map ) {
 		synchronized( mutex ) { m.putAll( map ); }
 	}
 	public void clear() {
@@ -146,16 +146,16 @@ public class TSynchronized#E#ObjectMap<V>
 	public boolean forEachKey( T#E#Procedure procedure ) {
 		synchronized( mutex ) { return m.forEachKey( procedure ); }
 	}
-	public boolean forEachValue( TObjectProcedure<V> procedure ) {
+	public boolean forEachValue( TObjectProcedure<? super V> procedure ) {
 		synchronized( mutex ) { return m.forEachValue( procedure ); }
 	}
-	public boolean forEachEntry( T#E#ObjectProcedure<V> procedure ) {
+	public boolean forEachEntry( T#E#ObjectProcedure<? super V> procedure ) {
 		synchronized( mutex ) { return m.forEachEntry( procedure ); }
 	}
 	public void transformValues( TObjectFunction<V,V> function ) {
 		synchronized( mutex ) { m.transformValues( function ); }
 	}
-	public boolean retainEntries( T#E#ObjectProcedure<V> procedure ) {
+	public boolean retainEntries( T#E#ObjectProcedure<? super V> procedure ) {
 		synchronized( mutex ) { return m.retainEntries( procedure ); }
 	}
 

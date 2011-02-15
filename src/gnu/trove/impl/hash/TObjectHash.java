@@ -120,7 +120,7 @@ abstract public class TObjectHash<T> extends THash {
      *         the procedure returned false for some value.
      */
     @SuppressWarnings({"unchecked"})
-    public boolean forEach( TObjectProcedure<T> procedure ) {
+    public boolean forEach( TObjectProcedure<? super T> procedure ) {
         Object[] set = _set;
         for ( int i = set.length; i-- > 0; ) {
             if ( set[i] != FREE
@@ -273,17 +273,13 @@ abstract public class TObjectHash<T> extends THash {
     protected final void throwObjectContractViolation( Object o1, Object o2 )
 		throws IllegalArgumentException {
 
-        throw new IllegalArgumentException( "Equal objects must have equal hashcodes. "
-                                            + "During rehashing, Trove discovered that "
-                                            + "the following two objects claim to be "
-                                            + "equal (as in java.lang.Object.equals()) "
-                                            + "but their hashCodes (or those calculated by "
-                                            + "your TObjectHashingStrategy) are not equal."
-                                            + "This violates the general contract of "
-                                            + "java.lang.Object.hashCode().  See bullet point two "
-                                            + "in that method's documentation. "
-                                            + "object #1 =" + o1
-                                            + "; object #2 =" + o2 );
+        throw new IllegalArgumentException( "Equal objects must have equal hashcodes. " +
+			"During rehashing, Trove discovered that the following two objects claim " +
+	        "to be equal (as in java.lang.Object.equals()) but their hashCodes (or " +
+	        "those calculated by your TObjectHashingStrategy) are not equal." +
+			"This violates the general contract of java.lang.Object.hashCode().  See " +
+	        "bullet point two in that method's documentation. object #1 =" + o1 +
+			"; object #2 =" + o2 );
     }
 
 

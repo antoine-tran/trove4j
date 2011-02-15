@@ -92,7 +92,7 @@ public class TSynchronizedObject#E#Map<K> implements TObject#E#Map<K>, Serializa
 	public void putAll( Map<? extends K, ? extends #ET#> map ) {
 		synchronized( mutex ) { m.putAll( map ); }
 	}
-	public void putAll( TObject#E#Map<K> map ) {
+	public void putAll( TObject#E#Map<? extends K> map ) {
 		synchronized( mutex ) { m.putAll( map ); }
 	}
 	public void clear() {
@@ -141,19 +141,19 @@ public class TSynchronizedObject#E#Map<K> implements TObject#E#Map<K>, Serializa
 	public #e# putIfAbsent( K key, #e# value ) {
 		synchronized( mutex ) { return m.putIfAbsent( key, value ); }
 	}
-	public boolean forEachKey( TObjectProcedure<K> procedure ) {
+	public boolean forEachKey( TObjectProcedure<? super K> procedure ) {
 		synchronized( mutex ) { return m.forEachKey( procedure ); }
 	}
 	public boolean forEachValue( T#E#Procedure procedure ) {
 		synchronized( mutex ) { return m.forEachValue( procedure ); }
 	}
-	public boolean forEachEntry( TObject#E#Procedure<K> procedure ) {
+	public boolean forEachEntry( TObject#E#Procedure<? super K> procedure ) {
 		synchronized( mutex ) { return m.forEachEntry( procedure ); }
 	}
 	public void transformValues( T#E#Function function ) {
 		synchronized( mutex ) { m.transformValues( function ); }
 	}
-	public boolean retainEntries( TObject#E#Procedure<K> procedure ) {
+	public boolean retainEntries( TObject#E#Procedure<? super K> procedure ) {
 		synchronized( mutex ) { return m.retainEntries( procedure ); }
 	}
 	public boolean increment( K key ) {

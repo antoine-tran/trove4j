@@ -139,14 +139,11 @@ public class THashSet<E> extends TObjectHash<E>
 
 
     private final class HashProcedure implements TObjectProcedure<E> {
-
         private int h = 0;
-
 
         public int getHashCode() {
             return h;
         }
-
 
         public final boolean execute( E key ) {
             h += HashFunctions.hash( key );

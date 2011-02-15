@@ -92,7 +92,7 @@ public class THashMap<K, V> extends TObjectHash<K> implements Map<K, V>, Externa
      *
      * @param map a <code>Map</code> value
      */
-    public THashMap( Map<K, V> map ) {
+    public THashMap( Map<? extends K, ? extends V> map ) {
         this( map.size() );
         putAll( map );
     }
@@ -104,7 +104,7 @@ public class THashMap<K, V> extends TObjectHash<K> implements Map<K, V>, Externa
      *
      * @param map a <code>Map</code> value
      */
-    public THashMap( THashMap<K, V> map ) {
+    public THashMap( THashMap<? extends K, ? extends V> map ) {
         this( map.size() );
         putAll( map );
     }
@@ -230,20 +230,18 @@ public class THashMap<K, V> extends TObjectHash<K> implements Map<K, V>, Externa
 
 
     private final class HashProcedure implements TObjectObjectProcedure<K, V> {
-
         private int h = 0;
-
 
         public int getHashCode() {
             return h;
         }
-
 
         public final boolean execute( K key, V value ) {
             h += HashFunctions.hash( key ) ^ ( value == null ? 0 : value.hashCode() );
             return true;
         }
     }
+
 
     private final class EqProcedure<K, V> implements TObjectObjectProcedure<K, V> {
         private final Map<K, V> _otherMap;
@@ -275,7 +273,7 @@ public class THashMap<K, V> extends TObjectHash<K> implements Map<K, V>, Externa
      * @return false if the loop over the keys terminated because
      *         the procedure returned false for some key.
      */
-    public boolean forEachKey( TObjectProcedure<K> procedure ) {
+    public boolean forEachKey( TObjectProcedure<? super K> procedure ) {
         return forEach( procedure );
     }
 
@@ -287,7 +285,7 @@ public class THashMap<K, V> extends TObjectHash<K> implements Map<K, V>, Externa
      * @return false if the loop over the values terminated because
      *         the procedure returned false for some value.
      */
-    public boolean forEachValue( TObjectProcedure<V> procedure ) {
+    public boolean forEachValue( TObjectProcedure<? super V> procedure ) {
         V[] values = _values;
         Object[] set = _set;
         for ( int i = values.length; i-- > 0; ) {
@@ -310,7 +308,7 @@ public class THashMap<K, V> extends TObjectHash<K> implements Map<K, V>, Externa
      *         the procedure returned false for some entry.
      */
     @SuppressWarnings({"unchecked"})
-    public boolean forEachEntry( TObjectObjectProcedure<K, V> procedure ) {
+    public boolean forEachEntry( TObjectObjectProcedure<? super K, ? super V> procedure ) {
         Object[] keys = _set;
         V[] values = _values;
         for ( int i = keys.length; i-- > 0; ) {
@@ -332,7 +330,7 @@ public class THashMap<K, V> extends TObjectHash<K> implements Map<K, V>, Externa
      * @return true if the map was modified.
      */
     @SuppressWarnings({"unchecked"})
-    public boolean retainEntries( TObjectObjectProcedure<K, V> procedure ) {
+    public boolean retainEntries( TObjectObjectProcedure<? super K, ? super V> procedure ) {
         boolean modified = false;
         Object[] keys = _set;
         V[] values = _values;
@@ -621,7 +619,7 @@ public class THashMap<K, V> extends TObjectHash<K> implements Map<K, V>, Externa
             //
             // Note also that the deletion is only legal if
             // both the key and the value match.
-            Object val;
+            V val;
             int index;
 
             K key = keyForEntry( entry );
@@ -639,8 +637,8 @@ public class THashMap<K, V> extends TObjectHash<K> implements Map<K, V>, Externa
 
 
         public boolean containsElement( Map.Entry<K, V> entry ) {
-            Object val = get( keyForEntry( entry ) );
-            Object entryValue = entry.getValue();
+            V val = get( keyForEntry( entry ) );
+            V entryValue = entry.getValue();
             return entryValue == val ||
 			   ( null != val && THashMap.this.equals( val, entryValue ) );
         }
@@ -784,7 +782,7 @@ public class THashMap<K, V> extends TObjectHash<K> implements Map<K, V>, Externa
 
         @SuppressWarnings({"unchecked"})
         public Iterator<K> iterator() {
-            return new TObjectHashIterator( THashMap.this );
+            return new TObjectHashIterator<K>( THashMap.this );
         }
 
 

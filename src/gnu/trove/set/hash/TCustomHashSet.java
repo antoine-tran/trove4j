@@ -58,7 +58,7 @@ public class TCustomHashSet<E> extends TCustomObjectHash<E>
      * Creates a new <code>THashSet</code> instance with the default
      * capacity and load factor.
      */
-    public TCustomHashSet( HashingStrategy<E> strategy ) {
+    public TCustomHashSet( HashingStrategy<? super E> strategy ) {
         super( strategy );
     }
 
@@ -70,7 +70,7 @@ public class TCustomHashSet<E> extends TCustomObjectHash<E>
      *
      * @param initialCapacity an <code>int</code> value
      */
-    public TCustomHashSet( HashingStrategy<E> strategy, int initialCapacity ) {
+    public TCustomHashSet( HashingStrategy<? super E> strategy, int initialCapacity ) {
         super( strategy, initialCapacity );
     }
 
@@ -83,7 +83,7 @@ public class TCustomHashSet<E> extends TCustomObjectHash<E>
      * @param initialCapacity an <code>int</code> value
      * @param loadFactor      a <code>float</code> value
      */
-    public TCustomHashSet( HashingStrategy<E> strategy, int initialCapacity,
+    public TCustomHashSet( HashingStrategy<? super E> strategy, int initialCapacity,
 	    float loadFactor ) {
 
         super( strategy, initialCapacity, loadFactor );
@@ -96,7 +96,7 @@ public class TCustomHashSet<E> extends TCustomObjectHash<E>
      *
      * @param collection a <code>Collection</code> value
      */
-    public TCustomHashSet( HashingStrategy<E> strategy,
+    public TCustomHashSet( HashingStrategy<? super E> strategy,
 	    Collection<? extends E> collection ) {
 
         this( strategy, collection.size() );
@@ -146,14 +146,11 @@ public class TCustomHashSet<E> extends TCustomObjectHash<E>
 
 
     private final class HashProcedure implements TObjectProcedure<E> {
-
         private int h = 0;
-
 
         public int getHashCode() {
             return h;
         }
-
 
         public final boolean execute( E key ) {
             h += HashFunctions.hash( key );

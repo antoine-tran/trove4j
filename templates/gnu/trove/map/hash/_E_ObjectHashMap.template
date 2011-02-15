@@ -128,7 +128,7 @@ public class T#E#ObjectHashMap<V> extends T#E#Hash implements
      *
      * @param map the <tt>T#E#ObjectMap</tt> to be copied.
      */
-    public T#E#ObjectHashMap( T#E#ObjectMap<V> map ) {
+    public T#E#ObjectHashMap( T#E#ObjectMap<? extends V> map ) {
         this( map.size(), 0.5f, map.getNoEntryKey() );
         putAll( map );
     }
@@ -287,7 +287,7 @@ public class T#E#ObjectHashMap<V> extends T#E#Hash implements
 
 
     /** {@inheritDoc} */
-    public void putAll( T#E#ObjectMap<V> map ){
+    public void putAll( T#E#ObjectMap<? extends V> map ){
         map.forEachEntry( PUT_ALL_PROC );
     }
 
@@ -399,7 +399,7 @@ public class T#E#ObjectHashMap<V> extends T#E#Hash implements
 
 
     /** {@inheritDoc} */
-    public boolean forEachValue( TObjectProcedure<V> procedure ) {
+    public boolean forEachValue( TObjectProcedure<? super V> procedure ) {
         byte[] states = _states;
         V[] values = _values;
         for ( int i = values.length; i-- > 0; ) {
@@ -413,7 +413,7 @@ public class T#E#ObjectHashMap<V> extends T#E#Hash implements
 
     /** {@inheritDoc} */
     @SuppressWarnings({"unchecked"})
-    public boolean forEachEntry( T#E#ObjectProcedure<V> procedure ) {
+    public boolean forEachEntry( T#E#ObjectProcedure<? super V> procedure ) {
         byte[] states = _states;
         #e#[] keys = _set;
         V[] values = _values;
@@ -428,7 +428,7 @@ public class T#E#ObjectHashMap<V> extends T#E#Hash implements
 
     /** {@inheritDoc} */
     @SuppressWarnings({"unchecked"})
-    public boolean retainEntries( T#E#ObjectProcedure<V> procedure ) {
+    public boolean retainEntries( T#E#ObjectProcedure<? super V> procedure ) {
         boolean modified = false;
         byte[] states = _states;
         #e#[] keys = _set;
@@ -563,7 +563,9 @@ public class T#E#ObjectHashMap<V> extends T#E#Hash implements
         /** {@inheritDoc} */
         public boolean containsAll( Collection<?> collection ) {
            for ( Object element : collection ) {
-                if ( ! T#E#ObjectHashMap.this.containsKey( ( ( #ET# ) element ).#e#Value() ) ) {
+                if ( ! T#E#ObjectHashMap.this.containsKey(
+					( ( #ET# ) element ).#e#Value() ) ) {
+
                     return false;
                 }
             }
@@ -804,7 +806,8 @@ public class T#E#ObjectHashMap<V> extends T#E#Hash implements
             return false;
         }
 
-        class T#E#ObjectValueHashIterator extends THashPrimitiveIterator implements Iterator<V> {
+        class T#E#ObjectValueHashIterator extends THashPrimitiveIterator
+	        implements Iterator<V> {
 
             protected final T#E#ObjectHashMap _map;
 
@@ -877,7 +880,8 @@ public class T#E#ObjectHashMap<V> extends T#E#Hash implements
         public <T> T[] toArray( T[] a ) {
             int size = size();
             if ( a.length < size ) {
-                a = (T[]) java.lang.reflect.Array.newInstance( a.getClass().getComponentType(), size );
+                a = (T[]) java.lang.reflect.Array.newInstance(
+					a.getClass().getComponentType(), size );
             }
 
             Iterator<E> it = iterator();

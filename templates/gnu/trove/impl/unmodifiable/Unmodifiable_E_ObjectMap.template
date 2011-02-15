@@ -63,7 +63,7 @@ public class TUnmodifiable#E#ObjectMap<V> implements T#E#ObjectMap<V>, Serializa
 
 	public V put( #e# key, V value ) { throw new UnsupportedOperationException(); }
 	public V remove( #e# key ) { throw new UnsupportedOperationException(); }
-	public void putAll( T#E#ObjectMap<V> m ) { throw new UnsupportedOperationException(); }
+	public void putAll( T#E#ObjectMap<? extends V> m ) { throw new UnsupportedOperationException(); }
 	public void putAll( Map<? extends #ET#, ? extends V> map ) { throw new UnsupportedOperationException(); }
 	public void clear() { throw new UnsupportedOperationException(); }
 
@@ -94,10 +94,10 @@ public class TUnmodifiable#E#ObjectMap<V> implements T#E#ObjectMap<V>, Serializa
 	public boolean forEachKey( T#E#Procedure procedure ) {
 		return m.forEachKey( procedure );
 	}
-	public boolean forEachValue( TObjectProcedure<V> procedure ) {
+	public boolean forEachValue( TObjectProcedure<? super V> procedure ) {
 		return m.forEachValue( procedure );
 	}
-	public boolean forEachEntry( T#E#ObjectProcedure<V> procedure ) {
+	public boolean forEachEntry( T#E#ObjectProcedure<? super V> procedure ) {
 		return m.forEachEntry( procedure );
 	}
 
@@ -116,5 +116,5 @@ public class TUnmodifiable#E#ObjectMap<V> implements T#E#ObjectMap<V>, Serializa
 
 	public V putIfAbsent( #e# key, V value ) { throw new UnsupportedOperationException(); }
 	public void transformValues( TObjectFunction<V,V> function ) { throw new UnsupportedOperationException(); }
-	public boolean retainEntries( T#E#ObjectProcedure<V> procedure ) { throw new UnsupportedOperationException(); }
+	public boolean retainEntries( T#E#ObjectProcedure<? super V> procedure ) { throw new UnsupportedOperationException(); }
 }

@@ -39,7 +39,7 @@ import java.io.ObjectOutput;
 abstract public class TCustomObjectHash<T> extends TObjectHash<T> {
 	static final long serialVersionUID = 8766048185963756400L;
 
-	protected HashingStrategy<T> strategy;
+	protected HashingStrategy<? super T> strategy;
 
 
 	/** FOR EXTERNALIZATION ONLY!!! */
@@ -50,7 +50,7 @@ abstract public class TCustomObjectHash<T> extends TObjectHash<T> {
      * Creates a new <code>TManualObjectHash</code> instance with the
      * default capacity and load factor.
      */
-    public TCustomObjectHash( HashingStrategy<T> strategy ) {
+    public TCustomObjectHash( HashingStrategy<? super T> strategy ) {
         super();
 
 		this.strategy = strategy;
@@ -64,7 +64,7 @@ abstract public class TCustomObjectHash<T> extends TObjectHash<T> {
      *
      * @param initialCapacity an <code>int</code> value
      */
-    public TCustomObjectHash( HashingStrategy<T> strategy, int initialCapacity ) {
+    public TCustomObjectHash( HashingStrategy<? super T> strategy, int initialCapacity ) {
         super( initialCapacity );
 
 		this.strategy = strategy;
@@ -79,7 +79,7 @@ abstract public class TCustomObjectHash<T> extends TObjectHash<T> {
      * @param loadFactor      used to calculate the threshold over which
      *                        rehashing takes place.
      */
-    public TCustomObjectHash( HashingStrategy<T> strategy, int initialCapacity,
+    public TCustomObjectHash( HashingStrategy<? super T> strategy, int initialCapacity,
 		float loadFactor ) {
 
         super( initialCapacity, loadFactor );

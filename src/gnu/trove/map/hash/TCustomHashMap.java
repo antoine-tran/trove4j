@@ -59,7 +59,7 @@ public class TCustomHashMap<K, V> extends TCustomObjectHash<K>
      * Creates a new <code>TCustomHashMap</code> instance with the default
      * capacity and load factor.
      */
-    public TCustomHashMap( HashingStrategy<K> strategy ) {
+    public TCustomHashMap( HashingStrategy<? super K> strategy ) {
         super( strategy );
     }
 
@@ -71,7 +71,7 @@ public class TCustomHashMap<K, V> extends TCustomObjectHash<K>
      *
      * @param initialCapacity an <code>int</code> value
      */
-    public TCustomHashMap( HashingStrategy<K> strategy, int initialCapacity ) {
+    public TCustomHashMap( HashingStrategy<? super K> strategy, int initialCapacity ) {
         super( strategy, initialCapacity );
     }
 
@@ -84,7 +84,7 @@ public class TCustomHashMap<K, V> extends TCustomObjectHash<K>
      * @param initialCapacity an <code>int</code> value
      * @param loadFactor      a <code>float</code> value
      */
-    public TCustomHashMap( HashingStrategy<K> strategy, int initialCapacity,
+    public TCustomHashMap( HashingStrategy<? super K> strategy, int initialCapacity,
 	    float loadFactor ) {
 
         super( strategy, initialCapacity, loadFactor );
@@ -97,7 +97,9 @@ public class TCustomHashMap<K, V> extends TCustomObjectHash<K>
      *
      * @param map a <code>Map</code> value
      */
-    public TCustomHashMap( HashingStrategy<K> strategy, Map<K, V> map ) {
+    public TCustomHashMap( HashingStrategy<? super K> strategy,
+	    Map<? extends K, ? extends V> map ) {
+
         this( strategy, map.size() );
         putAll( map );
     }
@@ -109,7 +111,9 @@ public class TCustomHashMap<K, V> extends TCustomObjectHash<K>
      *
      * @param map a <code>Map</code> value
      */
-    public TCustomHashMap( HashingStrategy<K> strategy, TCustomHashMap<K, V> map ) {
+    public TCustomHashMap( HashingStrategy<? super K> strategy,
+	    TCustomHashMap<? extends K, ? extends V> map ) {
+
         this( strategy, map.size() );
         putAll( map );
     }
@@ -235,14 +239,11 @@ public class TCustomHashMap<K, V> extends TCustomObjectHash<K>
 
 
     private final class HashProcedure implements TObjectObjectProcedure<K, V> {
-
         private int h = 0;
-
 
         public int getHashCode() {
             return h;
         }
-
 
         public final boolean execute( K key, V value ) {
             h += HashFunctions.hash( key ) ^ ( value == null ? 0 : value.hashCode() );
@@ -251,7 +252,6 @@ public class TCustomHashMap<K, V> extends TCustomObjectHash<K>
     }
 
     private static final class EqProcedure<K, V> implements TObjectObjectProcedure<K, V> {
-
         private final Map<K, V> _otherMap;
 
 
@@ -281,7 +281,7 @@ public class TCustomHashMap<K, V> extends TCustomObjectHash<K>
      * @return false if the loop over the keys terminated because
      *         the procedure returned false for some key.
      */
-    public boolean forEachKey( TObjectProcedure<K> procedure ) {
+    public boolean forEachKey( TObjectProcedure<? super K> procedure ) {
         return forEach( procedure );
     }
 
@@ -293,7 +293,7 @@ public class TCustomHashMap<K, V> extends TCustomObjectHash<K>
      * @return false if the loop over the values terminated because
      *         the procedure returned false for some value.
      */
-    public boolean forEachValue( TObjectProcedure<V> procedure ) {
+    public boolean forEachValue( TObjectProcedure<? super V> procedure ) {
         V[] values = _values;
         Object[] set = _set;
         for ( int i = values.length; i-- > 0; ) {
@@ -316,7 +316,7 @@ public class TCustomHashMap<K, V> extends TCustomObjectHash<K>
      *         the procedure returned false for some entry.
      */
     @SuppressWarnings({"unchecked"})
-    public boolean forEachEntry( TObjectObjectProcedure<K, V> procedure ) {
+    public boolean forEachEntry( TObjectObjectProcedure<? super K, ? super V> procedure ) {
         Object[] keys = _set;
         V[] values = _values;
         for ( int i = keys.length; i-- > 0; ) {
@@ -338,7 +338,7 @@ public class TCustomHashMap<K, V> extends TCustomObjectHash<K>
      * @return true if the map was modified.
      */
     @SuppressWarnings({"unchecked"})
-    public boolean retainEntries( TObjectObjectProcedure<K, V> procedure ) {
+    public boolean retainEntries( TObjectObjectProcedure<? super K, ? super V> procedure ) {
         boolean modified = false;
         Object[] keys = _set;
         V[] values = _values;
