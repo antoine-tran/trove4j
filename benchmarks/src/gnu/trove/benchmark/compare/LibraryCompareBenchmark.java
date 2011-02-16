@@ -3,8 +3,6 @@ package gnu.trove.benchmark.compare;
 import cern.colt.map.OpenIntObjectHashMap;
 import com.google.caliper.Param;
 import com.google.caliper.SimpleBenchmark;
-import gnu.trove.TIntObjectHashMap;
-import gnu.trove.map.TIntObjectMap;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +11,7 @@ import java.util.Map;
 /**
  *
  */
+@SuppressWarnings( { "UnusedDeclaration", "MismatchedQueryAndUpdateOfCollection" } )
 public class LibraryCompareBenchmark extends SimpleBenchmark {
 	@Param int size;
 
@@ -26,12 +25,20 @@ public class LibraryCompareBenchmark extends SimpleBenchmark {
 	private OpenIntObjectHashMap colt_populated_map;
 
 	// Trove 2
-	private TIntObjectHashMap<String> trove2_empty_map;
-	private TIntObjectHashMap<String> trove2_populated_map;
+	private gnu.trove.TIntObjectHashMap<String> trove2_empty_map;
+	private gnu.trove.TIntObjectHashMap<String> trove2_populated_map;
 
-	// Trove 3
-	private TIntObjectMap<String> trove3_empty_map;
-	private TIntObjectMap<String> trove3_populated_map;
+	// Trove 2 - THashMap
+	private Map<Integer,String> trove2_empty_obj_map;
+	private Map<Integer,String> trove2_populated_obj_map;
+
+	// Trove 3 - TIntObjectHashMap
+	private gnu.trove.map.TIntObjectMap<String> trove3_empty_map;
+	private gnu.trove.map.TIntObjectMap<String> trove3_populated_map;
+
+	// Trove 3 - THashMap
+	private Map<Integer,String> trove3_empty_obj_map;
+	private Map<Integer,String> trove3_populated_obj_map;
 
 
 	@Override
@@ -55,16 +62,28 @@ public class LibraryCompareBenchmark extends SimpleBenchmark {
 			colt_populated_map.put( i, "value" );
 		}
 
-		trove2_empty_map = new TIntObjectHashMap<String>();
-		trove2_populated_map = new TIntObjectHashMap<String>( size );
+		trove2_empty_map = new gnu.trove.TIntObjectHashMap<String>();
+		trove2_populated_map = new gnu.trove.TIntObjectHashMap<String>( size );
 		for( int i = 0; i < size; i++ ) {
 			trove2_populated_map.put( i, "value" );
+		}
+
+		trove2_empty_obj_map = new gnu.trove.THashMap<Integer,String>();
+		trove2_populated_obj_map = new gnu.trove.THashMap<Integer,String>();
+		for( int i = 0; i < size; i++ ) {
+			trove2_populated_obj_map.put( Integer.valueOf( i ), "value" );
 		}
 
 		trove3_empty_map = new gnu.trove.map.hash.TIntObjectHashMap<String>();
 		trove3_populated_map = new gnu.trove.map.hash.TIntObjectHashMap<String>( size );
 		for( int i = 0; i < size; i++ ) {
 			trove3_populated_map.put( i, "value" );
+		}
+
+		trove3_empty_obj_map = new gnu.trove.map.hash.THashMap<Integer,String>();
+		trove3_populated_obj_map = new gnu.trove.map.hash.THashMap<Integer,String>( size );
+		for( int i = 0; i < size; i++ ) {
+			trove3_populated_obj_map.put( Integer.valueOf( i ), "value" );
 		}
 	}
 
@@ -79,8 +98,14 @@ public class LibraryCompareBenchmark extends SimpleBenchmark {
 		trove2_empty_map.clear();
 		trove2_populated_map.clear();
 
+		trove2_empty_obj_map.clear();
+		trove2_populated_obj_map.clear();
+
 		trove3_empty_map.clear();
 		trove3_populated_map.clear();
+
+		trove3_empty_obj_map.clear();
+		trove3_populated_obj_map.clear();
 	}
 
 
@@ -111,10 +136,26 @@ public class LibraryCompareBenchmark extends SimpleBenchmark {
 		}
 	}
 
+	public void timeTrove2ObjectPut( int reps ) {
+		for( int r = 0; r < reps; r++ ) {
+			for( int i = 0; i < size; i ++ ) {
+				trove2_empty_obj_map.put( int_obj_array[ i ], "value" );
+			}
+		}
+	}
+
 	public void timeTrove3Put( int reps ) {
 		for( int r = 0; r < reps; r++ ) {
 			for( int i = 0; i < size; i ++ ) {
 				trove3_empty_map.put( i, "value" );
+			}
+		}
+	}
+
+	public void timeTrove3ObjectPut( int reps ) {
+		for( int r = 0; r < reps; r++ ) {
+			for( int i = 0; i < size; i ++ ) {
+				trove3_empty_obj_map.put( int_obj_array[ i ], "value" );
 			}
 		}
 	}
@@ -147,10 +188,26 @@ public class LibraryCompareBenchmark extends SimpleBenchmark {
 		}
 	}
 
+	public void timeTrove2ObjectGet( int reps ) {
+		for( int r = 0; r < reps; r++ ) {
+			for( int i = 0; i < size; i++ ) {
+				trove2_populated_obj_map.get( int_obj_array[ i ] );
+			}
+		}
+	}
+
 	public void timeTrove3Get( int reps ) {
 		for( int r = 0; r < reps; r++ ) {
 			for( int i = 0; i < size; i++ ) {
 				trove3_populated_map.get( i );
+			}
+		}
+	}
+
+	public void timeTrove3ObjectGet( int reps ) {
+		for( int r = 0; r < reps; r++ ) {
+			for( int i = 0; i < size; i++ ) {
+				trove3_populated_obj_map.get( int_obj_array[ i ] );
 			}
 		}
 	}
@@ -183,11 +240,38 @@ public class LibraryCompareBenchmark extends SimpleBenchmark {
 		}
 	}
 
+	public void timeTrove2ObjectContainsKey( int reps ) {
+		for( int r = 0; r < reps; r++ ) {
+			for( int i = 0; i < size; i++ ) {
+				trove2_populated_obj_map.containsKey( int_obj_array[ i ] );
+			}
+		}
+	}
+
 	public void timeTrove3ContainsKey( int reps ) {
 		for( int r = 0; r < reps; r++ ) {
 			for( int i = 0; i < size; i++ ) {
 				trove3_populated_map.containsKey( i );
 			}
+		}
+	}
+
+	public void timeTrove3ObjectContainsKey( int reps ) {
+		for( int r = 0; r < reps; r++ ) {
+			for( int i = 0; i < size; i++ ) {
+				trove3_populated_obj_map.containsKey( int_obj_array[ i ] );
+			}
+		}
+	}
+
+
+	public static void main( String[] args ) throws Exception {
+		LibraryCompareBenchmark benchmark = new LibraryCompareBenchmark();
+		while( true ) {
+			benchmark.setUp();
+			benchmark.timeTrove3ObjectGet( 1000 );
+			benchmark.tearDown();
+			Thread.sleep( 1000 );
 		}
 	}
 }

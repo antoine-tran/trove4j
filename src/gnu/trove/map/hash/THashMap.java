@@ -20,14 +20,17 @@
 
 package gnu.trove.map.hash;
 
-import gnu.trove.impl.hash.TObjectHash;
-import gnu.trove.impl.HashFunctions;
-import gnu.trove.procedure.TObjectProcedure;
-import gnu.trove.procedure.TObjectObjectProcedure;
 import gnu.trove.function.TObjectFunction;
+import gnu.trove.impl.HashFunctions;
+import gnu.trove.impl.hash.TObjectHash;
 import gnu.trove.iterator.hash.TObjectHashIterator;
+import gnu.trove.procedure.TObjectObjectProcedure;
+import gnu.trove.procedure.TObjectProcedure;
 
-import java.io.*;
+import java.io.Externalizable;
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
 import java.util.*;
 
 
@@ -412,10 +415,7 @@ public class THashMap<K, V> extends TObjectHash<K> implements Map<K, V>, Externa
     @SuppressWarnings({"unchecked"})
     public V get( Object key ) {
         int index = index( key );
-        if ( index < 0 || ! equals( _set[index], key ) ) {
-            return null; 
-        }
-        return _values[index];
+        return index < 0 ? null : _values[index];
     }
 
 
