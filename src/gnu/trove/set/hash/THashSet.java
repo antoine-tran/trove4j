@@ -104,16 +104,17 @@ public class THashSet<E> extends TObjectHash<E>
      * @return true if the set was modified by the add operation
      */
     public boolean add( E obj ) {
+        consumeFreeSlot = false;
+
         int index = insertionIndex( obj );
 
         if ( index < 0 ) {
             return false;       // already present in set, nothing to add
         }
 
-        Object old = _set[index];
         _set[index] = obj;
 
-        postInsertHook( old == FREE );
+        postInsertHook( consumeFreeSlot );
         return true;            // yes, we added something
     }
 
@@ -161,14 +162,18 @@ public class THashSet<E> extends TObjectHash<E>
     protected void rehash( int newCapacity ) {
         int oldCapacity = _set.length;
         
+        // Johan Parent: patch to avoid rehashing needlessly
+        if (newCapacity == oldCapacity)
+            return;
+
         Object oldSet[] = _set;
 
         _set = new Object[newCapacity];
         Arrays.fill( _set, FREE );
 
         for ( int i = oldCapacity; i-- > 0; ) {
-            if ( oldSet[i] != FREE && oldSet[i] != REMOVED ) {
-                E o = (E) oldSet[i];
+            E o = (E) oldSet[i];
+            if ( o != FREE && o != REMOVED ) {
                 int index = insertionIndex( o );
                 if ( index < 0 ) { // everyone pays for this because some people can't RTFM
                     throwObjectContractViolation( _set[( -index - 1 )], o );

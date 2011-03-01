@@ -138,8 +138,23 @@ public class THashMap<K, V> extends TObjectHash<K> implements Map<K, V>, Externa
      *         or {@code null} if none was found.
      */
     public V put( K key, V value ) {
+        // insertIndex() inserts the key if a slot if found and returns the index
+        consumeFreeSlot = false;
         int index = insertionIndex( key );
-        return doPut( key, value, index );
+
+        V previous = null;
+        boolean isNewMapping = true;
+        if ( index < 0 ) {
+            index = -index - 1;
+            previous = _values[index];
+            isNewMapping = false;
+        }
+        _values[index] = value;
+        if ( isNewMapping ) {
+            postInsertHook( consumeFreeSlot );
+        }
+
+        return previous;
     }
 
 
@@ -393,9 +408,10 @@ public class THashMap<K, V> extends TObjectHash<K> implements Map<K, V>, Externa
 		// Process entries from the old array, skipping free and removed slots. Put the
 		// values into the appropriate place in the new array.
         for ( int i = oldCapacity; i-- > 0; ) {
-			if ( oldKeys[ i ] == FREE || oldKeys[ i ] == REMOVED ) continue;
+            Object o = oldKeys[ i ];
 
-			Object o = oldKeys[ i ];
+			if ( o == FREE || o == REMOVED ) continue;
+
 			int index = insertionIndex( ( K ) o );
 			if ( index < 0 ) {
 				throwObjectContractViolation( _set[ ( -index - 1 ) ], o );
