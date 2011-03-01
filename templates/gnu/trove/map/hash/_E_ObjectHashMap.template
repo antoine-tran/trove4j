@@ -118,7 +118,7 @@ public class T#E#ObjectHashMap<V> extends T#E#Hash implements
      */
     public T#E#ObjectHashMap( int initialCapacity, float loadFactor, #e# noEntryKey ) {
         super( initialCapacity, loadFactor );
-        this.no_entry_value = noEntryKey;
+        no_entry_key = noEntryKey;
     }
 
 
