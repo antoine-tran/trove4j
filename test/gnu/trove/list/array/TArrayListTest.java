@@ -157,4 +157,59 @@ public class TArrayListTest extends TestCase {
 			fail( "Shouldn't raise exception" );
 		}
 	}
+
+
+	// From bug 3197201
+	public void testListRemove() {
+		// Remove by value
+		TIntArrayList list = new TIntArrayList();
+		list.add( 0 );
+		list.add( 1 );
+		list.add( 2 );
+
+		list.remove( 1 );
+
+		assertEquals( 2, list.size() );
+		assertEquals( 0, list.get( 0 ) );
+		assertEquals( 2, list.get( 1 ) );
+
+
+		// Remove by position with range
+		list = new TIntArrayList();
+		list.add( 0 );
+		list.add( 1 );
+		list.add( 2 );
+
+		list.remove( 1, 1 );
+
+		assertEquals( 2, list.size() );
+		assertEquals( 0, list.get( 0 ) );
+		assertEquals( 2, list.get( 1 ) );
+
+
+		// Remove by position, no range
+		list = new TIntArrayList();
+		list.add( 0 );
+		list.add( 1 );
+		list.add( 2 );
+
+		list.removeAt( 1 );
+
+		assertEquals( 2, list.size() );
+		assertEquals( 0, list.get( 0 ) );
+		assertEquals( 2, list.get( 1 ) );
+
+
+		// Remove by value (ensure no collision)
+		list = new TIntArrayList();
+		list.add( 10 );
+		list.add( 11 );
+		list.add( 12 );
+
+		list.remove( 11 );
+
+		assertEquals( 2, list.size() );
+		assertEquals( 10, list.get( 0 ) );
+		assertEquals( 12, list.get( 1 ) );
+	}
 }
