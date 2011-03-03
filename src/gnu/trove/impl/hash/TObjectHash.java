@@ -195,6 +195,8 @@ abstract public class TObjectHash<T> extends THash {
         // see Knuth, p. 529
         int probe = 1 + (hash % (length - 2));
 
+        final int loopIndex = index;
+
         do {
             index -= probe;
             if (index < 0) {
@@ -204,9 +206,13 @@ abstract public class TObjectHash<T> extends THash {
             //
             if (cur == FREE)
                 return -1;
-        } while (!(cur == obj || equals(obj, cur)));
 
-        return index;
+            //
+            if ((cur == obj || equals(obj, cur)))
+                return index;
+        } while (index != loopIndex);
+
+        return -1;
     }
 
     /**
