@@ -136,7 +136,7 @@ public class Generator {
      * @param directory
      */
     private static void makeDirs(File directory) {
-        if (!directory.isDirectory())
+        if (directory.exists() && !directory.isDirectory())
             throw new IllegalArgumentException(directory + " not a directory");
 
         if (directory.exists())
