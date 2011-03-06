@@ -116,7 +116,7 @@ public class Generator {
 			return;
 		}
 		if ( !output_directory.exists() ) {
-			output_directory.mkdirs();
+            makeDirs(output_directory);
 		}
         
 		root_output_dir = output_directory;
@@ -129,8 +129,25 @@ public class Generator {
 		scanForFiles( input_directory, output_directory );
 	}
 
+    /**
+     * Creates dirs, throw IllegalArgumentException or IllegalStateException if
+     * argument is invalid or creation fails
+     *
+     * @param directory
+     */
+    private static void makeDirs(File directory) {
+        if (!directory.isDirectory())
+            throw new IllegalArgumentException(directory + " not a directory");
 
-	private static void scanForFiles( File input_directory, File output_directory )
+        if (directory.exists())
+            return;
+
+        if (!directory.mkdirs())
+            throw new IllegalStateException("Could not create directories " + directory);
+    }
+
+
+    private static void scanForFiles( File input_directory, File output_directory )
 		throws IOException {
 
 		File[] files = input_directory.listFiles();
@@ -161,6 +178,7 @@ public class Generator {
 		String file_name = input_file.getName();
 		file_name = file_name.replaceAll( "\\.template", ".java" );
 
+        File output_file = new File( output_directory, file_name );
 
 		// See what kind of template markers it's using, either e or k/v. No marker
 		// indicates a replication-only class.
@@ -171,6 +189,11 @@ public class Generator {
 			processEMarkers( content, output_directory, file_name );
 		}
 		else {
+            if (input_file.lastModified() < output_file.lastModified()) {
+                System.out.println("File " + output_file + " up to date, not processing input");
+                return;
+            }
+
 			// Replication only
 			StringBuilder processed_replication_output = new StringBuilder();
 			Map<Integer,String> replicated_blocks =
@@ -180,7 +203,7 @@ public class Generator {
 					replicated_blocks );
 			}
 
-			writeFile( content, new File( output_directory, file_name ) );
+			writeFile( content, output_file);
 		}
 	}
 
@@ -354,7 +377,7 @@ public class Generator {
 		throws IOException {
 
 		File parent = output_file.getParentFile();
-		parent.mkdirs();
+		makeDirs(parent);
 
 		// Write to a temporary file
 		File temp = File.createTempFile( "trove", "gentemp",
@@ -390,7 +413,7 @@ public class Generator {
 
 		// Now move it if we need to move it
 		if ( need_to_move ) {
-			output_file.delete();
+			delete(output_file);
 			if ( !temp.renameTo( output_file ) ) {
 				throw new IOException( "ERROR writing: " + output_file );
 			}
@@ -398,12 +421,22 @@ public class Generator {
 		}
 		else {
 			System.out.println( "  Skipped: " + simplifyPath( output_file ) );
-			temp.delete();
+			delete(temp);
 		}
 	}
 
+    /**
+     * Delete the given file, throws IllegalStateException if delete operation fails
+     *
+     * @param output_file
+     */
+    private static void delete(File output_file) {
+        if (!output_file.delete())
+            throw new IllegalStateException("Could not delete " + output_file);
+    }
 
-	private static byte[] digest( File file, MessageDigest digest ) throws IOException {
+
+    private static byte[] digest( File file, MessageDigest digest ) throws IOException {
 		digest.reset();
 
 		byte[] buffer = new byte[1024];
@@ -547,10 +580,10 @@ public class Generator {
         for( File file : directory.listFiles() ) {
             if ( file.isDirectory() ) {
                 cleanDir( file );
-                file.delete();
+                delete(file);
             }
 
-            file.delete();
+            delete(file);
         }
     }
 
