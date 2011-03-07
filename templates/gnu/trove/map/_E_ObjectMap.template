@@ -318,7 +318,7 @@ public interface T#E#ObjectMap<V> {
      *
      * @return the values of the map as an array of <tt>#e#</tt> values.
      */
-    V[] values();
+    Object[] values();
 
 
     /**

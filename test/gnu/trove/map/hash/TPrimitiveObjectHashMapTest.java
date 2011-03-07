@@ -1481,7 +1481,7 @@ public class TPrimitiveObjectHashMapTest extends TestCase {
         ForEach foreach = new ForEach();
         map.forEachValue( foreach );
         List<String> built = foreach.getBuilt();
-        List<String> values = Arrays.asList( map.values() );
+        List<String> values = Arrays.asList( map.values( new String[ 0 ] ) );
         assertEquals( values, built );
 
         Collections.sort( built );
@@ -1508,7 +1508,7 @@ public class TPrimitiveObjectHashMapTest extends TestCase {
         ForEachFalse foreach_false = new ForEachFalse();
         map.forEachValue( foreach_false );
         built = foreach_false.getBuilt();
-        values = Arrays.asList( map.values() );
+        values = Arrays.asList( map.values( new String[ 0 ] ) );
         assertEquals( 1, built.size() );
         assertEquals( values.get( 0 ), built.get( 0 ) );
     }
