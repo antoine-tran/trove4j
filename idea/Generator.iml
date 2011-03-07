@@ -8,7 +8,7 @@
     <content url="file://$TROVE_VCS_ROOT$/generator_test">
       <sourceFolder url="file://$TROVE_VCS_ROOT$/generator_test" isTestSource="true" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="1.6" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="JUnit" level="project" />
   </component>

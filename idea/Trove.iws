@@ -39,9 +39,11 @@
     </TreeState>
   </component>
   <component name="ChangeListManager">
-    <list default="true" readonly="true" id="f8f495ba-d910-47e1-be1a-e84ca733090d" name="Default" comment="Test for bug 2975214">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Trove.ipr" afterPath="$PROJECT_DIR$/Trove.ipr" />
+    <list default="true" id="f8f495ba-d910-47e1-be1a-e84ca733090d" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Core.iml" afterPath="$PROJECT_DIR$/Core.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Generator.iml" afterPath="$PROJECT_DIR$/Generator.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Trove.ipr" afterPath="$PROJECT_DIR$/Trove.ipr" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Trove.iws" afterPath="$PROJECT_DIR$/Trove.iws" />
     </list>
     <ignored path="Trove.iws" />
     <ignored path="$USER_HOME_GRIFFON$/" />
@@ -134,8 +136,8 @@
     </FindUsagesManager>
   </component>
   <component name="Git.Settings">
-    <option name="GIT_EXECUTABLE" value="C:\cygwin\bin\git.exe" />
     <option name="CHECKOUT_INCLUDE_TAGS" value="false" />
+    <option name="UPDATE_CHANGES_POLICY" value="STASH" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
@@ -165,7 +167,7 @@
       <profile-state />
     </entry>
   </component>
-  <component name="ProjectLevelVcsManager">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
     <OptionsSetting value="true" id="Checkout" />
@@ -366,9 +368,62 @@
               <option name="myItemId" value="Core" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="working" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="benchmarks" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="gnu" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="trove" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="benchmark" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Trove" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="working" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="benchmarks" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Trove" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Core" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="Favorites">
         <subPane subId="Trove">
           <PATH>
@@ -379,7 +434,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane">
         <subPane>
           <PATH>
@@ -418,170 +472,26 @@
   </component>
   <component name="PropertiesComponent">
     <property name="GoToFile.includeJavaFiles" value="false" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="MemberChooser.sorted" value="false" />
     <property name="recentsLimit" value="5" />
-    <property name="options.lastSelected" value="preferences.sourceCode.General" />
+    <property name="options.lastSelected" value="project.propVCSSupport.Mappings" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
-    <property name="options.searchVisible" value="true" />
     <property name="dynamic.classpath" value="false" />
+    <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="gnu.trove.benchmark" />
     </key>
-  </component>
-  <component name="RestoreUpdateTree">
-    <UpdateInfo date="9/27/10 10:03 AM" ActionInfo="_Update">
-      <UpdatedFiles>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Updated from server" />
-          <option name="myStatusName" value="Changed on server" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="CHANGED_ON_SERVER" />
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Updated" />
-            <option name="myStatusName" value="Changed" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="false" />
-            <option name="myId" value="UPDATED" />
-          </FILE-GROUP>
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Created" />
-            <option name="myStatusName" value="Created" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="false" />
-            <option name="myId" value="CREATED" />
-          </FILE-GROUP>
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Deleted" />
-            <option name="myStatusName" value="Deleted" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="true" />
-            <option name="myId" value="REMOVED_FROM_REPOSITORY" />
-          </FILE-GROUP>
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Restored" />
-            <option name="myStatusName" value="Will be restored" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="false" />
-            <option name="myId" value="RESTORED" />
-          </FILE-GROUP>
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Modified" />
-          <option name="myStatusName" value="Modified" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MODIFIED" />
-          <PATH vcs="CVS" revision="">C:\Users\reden.TCS\Documents\trove\working\src\gnu\trove\list\linked\TLinkedList.java</PATH>
-          <PATH vcs="CVS" revision="">C:\Users\reden.TCS\Documents\trove\working\test\gnu\trove\list\linked\TLinkedListTest.java</PATH>
-          <PATH vcs="CVS" revision="">C:\Users\reden.TCS\Documents\trove\working\idea\Core.iml</PATH>
-          <PATH vcs="CVS" revision="">C:\Users\reden.TCS\Documents\trove\working\idea\Trove.ipr</PATH>
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Skipped" />
-          <option name="myStatusName" value="Skipped" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="SKIPPED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Merged with conflicts" />
-          <option name="myStatusName" value="Will be merged with conflicts" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MERGED_WITH_CONFLICTS" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Merged with tree conflicts" />
-          <option name="myStatusName" value="Merged with tree conflicts" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MERGED_WITH_TREE_CONFLICT" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Merged" />
-          <option name="myStatusName" value="Will be merged" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MERGED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Not in repository" />
-          <option name="myStatusName" value="Not in repository" />
-          <option name="mySupportsDeletion" value="true" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="UNKNOWN" />
-          <PATH vcs="CVS" revision="">C:\Users\reden.TCS\Documents\trove\working\lib\caliper-0.0.jar</PATH>
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Locally added" />
-          <option name="myStatusName" value="Locally added" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="LOCALLY_ADDED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Locally removed" />
-          <option name="myStatusName" value="Locally removed" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="LOCALLY_REMOVED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Switched" />
-          <option name="myStatusName" value="Switched" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="SWITCHED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Unknown" />
-          <option name="myStatusName" value="Unknown" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="UNKNOWN_TYPE" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Locally modified removed from server" />
-          <option name="myStatusName" value="Locally modified removed from server" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MOD_REMOVED_FROM_SERVER" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Locally removed modified on server" />
-          <option name="myStatusName" value="Locally removed modified on server" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="LOCALLY_REMOVED_MODIFIED_ON_SERVER" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Created by second party" />
-          <option name="myStatusName" value="Created by second party" />
-          <option name="mySupportsDeletion" value="true" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="CREATED_BY_SECOND_PARTY" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Binary file has to be merged" />
-          <option name="myStatusName" value="Binary file has to be merged" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="BINARY_MERGED" />
-        </FILE-GROUP>
-      </UpdatedFiles>
-    </UpdateInfo>
   </component>
   <component name="RunManager" selected="JUnit.All Tests">
     <configuration default="false" name="TPrimitiveObjectHashMapTest.testBug2975214" type="JUnit" factoryName="JUnit" temporary="true">
@@ -591,7 +501,6 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <extension name="snapshooter" />
       <module name="Core" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
@@ -608,6 +517,7 @@
         <value defaultName="moduleWithDependencies" />
       </option>
       <envs />
+      <patterns />
       <RunnerSettings RunnerId="Debug">
         <option name="DEBUG_PORT" value="51091" />
         <option name="TRANSPORT" value="0" />
@@ -625,7 +535,6 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <extension name="snapshooter" />
       <module name="Core" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
@@ -642,6 +551,7 @@
         <value defaultName="moduleWithDependencies" />
       </option>
       <envs />
+      <patterns />
       <RunnerSettings RunnerId="JProfiler">
         <option name="WINDOW" value="false" />
         <option name="JVMPI" value="false" />
@@ -658,7 +568,6 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <extension name="snapshooter" />
       <module name="Core" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
@@ -675,6 +584,7 @@
         <value defaultName="moduleWithDependencies" />
       </option>
       <envs />
+      <patterns />
       <RunnerSettings RunnerId="Debug">
         <option name="DEBUG_PORT" value="50719" />
         <option name="TRANSPORT" value="0" />
@@ -697,7 +607,6 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <extension name="snapshooter" />
       <module name="Core" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
@@ -714,6 +623,7 @@
         <value defaultName="moduleWithDependencies" />
       </option>
       <envs />
+      <patterns />
       <RunnerSettings RunnerId="Debug">
         <option name="DEBUG_PORT" value="50793" />
         <option name="TRANSPORT" value="0" />
@@ -736,7 +646,6 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <extension name="snapshooter" />
       <module name="Core" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
@@ -753,6 +662,7 @@
         <value defaultName="moduleWithDependencies" />
       </option>
       <envs />
+      <patterns />
       <RunnerSettings RunnerId="Debug">
         <option name="DEBUG_PORT" value="52217" />
         <option name="TRANSPORT" value="0" />
@@ -777,6 +687,7 @@
       <method>
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
     <configuration default="true" type="Applet" factoryName="Applet">
@@ -799,11 +710,11 @@
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
         <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <extension name="coverage" enabled="false" merge="false" />
-      <extension name="snapshooter" />
       <option name="MAIN_CLASS_NAME" />
       <option name="VM_PARAMETERS" />
       <option name="PROGRAM_PARAMETERS" />
@@ -824,11 +735,11 @@
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
         <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
       <extension name="coverage" enabled="false" merge="false" />
-      <extension name="snapshooter" />
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
@@ -845,6 +756,7 @@
         <value defaultName="moduleWithDependencies" />
       </option>
       <envs />
+      <patterns />
       <RunnerSettings RunnerId="JProfiler">
         <option name="WINDOW" value="false" />
         <option name="JVMPI" value="false" />
@@ -854,11 +766,11 @@
         <option name="AntTarget" enabled="false" />
         <option name="BuildArtifacts" enabled="false" />
         <option name="Make" enabled="true" />
+        <option name="Maven.BeforeRunTask" enabled="false" />
       </method>
     </configuration>
     <configuration default="false" name="Generator Test" type="JUnit" factoryName="JUnit">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <extension name="snapshooter" />
       <module name="Generator" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
@@ -875,13 +787,13 @@
         <value defaultName="moduleWithDependencies" />
       </option>
       <envs />
+      <patterns />
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Run" />
       <method />
     </configuration>
     <configuration default="false" name="All Tests" type="JUnit" factoryName="JUnit">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <extension name="snapshooter" />
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
@@ -898,6 +810,7 @@
         <value defaultName="wholeProject" />
       </option>
       <envs />
+      <patterns />
       <RunnerSettings RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Run" />
       <method />
@@ -925,7 +838,6 @@
     <option name="USER" value="" />
     <option name="PASSWORD" value="" />
     <option name="LAST_MERGED_REVISION" />
-    <option name="UPDATE_RUN_STATUS" value="false" />
     <option name="MERGE_DRY_RUN" value="false" />
     <option name="MERGE_DIFF_USE_ANCESTRY" value="true" />
     <option name="UPDATE_LOCK_ON_DEMAND" value="false" />
@@ -934,9 +846,28 @@
     <option name="CHECK_NESTED_FOR_QUICK_MERGE" value="false" />
     <option name="IGNORE_SPACES_IN_ANNOTATE" value="true" />
     <option name="SHOW_MERGE_SOURCES_IN_ANNOTATE" value="true" />
-    <configuration useDefault="false">$PROJECT_DIR$/../../../../.subversion</configuration>
+    <option name="FORCE_UPDATE" value="false" />
+    <configuration useDefault="false">$USER_HOME$/.subversion</configuration>
     <myIsUseDefaultProxy>false</myIsUseDefaultProxy>
     <supportedVersion>125</supportedVersion>
+  </component>
+  <component name="SvnFileUrlMappingImpl">
+    <option name="myMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="$TROVE_VCS_ROOT$" />
+          <option name="myCopyRoot" value="$TROVE_VCS_ROOT$" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+    <option name="myMoreRealMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="$TROVE_VCS_ROOT$" />
+          <option name="myCopyRoot" value="$TROVE_VCS_ROOT$" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -947,29 +878,30 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1921" y="-470" width="1078" height="1915" extended-state="0" />
-    <editor active="true" />
+    <frame x="6" y="22" width="1370" height="986" extended-state="0" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2543515" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39726806" sideWeight="0.76137" order="14" side_tool="false" content_ui="tabs" />
-      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="TeamCity" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="IDEtalk" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329539" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329539" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3290993" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26634616" sideWeight="0.7626636" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="JProfiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26634616" sideWeight="0.2333523" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2655068" sideWeight="0.58545035" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2655068" sideWeight="0.6709007" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38588503" sideWeight="0.5926748" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3856813" sideWeight="0.5926748" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="RMI Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33032694" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="TeamCity" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="IDEtalk" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="15" side_tool="false" content_ui="tabs" />
+      <window_info id="JProfiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
     </layout>
@@ -986,8 +918,10 @@
     <option name="CHECK_LOCALLY_CHANGED_CONFLICTS_IN_BACKGROUND" value="true" />
     <option name="ENABLE_BACKGROUND_PROCESSES" value="false" />
     <option name="CHANGED_ON_SERVER_INTERVAL" value="60" />
+    <option name="SHOW_ONLY_CHANGED_IN_SELECTION_DIFF" value="true" />
+    <option name="CHECK_COMMIT_MESSAGE_SPELLING" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix for bug 2993599 - TLinkedList is not a correct AbstractSequentialList&#10;Fix swap() behavior in iterator to make Collections.shuffle() behave." />
+    <option name="LAST_COMMIT_MESSAGE" value="Update JDK and version control type" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -1003,6 +937,7 @@
     <MESSAGE value="Correct documentation of toArray(e[],int,int) per bug 2958750" />
     <MESSAGE value="Test for bug 2975214" />
     <MESSAGE value="Fix for bug 2993599 - TLinkedList is not a correct AbstractSequentialList&#10;Fix swap() behavior in iterator to make Collections.shuffle() behave." />
+    <MESSAGE value="Update JDK and version control type" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1046,21 +981,6 @@
         <state line="101" column="5" selection-start="3525" selection-end="3525" vertical-scroll-proportion="0.40080506" />
       </provider>
     </entry>
-    <entry file="jar://$TROVE_VCS_ROOT$/lib/caliper-0.0.jar!/com/google/caliper/InProcessRunner.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="19" selection-start="162" selection-end="162" vertical-scroll-proportion="0.039306358" />
-      </provider>
-    </entry>
-    <entry file="jar://$TROVE_VCS_ROOT$/lib/caliper-0.0.jar!/com/google/caliper/Runner.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="26" selection-start="169" selection-end="169" vertical-scroll-proportion="0.039650146" />
-      </provider>
-    </entry>
-    <entry file="jar://$TROVE_VCS_ROOT$/lib/caliper-0.0.jar!/com/google/caliper/Benchmark.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="24" selection-start="167" selection-end="167" vertical-scroll-proportion="0.052713178" />
-      </provider>
-    </entry>
     <entry file="file://$TROVE_TOP_LEVEL$/gen_output/gnu/trove/list/TIntList.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="47" column="27" selection-start="1716" selection-end="1716" vertical-scroll-proportion="0.22805017" />
@@ -1076,86 +996,110 @@
         <state line="39" column="13" selection-start="1452" selection-end="1452" vertical-scroll-proportion="0.33301798" />
       </provider>
     </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.6.0_21/src.zip!/java/util/AbstractSequentialList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="95" column="13" selection-start="3742" selection-end="3742" vertical-scroll-proportion="0.009248555">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.6.0_21/src.zip!/java/util/Collections.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="452" column="0" selection-start="19166" selection-end="19166" vertical-scroll-proportion="0.009329446">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$TROVE_VCS_ROOT$/README-license.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="0" selection-start="869" selection-end="869" vertical-scroll-proportion="0.31158715">
-          <folding />
-        </state>
+        <state line="20" column="0" selection-start="869" selection-end="869" vertical-scroll-proportion="0.31158715" />
       </provider>
     </entry>
     <entry file="file://$TROVE_VCS_ROOT$/LICENSE.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="415" column="55" selection-start="22184" selection-end="22184" vertical-scroll-proportion="0.015311005">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.6.0_21/src.zip!/java/util/ListIterator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="167" column="34" selection-start="7059" selection-end="7059" vertical-scroll-proportion="1.2578034">
-          <folding />
-        </state>
+        <state line="415" column="55" selection-start="22184" selection-end="22184" vertical-scroll-proportion="0.015311005" />
       </provider>
     </entry>
     <entry file="file://$TROVE_VCS_ROOT$/src/gnu/trove/list/linked/TLinkedList.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="786" column="0" selection-start="23112" selection-end="23112" vertical-scroll-proportion="0.42915452">
-          <folding />
-        </state>
+        <state line="786" column="0" selection-start="23112" selection-end="23112" vertical-scroll-proportion="0.42915452" />
       </provider>
     </entry>
     <entry file="file://$TROVE_VCS_ROOT$/test/gnu/trove/list/linked/TLinkedListTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="985" column="0" selection-start="29331" selection-end="29331" vertical-scroll-proportion="0.34046242">
-          <folding />
-        </state>
+        <state line="985" column="0" selection-start="29331" selection-end="29331" vertical-scroll-proportion="0.34046242" />
       </provider>
     </entry>
   </component>
   <component name="masterDetails">
     <states>
       <state key="ArtifactsStructureConfigurable.UI">
-        <UIState>
+        <settings>
+          <artifact-editor />
           <splitter-proportions>
-            <SplitterProportionsDataImpl>
-              <option name="proportions">
-                <list>
-                  <option value="0.2" />
-                </list>
-              </option>
-            </SplitterProportionsDataImpl>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
           </splitter-proportions>
-          <settings />
-        </UIState>
+        </settings>
       </state>
       <state key="Copyright.UI">
-        <UIState>
+        <settings>
+          <splitter-proportions />
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>Android</last-edited>
           <splitter-proportions>
-            <SplitterProportionsDataImpl />
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
           </splitter-proportions>
-        </UIState>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>JasperReports</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.6</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>Core</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>JUnit</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
       </state>
       <state key="ScopeChooserConfigurable.UI">
-        <UIState>
-          <splitter-proportions>
-            <SplitterProportionsDataImpl />
-          </splitter-proportions>
-          <settings />
-        </UIState>
+        <settings>
+          <splitter-proportions />
+        </settings>
       </state>
     </states>
   </component>

@@ -40,13 +40,13 @@
   <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false" />
   <component name="FacetAutodetectingManager">
     <autodetection-disabled>
-      <facet-type id="jsf" />
-      <facet-type id="Spring" />
-      <facet-type id="javaeeApplication" />
-      <facet-type id="web" />
-      <facet-type id="jpa" />
       <facet-type id="ejb" />
       <facet-type id="hibernate" />
+      <facet-type id="javaeeApplication" />
+      <facet-type id="jpa" />
+      <facet-type id="jsf" />
+      <facet-type id="Spring" />
+      <facet-type id="web" />
     </autodetection-disabled>
   </component>
   <component name="IdProvider" IDEtalkID="E85F719C161322F56298FDAF6F93DBA9" />
@@ -220,7 +220,6 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <extension name="snapshooter" />
       <option name="MAIN_CLASS_NAME" value="gnu.trove.generator.Generator" />
       <option name="VM_PARAMETERS" value="" />
       <option name="PROGRAM_PARAMETERS" value="-c templates ../gen_output" />
@@ -248,7 +247,7 @@
   </component>
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="" />
-    <mapping directory="$TROVE_VCS_ROOT$" vcs="CVS" />
+    <mapping directory="$TROVE_VCS_ROOT$" vcs="svn" />
   </component>
   <component name="WebServicesPlugin" addRequiredLibraries="true" />
   <component name="libraryTable">
