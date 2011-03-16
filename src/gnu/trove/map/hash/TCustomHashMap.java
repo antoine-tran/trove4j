@@ -144,8 +144,8 @@ public class TCustomHashMap<K, V> extends TCustomObjectHash<K>
      *         or {@code null} if none was found.
      */
     public V put( K key, V value ) {
-        int index = insertionIndex( key );
-        return doPut( key, value, index );
+        int index = insertKey( key );
+        return doPut( value, index );
     }
 
 
@@ -159,28 +159,27 @@ public class TCustomHashMap<K, V> extends TCustomObjectHash<K>
      *         or {@code null} if none was found.
      */
     public V putIfAbsent( K key, V value ) {
-        int index = insertionIndex( key );
+        int index = insertKey( key );
         if ( index < 0 ) {
             return _values[-index - 1];
         }
-        return doPut( key, value, index );
+        return doPut(value, index );
     }
 
 
-    private V doPut( K key, V value, int index ) {
+    private V doPut( V value, int index ) {
         V previous = null;
-        Object oldKey;
         boolean isNewMapping = true;
         if ( index < 0 ) {
             index = -index - 1;
             previous = _values[index];
             isNewMapping = false;
         }
-        oldKey = _set[index];
-        _set[index] = key;
+
         _values[index] = value;
+
         if ( isNewMapping ) {
-            postInsertHook( oldKey == FREE );
+            postInsertHook( consumeFreeSlot );
         }
 
         return previous;
@@ -401,11 +400,10 @@ public class TCustomHashMap<K, V> extends TCustomObjectHash<K>
 			if ( oldKeys[ i ] == FREE || oldKeys[ i ] == REMOVED ) continue;
 
 			Object o = oldKeys[ i ];
-			int index = insertionIndex( ( K ) o );
+			int index = insertKey( ( K ) o );
 			if ( index < 0 ) {
 				throwObjectContractViolation( _set[ ( -index - 1 ) ], o );
 			}
-			_set[ index ] = o;
 			_values[ index ] = oldVals[ i ];
         }
     }

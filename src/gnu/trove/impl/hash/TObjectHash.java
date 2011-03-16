@@ -52,7 +52,8 @@ abstract public class TObjectHash<T> extends THash {
     public static final Object REMOVED = new Object(), FREE = new Object();
 
     /**
-     * Value of last key being replaced by insertionIndex()
+     * Indicates whether the last insertKey() call used a FREE slot. This field
+     * should be inspected right after call insertKey()
      */
     protected boolean consumeFreeSlot;
 
@@ -243,51 +244,65 @@ abstract public class TObjectHash<T> extends THash {
     }
 
     /**
-     * Locates the index at which <tt>obj</tt> can be inserted.  if
-     * there is already a value equal()ing <tt>obj</tt> in the set,
+     * Alias introduced to avoid breaking the API. The new method name insertKey() reflects the
+     * changes made to the logic.
+     *
+     * @param obj
+     * @return
+     * @deprecated use {@link #insertKey} instead
+     */
+    @Deprecated
+    protected int insertionIndex(T obj) {
+        return insertKey(obj);
+    }
+
+    /**
+     * Locates the index at which <tt>key</tt> can be inserted.  if
+     * there is already a value equal()ing <tt>key</tt> in the set,
      * returns that value's index as <tt>-index - 1</tt>.
      * <p/>
      * If a slot is found the value is inserted. When a FREE slot is used the consumeFreeSlot field is
      * set to true. This field should be used in the method invoking insertKey() to pass to postInsertHook()
      *
-     * @param obj an <code>Object</code> value
-     * @return the index of a FREE slot at which obj can be inserted
-     *         or, if obj is already stored in the hash, the negative value of
+     * @param key an <code>Object</code> value
+     * @return the index of a FREE slot at which key can be inserted
+     *         or, if key is already stored in the hash, the negative value of
      *         that index, minus 1: -index -1.
      */
-    protected int insertionIndex(T obj) {
+    protected int insertKey(T key) {
+        consumeFreeSlot = false;
 
-        if (obj == null)
+        if (key == null)
             return insertKeyForNull();
 
-        final int hash = hash(obj) & 0x7fffffff;
+        final int hash = hash(key) & 0x7fffffff;
         int index = hash % _set.length;
         Object cur = _set[index];
 
         if (cur == FREE) {
             consumeFreeSlot = true;
-            _set[index] = obj;  // insert value
+            _set[index] = key;  // insert value
             return index;       // empty, all done
         }
 
-        if (cur == obj || equals(obj, cur)) {
+        if (cur == key || equals(key, cur)) {
             return -index - 1;   // already stored
         }
 
-        return insertKeyRehash(obj, index, hash, cur);
+        return insertKeyRehash(key, index, hash, cur);
     }
 
     /**
      * Looks for a slot using double hashing for a non-null key values and inserts the value
      * in the slot
      *
-     * @param obj   non-null key value
+     * @param key   non-null key value
      * @param index natural index
      * @param hash
      * @param cur   value of first matched slot
      * @return
      */
-    private int insertKeyRehash(T obj, int index, int hash, Object cur) {
+    private int insertKeyRehash(T key, int index, int hash, Object cur) {
         final Object[] set = _set;
         final int length = set.length;
         // already FULL or REMOVED, must probe
@@ -314,16 +329,16 @@ abstract public class TObjectHash<T> extends THash {
             // A FREE slot stops the search
             if (cur == FREE) {
                 if (firstRemoved != -1) {
-                    _set[firstRemoved] = obj;
+                    _set[firstRemoved] = key;
                     return firstRemoved;
                 } else {
                     consumeFreeSlot = true;
-                    _set[index] = obj;  // insert value
+                    _set[index] = key;  // insert value
                     return index;
                 }
             }
 
-            if (cur == obj || equals(obj, cur)) {
+            if (cur == key || equals(key, cur)) {
                 return -index - 1;
             }
 
@@ -333,7 +348,7 @@ abstract public class TObjectHash<T> extends THash {
         // We inspected all reachable slots and did not find a FREE one
         // If we found a REMOVED slot we return the first one found
         if (firstRemoved != -1) {
-            _set[firstRemoved] = obj;
+            _set[firstRemoved] = key;
             return firstRemoved;
         }
 
@@ -372,7 +387,7 @@ abstract public class TObjectHash<T> extends THash {
                 }
             }
 
-            if (o == null)  {
+            if (o == null) {
                 return -index - 1;
             }
 

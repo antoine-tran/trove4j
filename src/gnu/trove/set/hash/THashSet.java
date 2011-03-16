@@ -104,15 +104,11 @@ public class THashSet<E> extends TObjectHash<E>
      * @return true if the set was modified by the add operation
      */
     public boolean add( E obj ) {
-        consumeFreeSlot = false;
-
-        int index = insertionIndex( obj );
+        int index = insertKey( obj );
 
         if ( index < 0 ) {
             return false;       // already present in set, nothing to add
         }
-
-        _set[index] = obj;
 
         postInsertHook( consumeFreeSlot );
         return true;            // yes, we added something
@@ -161,10 +157,6 @@ public class THashSet<E> extends TObjectHash<E>
     @SuppressWarnings({"unchecked"})
     protected void rehash( int newCapacity ) {
         int oldCapacity = _set.length;
-        
-        // Johan Parent: patch to avoid rehashing needlessly
-        if (newCapacity == oldCapacity)
-            return;
 
         Object oldSet[] = _set;
 
@@ -178,9 +170,12 @@ public class THashSet<E> extends TObjectHash<E>
                 if ( index < 0 ) { // everyone pays for this because some people can't RTFM
                     throwObjectContractViolation( _set[( -index - 1 )], o );
                 }
-                _set[index] = o;
+                postInsertKey(index);
             }
         }
+    }
+
+    protected void postInsertKey(int index) {
     }
 
 
@@ -380,13 +375,16 @@ public class THashSet<E> extends TObjectHash<E>
         out.writeInt( _size );
 
         // ENTRIES
+        writeEntries(out);
+    }
+
+    protected void writeEntries(ObjectOutput out) throws IOException {
         for ( int i = _set.length; i-- > 0; ) {
             if ( _set[i] != REMOVED && _set[i] != FREE ) {
                 out.writeObject( _set[i] );
             }
         }
     }
-
 
     @SuppressWarnings({"unchecked"})
     public void readExternal( ObjectInput in )
@@ -409,5 +407,6 @@ public class THashSet<E> extends TObjectHash<E>
             E val = (E) in.readObject();
             add( val );
         }
+
     }
 } // THashSet
