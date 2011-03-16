@@ -166,7 +166,7 @@ public class THashSet<E> extends TObjectHash<E>
         for ( int i = oldCapacity; i-- > 0; ) {
             E o = (E) oldSet[i];
             if ( o != FREE && o != REMOVED ) {
-                int index = insertionIndex( o );
+                int index = insertKey( o );
                 if ( index < 0 ) { // everyone pays for this because some people can't RTFM
                     throwObjectContractViolation( _set[( -index - 1 )], o );
                 }
