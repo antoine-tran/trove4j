@@ -69,6 +69,7 @@ abstract public class T#K##V#Hash extends TPrimitiveHash {
      */
     protected #v# no_entry_value;
 
+    protected boolean consumeFreeSlot;
 
     /**
      * Creates a new <code>T#E#Hash</code> instance with the default
@@ -222,9 +223,15 @@ abstract public class T#K##V#Hash extends TPrimitiveHash {
         length = states.length;
         hash = HashFunctions.hash( key ) & 0x7fffffff;
         index = hash % length;
+        byte state = states[index];
 
-        if ( states[index] != FREE &&
-            ( states[index] == REMOVED || set[index] != key ) ) {
+        if (state == FREE)
+            return -1;
+
+        if (state == FULL && set[index] == key)
+            return index;
+
+        if (state == REMOVED || set[index] != key) {
             // see Knuth, p. 529
             probe = 1 + ( hash % ( length - 2 ) );
 
@@ -233,11 +240,11 @@ abstract public class T#K##V#Hash extends TPrimitiveHash {
                 if ( index < 0 ) {
                     index += length;
                 }
-            } while ( states[index] != FREE &&
-                     ( states[index] == REMOVED || set[index] != key ) );
+                state = states[index];
+            } while ( state != FREE && ( state == REMOVED || set[index] != key ) );
         }
 
-        return states[index] == FREE ? -1 : index;
+        return state == FREE ? -1 : index;
     }
 
 
@@ -249,7 +256,7 @@ abstract public class T#K##V#Hash extends TPrimitiveHash {
      * @param key an <code>#k#</code> value
      * @return an <code>int</code> value
      */
-    protected int insertionIndex( #k# key ) {
+    protected int insertKey( #k# key ) {
         int hash, probe, index, length;
 
         final byte[] states = _states;
@@ -257,10 +264,17 @@ abstract public class T#K##V#Hash extends TPrimitiveHash {
         length = states.length;
         hash = HashFunctions.hash( key ) & 0x7fffffff;
         index = hash % length;
+        byte state = states[index];
 
-        if ( states[index] == FREE ) {
+        consumeFreeSlot = false;
+
+        if ( state == FREE ) {
+            consumeFreeSlot = true;
+            set[index] = key;
+            states[index] = FULL;
+
             return index;       // empty, all done
-        } else if ( states[index] == FULL && set[index] == key ) {
+        } else if ( state == FULL && set[index] == key ) {
             return -index -1;   // already stored
         } else {                // already FULL or REMOVED, must probe
             // compute the double hash
@@ -278,7 +292,7 @@ abstract public class T#K##V#Hash extends TPrimitiveHash {
             // finding a matching value means that we've found that our desired
             // key is already in the table
 
-            if ( states[index] != REMOVED ) {
+            if ( state != REMOVED ) {
 				// starting at the natural offset, probe until we find an
 				// offset that isn't full.
 				do {
@@ -286,25 +300,42 @@ abstract public class T#K##V#Hash extends TPrimitiveHash {
 					if (index < 0) {
 						index += length;
 					}
-				} while ( states[index] == FULL && set[index] != key );
+					state = states[index];
+				} while ( state == FULL && set[index] != key );
             }
 
             // if the index we found was removed: continue probing until we
             // locate a free location or an element which equal()s the
             // one we have.
-            if ( states[index] == REMOVED) {
+            if ( state == REMOVED) {
                 int firstRemoved = index;
-                while ( states[index] != FREE &&
-                       ( states[index] == REMOVED || set[index] != key ) ) {
+                while ( state != FREE && ( state == REMOVED || set[index] != key ) ) {
                     index -= probe;
                     if (index < 0) {
                         index += length;
                     }
+                    state = states[index];
                 }
-                return states[index] == FULL ? -index -1 : firstRemoved;
+
+                if (state == FULL) {
+                    return -index -1;
+                } else {
+                    set[index] = key;
+                    states[index] = FULL;
+
+                    return firstRemoved;
+                }
             }
             // if it's full, the key is already stored
-            return states[index] == FULL ? -index -1 : index;
+            if (state == FULL) {
+                return -index -1;
+            } else {
+                consumeFreeSlot = true;
+                set[index] = key;
+                states[index] = FULL;
+
+                return index;
+            }
         }
     }
 

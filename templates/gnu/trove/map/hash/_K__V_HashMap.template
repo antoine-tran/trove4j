@@ -185,10 +185,8 @@ public class T#K##V#HashMap extends T#K##V#Hash implements T#K##V#Map, Externali
         for ( int i = oldCapacity; i-- > 0; ) {
             if( oldStates[i] == FULL ) {
                 #k# o = oldKeys[i];
-                int index = insertionIndex( o );
-                _set[index] = o;
+                int index = insertKey( o );
                 _values[index] = oldVals[i];
-                _states[index] = FULL;
             }
         }
     }
@@ -196,14 +194,14 @@ public class T#K##V#HashMap extends T#K##V#Hash implements T#K##V#Map, Externali
 
     /** {@inheritDoc} */
     public #v# put( #k# key, #v# value ) {
-        int index = insertionIndex( key );
+        int index = insertKey( key );
         return doPut( key, value, index );
     }
 
 
     /** {@inheritDoc} */
     public #v# putIfAbsent( #k# key, #v# value ) {
-        int index = insertionIndex( key );
+        int index = insertKey( key );
         if (index < 0)
             return _values[-index - 1];
         return doPut( key, value, index );
@@ -211,7 +209,6 @@ public class T#K##V#HashMap extends T#K##V#Hash implements T#K##V#Map, Externali
 
 
     private #v# doPut( #k# key, #v# value, int index ) {
-        byte previousState;
         #v# previous = no_entry_value;
         boolean isNewMapping = true;
         if ( index < 0 ) {
@@ -219,12 +216,10 @@ public class T#K##V#HashMap extends T#K##V#Hash implements T#K##V#Map, Externali
             previous = _values[index];
             isNewMapping = false;
         }
-        previousState = _states[index];
-        _set[index] = key;
-        _states[index] = FULL;
         _values[index] = value;
+
         if (isNewMapping) {
-            postInsertHook( previousState == FREE );
+            postInsertHook( consumeFreeSlot );
         }
 
         return previous;
@@ -490,7 +485,7 @@ public class T#K##V#HashMap extends T#K##V#Hash implements T#K##V#Map, Externali
 
     /** {@inheritDoc} */
     public #v# adjustOrPutValue( #k# key, #v# adjust_amount, #v# put_amount ) {
-        int index = insertionIndex( key );
+        int index = insertKey( key );
         final boolean isNewMapping;
         final #v# newValue;
         if ( index < 0 ) {
@@ -503,11 +498,9 @@ public class T#K##V#HashMap extends T#K##V#Hash implements T#K##V#Map, Externali
         }
 
         byte previousState = _states[index];
-        _set[index] = key;
-        _states[index] = FULL;
 
         if ( isNewMapping ) {
-            postInsertHook(previousState == FREE);
+            postInsertHook(consumeFreeSlot);
         }
 
         return newValue;
