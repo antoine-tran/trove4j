@@ -111,16 +111,13 @@ public class TCustomHashSet<E> extends TCustomObjectHash<E>
      * @return true if the set was modified by the add operation
      */
     public boolean add( E obj ) {
-        int index = insertionIndex( obj );
+        int index = insertKey( obj );
 
         if ( index < 0 ) {
             return false;       // already present in set, nothing to add
         }
 
-        Object old = _set[index];
-        _set[index] = obj;
-
-        postInsertHook( old == FREE );
+        postInsertHook( consumeFreeSlot );
         return true;            // yes, we added something
     }
 
@@ -174,13 +171,12 @@ public class TCustomHashSet<E> extends TCustomObjectHash<E>
         Arrays.fill( _set, FREE );
 
         for ( int i = oldCapacity; i-- > 0; ) {
-            if ( oldSet[i] != FREE && oldSet[i] != REMOVED ) {
-                E o = (E) oldSet[i];
-                int index = insertionIndex( o );
+            E o = (E) oldSet[i];
+            if ( o != FREE && o != REMOVED ) {
+                int index = insertKey( o );
                 if ( index < 0 ) { // everyone pays for this because some people can't RTFM
                     throwObjectContractViolation( _set[( -index - 1 )], o );
                 }
-                _set[index] = o;
             }
         }
     }
