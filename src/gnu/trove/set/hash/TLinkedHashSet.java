@@ -74,6 +74,15 @@ public class TLinkedHashSet<E> extends THashSet<E> {
         return super.setUp(initialCapacity);    //To change body of overridden methods use File | Settings | File Templates.
     }
 
+    /**
+     * Empties the set.
+     */
+    @Override
+    public void clear() {
+        super.clear();
+        order.clear();
+    }
+
     @Override
     public String toString() {
         final StringBuilder buf = new StringBuilder("{");
