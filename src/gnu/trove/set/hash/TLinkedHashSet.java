@@ -107,7 +107,8 @@ public class TLinkedHashSet<E> extends THashSet<E> {
             return false;       // already present in set, nothing to add
         }
 
-        order.add(index);
+        if (!order.add(index))
+            throw new IllegalStateException("Order not changed after insert");
 
         postInsertHook(consumeFreeSlot);
         return true;            // yes, we added something
@@ -115,9 +116,12 @@ public class TLinkedHashSet<E> extends THashSet<E> {
 
     @Override
     protected void removeAt(int index) {
-        super.removeAt(index);
+        // Remove from order first since super.removeAt can trigger compaction
+        // making the index invalid afterwards
         order.remove(index);
+        super.removeAt(index);
     }
+
 
     /**
      * Expands the set to accommodate new values.
@@ -219,7 +223,13 @@ public class TLinkedHashSet<E> extends THashSet<E> {
                 localIterator.remove();
                 // the removal within removeAt() will not change the collection
                 // but the localIterator will remain valid
-                TLinkedHashSet.this.removeAt(lastIndex);
+                try {
+                    _hash.tempDisableAutoCompaction();
+                    TLinkedHashSet.this.removeAt(lastIndex);
+                }
+                finally {
+                    _hash.reenableAutoCompaction( false );
+                }
             }
         };    //To change body of overridden methods use File | Settings | File Templates.
     }
@@ -244,9 +254,10 @@ public class TLinkedHashSet<E> extends THashSet<E> {
          *         allowed.
          */
         public boolean execute(int value) {
-            return procedure.execute((E)set[value]);
+            return procedure.execute((E) set[value]);
         }
     }
+
     /**
      * Executes <tt>procedure</tt> for each element in the set.
      *
