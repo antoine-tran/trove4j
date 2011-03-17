@@ -8,7 +8,6 @@ import gnu.trove.procedure.TIntProcedure;
 import gnu.trove.procedure.TObjectProcedure;
 
 import java.io.IOException;
-import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.util.Collection;
 import java.util.Iterator;
@@ -223,5 +222,41 @@ public class TLinkedHashSet<E> extends THashSet<E> {
                 TLinkedHashSet.this.removeAt(lastIndex);
             }
         };    //To change body of overridden methods use File | Settings | File Templates.
+    }
+
+    class ForEachProcedure implements TIntProcedure {
+        boolean changed = false;
+        final Object[] set;
+        final TObjectProcedure<? super E> procedure;
+
+        public ForEachProcedure(Object[] set, TObjectProcedure<? super E> procedure) {
+            this.set = set;
+            this.procedure = procedure;
+        }
+
+        /**
+         * Executes this procedure. A false return value indicates that
+         * the application executing this procedure should not invoke this
+         * procedure again.
+         *
+         * @param value a value of type <code>int</code>
+         * @return true if additional invocations of the procedure are
+         *         allowed.
+         */
+        public boolean execute(int value) {
+            return procedure.execute((E)set[value]);
+        }
+    }
+    /**
+     * Executes <tt>procedure</tt> for each element in the set.
+     *
+     * @param procedure a <code>TObjectProcedure</code> value
+     * @return false if the loop over the set terminated because
+     *         the procedure returned false for some value.
+     */
+    @Override
+    public boolean forEach(TObjectProcedure<? super E> procedure) {
+        ForEachProcedure forEachProcedure = new ForEachProcedure(_set, procedure);
+        return order.forEach(forEachProcedure);
     }
 }
