@@ -191,16 +191,13 @@ public class T#E#HashSet extends T#E#Hash implements T#E#Set, Externalizable {
 
     /** {@inheritDoc} */
     public boolean add( #e# val ) {
-        int index = insertionIndex(val);
+        int index = insertKey(val);
 
         if ( index < 0 ) {
             return false;       // already present in set, nothing to add
         }
 
-        byte previousState = _states[index];
-        _set[index] = val;
-        _states[index] = FULL;
-        postInsertHook( previousState == FREE );
+        postInsertHook( consumeFreeSlot );
 
         return true;            // yes, we added something
     }
@@ -413,9 +410,7 @@ public class T#E#HashSet extends T#E#Hash implements T#E#Set, Externalizable {
         for ( int i = oldCapacity; i-- > 0; ) {
             if( oldStates[i] == FULL ) {
                 #e# o = oldSet[i];
-                int index = insertionIndex(o);
-                _set[index] = o;
-                _states[index] = FULL;
+                int index = insertKey(o);
             }
         }
     }

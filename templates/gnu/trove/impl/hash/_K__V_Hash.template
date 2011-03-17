@@ -231,20 +231,31 @@ abstract public class T#K##V#Hash extends TPrimitiveHash {
         if (state == FULL && set[index] == key)
             return index;
 
-        if (state == REMOVED || set[index] != key) {
-            // see Knuth, p. 529
-            probe = 1 + ( hash % ( length - 2 ) );
+        return indexRehashed(key, index, hash, state);
+    }
 
-            do {
-                index -= probe;
-                if ( index < 0 ) {
-                    index += length;
-                }
-                state = states[index];
-            } while ( state != FREE && ( state == REMOVED || set[index] != key ) );
-        }
+    int indexRehashed(#k# key, int index, int hash, byte state) {
+        // see Knuth, p. 529
+        int length = _set.length;
+        int probe = 1 + (hash % (length - 2));
+        final int loopIndex = index;
 
-        return state == FREE ? -1 : index;
+        do {
+            index -= probe;
+            if (index < 0) {
+                index += length;
+            }
+            state = _states[index];
+            //
+            if (state == FREE)
+                return -1;
+
+            //
+            if (key == _set[index])
+                return index;
+        } while (index != loopIndex);
+
+        return -1;
     }
 
 
@@ -256,7 +267,87 @@ abstract public class T#K##V#Hash extends TPrimitiveHash {
      * @param key an <code>#k#</code> value
      * @return an <code>int</code> value
      */
-    protected int insertKey( #k# key ) {
+         protected int insertKey( #k# val ) {
+             int hash, index;
+
+             hash = HashFunctions.hash(val) & 0x7fffffff;
+             index = hash % _states.length;
+             byte state = _states[index];
+
+             consumeFreeSlot = false;
+
+             if (state == FREE) {
+                 consumeFreeSlot = true;
+                 insertKeyAt(index, val);
+
+                 return index;       // empty, all done
+             }
+
+             if (state == FULL && _set[index] == val) {
+                 return -index - 1;   // already stored
+             }
+
+             // already FULL or REMOVED, must probe
+             return insertKeyRehash(val, index, hash, state);
+         }
+
+         int insertKeyRehash(#k# val, int index, int hash, byte state) {
+             // compute the double hash
+             final int length = _set.length;
+             int probe = 1 + (hash % (length - 2));
+             final int loopIndex = index;
+             int firstRemoved = -1;
+
+             /**
+              * Look until FREE slot or we start to loop
+              */
+             do {
+                 // Identify first removed slot
+                 if (state == REMOVED && firstRemoved == -1)
+                     firstRemoved = index;
+
+                 index -= probe;
+                 if (index < 0) {
+                     index += length;
+                 }
+                 state = _states[index];
+
+                 // A FREE slot stops the search
+                 if (state == FREE) {
+                     if (firstRemoved != -1) {
+                         insertKeyAt(firstRemoved, val);
+                         return firstRemoved;
+                     } else {
+                         consumeFreeSlot = true;
+                         insertKeyAt(index, val);
+                         return index;
+                     }
+                 }
+
+                 if (state == FULL && _set[index] == val) {
+                     return -index - 1;
+                 }
+
+                 // Detect loop
+             } while (index != loopIndex);
+
+             // We inspected all reachable slots and did not find a FREE one
+             // If we found a REMOVED slot we return the first one found
+             if (firstRemoved != -1) {
+                 insertKeyAt(firstRemoved, val);
+                 return firstRemoved;
+             }
+
+             // Can a resizing strategy be found that resizes the set?
+             throw new IllegalStateException("No free or removed slots available. Key set full?!!");
+         }
+
+         void insertKeyAt(int index, #k# val) {
+             _set[index] = val;  // insert value
+             _states[index] = FULL;
+         }
+
+    protected int XinsertKey( #k# key ) {
         int hash, probe, index, length;
 
         final byte[] states = _states;

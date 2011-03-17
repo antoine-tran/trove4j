@@ -161,10 +161,8 @@ public class T#E#ObjectHashMap<V> extends T#E#Hash implements
         for ( int i = oldCapacity; i-- > 0; ) {
             if( oldStates[i] == FULL ) {
                 #e# o = oldKeys[i];
-                int index = insertionIndex(o);
-                _set[index] = o;
+                int index = insertKey(o);
                 _values[index] = oldVals[i];
-                _states[index] = FULL;
             }
         }
     }
@@ -193,7 +191,7 @@ public class T#E#ObjectHashMap<V> extends T#E#Hash implements
         // perform null checks before every call to equals()
         if ( null == val ) {
             for ( int i = vals.length; i-- > 0; ) {
-                if ( states[i] == FULL && val == vals[i] ) {
+                if ( states[i] == FULL && null == vals[i] ) {
                     return true;
                 }
             }
@@ -220,23 +218,22 @@ public class T#E#ObjectHashMap<V> extends T#E#Hash implements
 
     /** {@inheritDoc} */
     public V put( #e# key, V value ) {
-        int index = insertionIndex( key );
-        return doPut( key, value, index );
+        int index = insertKey( key );
+        return doPut( value, index );
     }
 
 
     /** {@inheritDoc} */
     public V putIfAbsent( #e# key, V value ) {
-        int index = insertionIndex( key );
+        int index = insertKey( key );
         if ( index < 0 )
             return _values[-index - 1];
-        return doPut( key, value, index );
+        return doPut( value, index );
     }
 
 
     @SuppressWarnings({"unchecked"})
-    private V doPut( #e# key, V value, int index ) {
-        byte previousState;
+    private V doPut( V value, int index ) {
         V previous = null;
         boolean isNewMapping = true;
         if ( index < 0 ) {
@@ -244,12 +241,11 @@ public class T#E#ObjectHashMap<V> extends T#E#Hash implements
             previous = _values[index];
             isNewMapping = false;
         }
-        previousState = _states[index];
-        _set[index] = key;
-        _states[index] = FULL;
+
         _values[index] = value;
+
         if (isNewMapping) {
-            postInsertHook( previousState == FREE );
+            postInsertHook( consumeFreeSlot );
         }
 
         return previous;

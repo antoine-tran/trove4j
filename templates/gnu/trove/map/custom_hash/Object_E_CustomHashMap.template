@@ -197,13 +197,12 @@ public class TObject#E#CustomHashMap<K> extends TCustomObjectHash<K>
         Arrays.fill( _values, no_entry_value );
 
         for ( int i = oldCapacity; i-- > 0; ) {
-          if( oldKeys[i] != FREE && oldKeys[i] != REMOVED ) {
-                K o = oldKeys[i];
-                int index = insertionIndex(o);
+          K o = oldKeys[i];
+          if( o != FREE && o != REMOVED ) {
+                int index = insertKey(o);
                 if ( index < 0 ) {
                     throwObjectContractViolation( _set[ (-index -1) ], o);
                 }
-                _set[index] = o;
                 _values[index] = oldVals[i];
             }
         }
@@ -249,21 +248,21 @@ public class TObject#E#CustomHashMap<K> extends TCustomObjectHash<K>
 
     /** {@inheritDoc} */
     public #e# put( K key, #e# value ) {
-        int index = insertionIndex( key );
-        return doPut( key, value, index );
+        int index = insertKey( key );
+        return doPut( value, index );
     }
 
 
     /** {@inheritDoc} */
     public #e# putIfAbsent( K key, #e# value ) {
-        int index = insertionIndex(key);
+        int index = insertKey(key);
         if ( index < 0 )
             return _values[-index - 1];
-        return doPut( key, value, index );
+        return doPut( value, index );
     }
 
 
-    private #e# doPut( K key, #e# value, int index ) {
+    private #e# doPut( #e# value, int index ) {
         #e# previous = no_entry_value;
         boolean isNewMapping = true;
         if ( index < 0 ) {
@@ -272,12 +271,10 @@ public class TObject#E#CustomHashMap<K> extends TCustomObjectHash<K>
             isNewMapping = false;
         }
         //noinspection unchecked
-        K oldKey = ( K ) _set[index];
-        _set[index] = key;
         _values[index] = value;
 
         if ( isNewMapping ) {
-            postInsertHook( oldKey == FREE );
+            postInsertHook( consumeFreeSlot );
         }
         return previous;
     }
@@ -453,7 +450,7 @@ public class TObject#E#CustomHashMap<K> extends TCustomObjectHash<K>
     public #e# adjustOrPutValue( final K key, final #e# adjust_amount,
 		final #e# put_amount ) {
 
-        int index = insertionIndex( key );
+        int index = insertKey( key );
         final boolean isNewMapping;
         final #e# newValue;
         if ( index < 0 ) {
@@ -466,11 +463,8 @@ public class TObject#E#CustomHashMap<K> extends TCustomObjectHash<K>
         }
 
         //noinspection unchecked
-        K oldKey = ( K ) _set[index];
-        _set[index] = key;
-
         if ( isNewMapping ) {
-            postInsertHook( oldKey == FREE );
+            postInsertHook( consumeFreeSlot );
         }
 
         return newValue;
