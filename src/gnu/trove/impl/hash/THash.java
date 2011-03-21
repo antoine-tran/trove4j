@@ -172,8 +172,8 @@ abstract public class THash implements Externalizable {
      */
     public void ensureCapacity( int desiredCapacity ) {
         if ( desiredCapacity > ( _maxSize - size() ) ) {
-            rehash( PrimeFinder.nextPrime( HashFunctions.fastCeil(
-				( desiredCapacity + size() ) / _loadFactor ) + 1 ) );
+			rehash( PrimeFinder.nextPrime( Math.max( _size + 1,
+				HashFunctions.fastCeil( size() / _loadFactor ) + 1 ) ) );
             computeMaxSize( capacity() );
         }
     }
@@ -198,7 +198,8 @@ abstract public class THash implements Externalizable {
      */
     public void compact() {
         // need at least one free spot for open addressing
-        rehash( PrimeFinder.nextPrime( HashFunctions.fastCeil( size() / _loadFactor ) + 1 ) );
+        rehash( PrimeFinder.nextPrime( Math.max( _size + 1,
+	        HashFunctions.fastCeil( size() / _loadFactor ) + 1 ) ) );
         computeMaxSize( capacity() );
 
         // If auto-compaction is enabled, re-determine the compaction interval

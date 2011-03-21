@@ -1565,4 +1565,20 @@ public class TObjectPrimitiveHashMapTest extends TestCase {
 //
 //        assertSame(map, ( ( TObjectIntHashMapDecorator ) decorator ).getMap() );
     }
+
+
+	public void testBug3232758() {
+		TObjectIntHashMap<String> map = new TObjectIntHashMap<String>( 1, 3 );
+		map.put( "1009", 0 );
+		map.put( "1007", 1 );
+		map.put( "1006", 2 );
+		map.put( "1005", 3 );
+		map.put( "1004", 4 );
+		map.put( "1002", 5 );
+		map.put( "1001", 6 );
+
+		for ( Object o : map.keys() ) {
+			map.remove( o );
+		}
+	}
 }
