@@ -4,11 +4,14 @@ import gnu.trove.iterator.TIntIterator;
 import gnu.trove.iterator.hash.TObjectHashIterator;
 import gnu.trove.list.TIntList;
 import gnu.trove.list.array.TIntArrayList;
+import gnu.trove.list.linked.TIntLinkedList;
 import gnu.trove.procedure.TIntProcedure;
 import gnu.trove.procedure.TObjectProcedure;
 
 import java.io.IOException;
 import java.io.ObjectOutput;
+import java.nio.channels.IllegalSelectorException;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -73,6 +76,7 @@ public class TLinkedHashSet<E> extends THashSet<E> {
         order = new TIntArrayList(initialCapacity);
         return super.setUp(initialCapacity);    //To change body of overridden methods use File | Settings | File Templates.
     }
+
 
     /**
      * Empties the set.
@@ -139,13 +143,33 @@ public class TLinkedHashSet<E> extends THashSet<E> {
      */
     @Override
     protected void rehash(int newCapacity) {
-        order.clear();
-        super.rehash(newCapacity);
-    }
+        TIntLinkedList oldOrder = new TIntLinkedList(order);
+        int oldCapacity = _set.length;
 
-    @Override
-    protected void postInsertKey(int index) {
-        order.add(index);
+        Object oldSet[] = _set;
+
+        order.clear();
+        _set = new Object[newCapacity];
+        Arrays.fill(_set, FREE);
+
+        for (TIntIterator iterator = oldOrder.iterator(); iterator.hasNext();) {
+            int i = iterator.next();
+            E o = (E) oldSet[i];
+            if ( o == FREE || o == REMOVED ) {
+                throw new IllegalStateException("Iterating over empty location while rehashing");
+            }
+
+            if ( o != FREE && o != REMOVED ) {
+                int index = insertKey( o );
+                if ( index < 0 ) { // everyone pays for this because some people can't RTFM
+                    throwObjectContractViolation( _set[( -index - 1 )], o );
+                }
+
+                if (!order.add(index))
+                    throw new IllegalStateException("Order not changed after insert");
+            }
+        }
+
     }
 
     class WriteProcedure implements TIntProcedure {

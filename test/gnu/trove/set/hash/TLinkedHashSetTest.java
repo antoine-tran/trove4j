@@ -22,6 +22,7 @@
 package gnu.trove.set.hash;
 
 import junit.framework.TestCase;
+import org.omg.CORBA.portable.Streamable;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -201,7 +202,8 @@ public class TLinkedHashSetTest extends TestCase {
     }
 
     public void testIterationOrder() throws Exception {
-        Set<String> s = new TLinkedHashSet<String>();
+        TLinkedHashSet<String> lhs = new TLinkedHashSet<String>();
+        Set<String> s = lhs;
         s.add("a");
         s.add("b");
         s.add("c");
@@ -222,6 +224,12 @@ public class TLinkedHashSetTest extends TestCase {
         s.remove("a");
         s.add("a");
         //
+        it = s.iterator();
+        assertEquals("b", it.next());
+        assertEquals("c", it.next());
+        assertEquals("a", it.next());
+        //
+        lhs.compact();
         it = s.iterator();
         assertEquals("b", it.next());
         assertEquals("c", it.next());

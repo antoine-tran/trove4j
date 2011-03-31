@@ -170,14 +170,9 @@ public class THashSet<E> extends TObjectHash<E>
                 if ( index < 0 ) { // everyone pays for this because some people can't RTFM
                     throwObjectContractViolation( _set[( -index - 1 )], o );
                 }
-                postInsertKey(index);
             }
         }
     }
-
-    protected void postInsertKey(int index) {
-    }
-
 
     /**
      * Returns a new array containing the objects in the set.
