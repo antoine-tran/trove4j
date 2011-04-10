@@ -26,6 +26,8 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 
 /**
@@ -414,29 +416,183 @@ abstract public class TObjectHash<T> extends THash {
      * user that they need to fix their object implementation to conform
      * to the general contract for java.lang.Object.
      *
+     *
      * @param o1 the first of the equal elements with unequal hash codes.
      * @param o2 the second of the equal elements with unequal hash codes.
      * @throws IllegalArgumentException the whole point of this method.
      */
     protected final void throwObjectContractViolation(Object o1, Object o2)
             throws IllegalArgumentException {
+        throw buildObjectContractViolation(o1, o2, "");
+    }
 
-        throw new IllegalArgumentException("Equal objects must have equal hashcodes. " +
+    /**
+     * Convenience methods for subclasses to use in throwing exceptions about
+     * badly behaved user objects employed as keys.  We have to throw an
+     * IllegalArgumentException with a rather verbose message telling the
+     * user that they need to fix their object implementation to conform
+     * to the general contract for java.lang.Object.
+     *
+     *
+     * @param o1 the first of the equal elements with unequal hash codes.
+     * @param o2 the second of the equal elements with unequal hash codes.
+     * @param size
+     *@param oldSize
+     * @param oldKeys @throws IllegalArgumentException the whole point of this method.
+     */
+    protected final void throwObjectContractViolation(Object o1, Object o2, int size, int oldSize, Object[] oldKeys)
+            throws IllegalArgumentException {
+        String extra = dumpExtraInfo(o1, o2, size(), oldSize, oldKeys);
+
+
+        throw buildObjectContractViolation(o1, o2, extra);
+    }
+
+    /**
+     * Convenience methods for subclasses to use in throwing exceptions about
+     * badly behaved user objects employed as keys.  We have to throw an
+     * IllegalArgumentException with a rather verbose message telling the
+     * user that they need to fix their object implementation to conform
+     * to the general contract for java.lang.Object.
+     *
+     *
+     * @param o1 the first of the equal elements with unequal hash codes.
+     * @param o2 the second of the equal elements with unequal hash codes.
+     * @throws IllegalArgumentException the whole point of this method.
+     */
+    protected final IllegalArgumentException buildObjectContractViolation(Object o1, Object o2, String extra ) {
+        return new IllegalArgumentException("Equal objects must have equal hashcodes. " +
                 "During rehashing, Trove discovered that the following two objects claim " +
                 "to be equal (as in java.lang.Object.equals()) but their hashCodes (or " +
                 "those calculated by your TObjectHashingStrategy) are not equal." +
                 "This violates the general contract of java.lang.Object.hashCode().  See " +
-                "bullet point two in that method's documentation. object #1 =" + o1 +
-                "; object #2 =" + o2);
+                "bullet point two in that method's documentation. object #1 =" + objectInfo(o1) +
+                "; object #2 =" + objectInfo(o2) + "\n" + extra);
     }
 
 
     protected boolean equals(Object notnull, Object two) {
-        return two != null && notnull.equals(two);
+        if (two == null || two == REMOVED)
+            return false;
+
+        return notnull.equals(two);
     }
 
     protected int hash(Object notnull) {
         return notnull.hashCode();
+    }
+
+    protected static String reportPotentialConcurrentMod(int newSize, int oldSize) {
+        // Note that we would not be able to detect concurrent paired of put()-remove()
+        // operations with this simple check
+        if (newSize != oldSize)
+            return "[Warning] apparent concurrent modification of the key set. " +
+                    "Size before and after rehash() do not match " + oldSize + " vs " + newSize;
+
+        return "";
+    }
+
+    /**
+     *
+     * @param newVal the key being inserted
+     * @param oldVal the key already stored at that position
+     * @param currentSize size of the key set during rehashing
+     * @param oldSize size of the key set before rehashing
+     * @param oldKeys the old key set
+     */
+    protected String dumpExtraInfo(Object newVal, Object oldVal, int currentSize, int oldSize, Object[] oldKeys) {
+        StringBuilder b = new StringBuilder();
+        //
+        b.append(dumpKeyTypes(newVal, oldVal));
+
+        b.append(reportPotentialConcurrentMod(currentSize, oldSize));
+        b.append(detectKeyLoss(oldKeys, oldSize));
+
+        // Is de same object already present? Double insert?
+        if (newVal == oldVal) {
+            b.append("Inserting same object twice, rehashing bug. Object= ").append(oldVal);
+        }
+
+        return b.toString();
+    }
+
+    /**
+     * Detect inconsistent hashCode() and/or equals() methods
+     *
+     * @param keys
+     * @param oldSize
+     * @return
+     */
+    private static String detectKeyLoss(Object[] keys, int oldSize) {
+        StringBuilder buf = new StringBuilder();
+        Set<Object> k = makeKeySet(keys);
+        if (k.size() != oldSize) {
+            buf.append("\nhashCode() and/or equals() have inconsistent implementation");
+            buf.append("\nKey set lost entries, now got ").append(k.size()).append(" instead of ").append(oldSize);
+            buf.append(". This can manifest itself as an apparent duplicate key.");
+        }
+
+        return buf.toString();
+    }
+
+    private static Set<Object> makeKeySet(Object[] keys) {
+        Set<Object> types = new HashSet<Object>();
+        for (Object o : keys) {
+            if (o != FREE && o != REMOVED) {
+                    types.add(o);
+            }
+        }
+
+        return types;
+    }
+
+    private static String equalsSymmetryInfo(Object a, Object b) {
+        StringBuilder buf = new StringBuilder();
+        if (a == b) {
+            return  "a == b";
+        }
+
+        if (a.getClass() != b.getClass()) {
+            buf.append("Class of objects differ a=").append(a.getClass()).append(" vs b=").append(b.getClass());
+
+            boolean aEb = a.equals(b);
+            boolean bEa = b.equals(a);
+            if (aEb != bEa) {
+                buf.append("\nequals() of a or b object are asymmetric");
+                buf.append("\na.equals(b) =").append(aEb);
+                buf.append("\nb.equals(a) =").append(bEa);
+            }
+        }
+
+        return buf.toString();
+    }
+
+    protected static String objectInfo(Object o) {
+        return (o == null ? "class null" : o.getClass()) + " id= " + System.identityHashCode(o)
+                + " hashCode= " + (o == null ? 0 : o.hashCode()) + " toString= " + String.valueOf(o);
+    }
+
+    private String dumpKeyTypes(Object newVal, Object oldVal) {
+        StringBuilder buf = new StringBuilder();
+        Set<Class<?>> types = new HashSet<Class<?>>();
+        for (Object o : _set) {
+            if (o != FREE && o != REMOVED) {
+                if (o != null)
+                    types.add(o.getClass());
+                else
+                    types.add(null);
+            }
+        }
+
+        if (types.size() > 1) {
+            buf.append("\nMore than one type used for keys. Watch out for asymmetric equals(). " +
+                    "Read about the 'Liskov substitution principle' and the implications for equals() in java.");
+
+            buf.append("\nKey types: ").append(types);
+            buf.append(equalsSymmetryInfo(newVal, oldVal));
+        }
+
+        return buf.toString();
     }
 
 

@@ -164,7 +164,7 @@ public class TCustomHashSet<E> extends TCustomObjectHash<E>
     @SuppressWarnings({"unchecked"})
     protected void rehash( int newCapacity ) {
         int oldCapacity = _set.length;
-        
+        int oldSize = size();
         Object oldSet[] = _set;
 
         _set = new Object[newCapacity];
@@ -175,7 +175,7 @@ public class TCustomHashSet<E> extends TCustomObjectHash<E>
             if ( o != FREE && o != REMOVED ) {
                 int index = insertKey( o );
                 if ( index < 0 ) { // everyone pays for this because some people can't RTFM
-                    throwObjectContractViolation( _set[( -index - 1 )], o );
+                    throwObjectContractViolation( _set[( -index - 1 )], o, size(), oldSize, oldSet);
                 }
             }
         }

@@ -10,7 +10,6 @@ import gnu.trove.procedure.TObjectProcedure;
 
 import java.io.IOException;
 import java.io.ObjectOutput;
-import java.nio.channels.IllegalSelectorException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
@@ -73,7 +72,22 @@ public class TLinkedHashSet<E> extends THashSet<E> {
      */
     @Override
     public int setUp(int initialCapacity) {
-        order = new TIntArrayList(initialCapacity);
+        order = new TIntArrayList(initialCapacity) {
+            /**
+             * Grow the internal array as needed to accommodate the specified number of elements.
+             * The size of the array bytes on each resize unless capacity requires more than twice
+             * the current capacity.
+             */
+            @Override
+            public void ensureCapacity(int capacity) {
+                if (capacity > _data.length) {
+                    int newCap = Math.max(_set.length, capacity);
+                    int[] tmp = new int[newCap];
+                    System.arraycopy(_data, 0, tmp, 0, _data.length);
+                    _data = tmp;
+                }
+            }
+        };
         return super.setUp(initialCapacity);    //To change body of overridden methods use File | Settings | File Templates.
     }
 
@@ -144,7 +158,7 @@ public class TLinkedHashSet<E> extends THashSet<E> {
     @Override
     protected void rehash(int newCapacity) {
         TIntLinkedList oldOrder = new TIntLinkedList(order);
-        int oldCapacity = _set.length;
+        int oldSize = size();
 
         Object oldSet[] = _set;
 
@@ -155,14 +169,14 @@ public class TLinkedHashSet<E> extends THashSet<E> {
         for (TIntIterator iterator = oldOrder.iterator(); iterator.hasNext();) {
             int i = iterator.next();
             E o = (E) oldSet[i];
-            if ( o == FREE || o == REMOVED ) {
+            if (o == FREE || o == REMOVED) {
                 throw new IllegalStateException("Iterating over empty location while rehashing");
             }
 
-            if ( o != FREE && o != REMOVED ) {
-                int index = insertKey( o );
-                if ( index < 0 ) { // everyone pays for this because some people can't RTFM
-                    throwObjectContractViolation( _set[( -index - 1 )], o );
+            if (o != FREE && o != REMOVED) {
+                int index = insertKey(o);
+                if (index < 0) { // everyone pays for this because some people can't RTFM
+                    throwObjectContractViolation(_set[(-index - 1)], o, size(), oldSize, oldSet);
                 }
 
                 if (!order.add(index))
@@ -259,9 +273,8 @@ public class TLinkedHashSet<E> extends THashSet<E> {
                 try {
                     _hash.tempDisableAutoCompaction();
                     TLinkedHashSet.this.removeAt(lastIndex);
-                }
-                finally {
-                    _hash.reenableAutoCompaction( false );
+                } finally {
+                    _hash.reenableAutoCompaction(false);
                 }
             }
         };    //To change body of overridden methods use File | Settings | File Templates.

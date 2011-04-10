@@ -399,9 +399,7 @@ public class THashMap<K, V> extends TObjectHash<K> implements Map<K, V>, Externa
 
             int index = insertKey((K) o);
             if (index < 0) {
-                dumpExtraInfo(_set[(-index - 1)], o, size(), oldSize, _set, oldKeys, count);
-
-                throwObjectContractViolation(_set[(-index - 1)], o);
+                throwObjectContractViolation(_set[(-index - 1)], o, size(), oldSize, oldKeys);
             }
             _values[index] = oldVals[i];
             //
@@ -412,78 +410,6 @@ public class THashMap<K, V> extends TObjectHash<K> implements Map<K, V>, Externa
         reportPotentialConcurrentMod(size(), oldSize);
     }
 
-    protected static void reportPotentialConcurrentMod(int newSize, int oldSize) {
-        // Note that we would not be able to detect concurrent paired of put()-remove()
-        // operations with this simple check
-        if (newSize != oldSize)
-            System.err.println("[Warning] apparent concurrent modification of the key set. " +
-                    "Size before and after rehash() do not match " + oldSize + " vs " + newSize);
-    }
-
-    protected void dumpExtraInfo(Object newVal, Object oldVal, int newSize, int oldSize, Object[] set, Object[] oldKeys, int count) {
-        objectInfo("#1", newVal);
-        objectInfo("#2", oldVal);
-        //
-        dumpKeyTypes();
-
-        equalsSymmetryInfo(newVal, oldVal);
-
-        reportPotentialConcurrentMod(newSize, oldSize);
-
-        if (newSize != count)
-            System.err.println("Size of key set not as expected while rehashing got " +
-                    newSize + " but expected " + count);
-
-        // Is de same object already present? Double insert?
-        if (newVal == oldVal) {
-            System.err.println("Inserting same object twice, rehashing bug. Object= " + oldVal);
-        }
-    }
-
-    private static void equalsSymmetryInfo(Object a, Object b) {
-        if (a == b) {
-            System.err.println("a == b");
-            return;
-        }
-
-        if (a.getClass() != b.getClass()) {
-            System.err.println("Class of objects differ a=" + a.getClass() + " vs b=" + b.getClass());
-        }
-
-        boolean aEb = a.equals(b);
-        boolean bEa = b.equals(a);
-        System.err.println("a.equals(b) =" + aEb);
-        System.err.println("b.equals(a) =" + bEa);
-
-        if (aEb != bEa) {
-            System.err.println("equals() of a or b object are asymmetric");
-        }
-    }
-
-    protected static void objectInfo(String label, Object o) {
-        System.err.println(label + " class= " + (o == null ? "null" : o.getClass()) + " id= " + System.identityHashCode(o)
-                + " hashCode= " + (o == null ? 0 : o.hashCode()) + " toString= " + String.valueOf(o));
-    }
-
-    private void dumpKeyTypes() {
-        System.err.println("Map size " + size());
-        Set<Class<?>> types = new HashSet<Class<?>>();
-        for (Object o : _set) {
-            if (o != FREE && o != REMOVED) {
-                if (o != null)
-                    types.add(o.getClass());
-                else
-                    types.add(null);
-            }
-        }
-
-        if (types.size() > 1) {
-            System.err.println("More than one type used for keys. Watch out for asymmetric equals(). " +
-                    "Read about the 'Liskov substitution principle' and the implications for equals() in java.");
-
-            System.err.println("Key types: " + types);
-        }
-    }
 
     /**
      * retrieves the value for <tt>key</tt>

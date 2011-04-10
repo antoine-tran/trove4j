@@ -48,7 +48,6 @@ public class TCustomHashMap<K, V> extends TCustomObjectHash<K>
     /** the values of the  map */
     protected transient V[] _values;
 
-
 	/** FOR EXTERNALIZATION ONLY!!! */
 	public TCustomHashMap() {
 		super();
@@ -386,7 +385,7 @@ public class TCustomHashMap<K, V> extends TCustomObjectHash<K>
     @SuppressWarnings({"unchecked"})
     protected void rehash( int newCapacity ) {
         int oldCapacity = _set.length;
-
+        int oldSize = size();
         Object oldKeys[] = _set;
         V oldVals[] = _values;
 
@@ -397,12 +396,12 @@ public class TCustomHashMap<K, V> extends TCustomObjectHash<K>
 		// Process entries from the old array, skipping free and removed slots. Put the
 		// values into the appropriate place in the new array.
         for ( int i = oldCapacity; i-- > 0; ) {
-			if ( oldKeys[ i ] == FREE || oldKeys[ i ] == REMOVED ) continue;
+            Object o = oldKeys[ i ];
+            if ( o == FREE || o == REMOVED ) continue;
 
-			Object o = oldKeys[ i ];
 			int index = insertKey( ( K ) o );
 			if ( index < 0 ) {
-				throwObjectContractViolation( _set[ ( -index - 1 ) ], o );
+				throwObjectContractViolation( _set[ ( -index - 1 ) ], o, size(), oldSize, oldKeys);
 			}
 			_values[ index ] = oldVals[ i ];
         }
