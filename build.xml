@@ -60,7 +60,6 @@
         <antcall target="clean"/>
         <antcall target="test"/>
         <antcall target="dist"/>
-        <antcall target="benchmark"/>
 
         <antcall target="-release_versionNumber"/>
         <antcall target="-release_noVersionNumber"/>
