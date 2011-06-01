@@ -364,9 +364,9 @@ public class T#E#ObjectHashMap<V> extends T#E#Hash implements
 
     /** {@inheritDoc} */
     @SuppressWarnings({"unchecked"})
-    public <T> T[] values( T[] dest ) {
+    public V[] values( V[] dest ) {
         if ( dest.length < _size ) {
-			dest = ( T[] ) java.lang.reflect.Array.newInstance(
+			dest = ( V[] ) java.lang.reflect.Array.newInstance(
 			                dest.getClass().getComponentType(), _size);
         }
 
@@ -375,7 +375,7 @@ public class T#E#ObjectHashMap<V> extends T#E#Hash implements
 
         for ( int i = v.length, j = 0; i-- > 0; ) {
             if ( states[i] == FULL ) {
-                dest[j++] = ( T ) v[i];
+                dest[j++] = ( V ) v[i];
             }
         }
 		return dest;
