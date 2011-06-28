@@ -20,6 +20,7 @@
 
 package gnu.trove.list.linked;
 
+import gnu.trove.list.TIntList;
 import gnu.trove.list.TLinkable;
 import gnu.trove.procedure.TObjectProcedure;
 import junit.framework.TestCase;
@@ -1046,6 +1047,24 @@ public class TLinkedListTest extends TestCase {
 		it.next();
 		it.next();
 		it.set( slot3 );
+	}
+
+
+	public void testSum() {
+		TIntList list = new TIntLinkedList();
+		assertEquals( 0, list.sum() );
+
+		list.add( 1 );
+		assertEquals( 1, list.sum() );
+
+		list.add( 1234 );
+		assertEquals( 1235, list.sum() );
+
+		list.removeAt( 0 );
+		assertEquals( 1234, list.sum() );
+
+		list.clear();
+		assertEquals( 0, list.sum() );
 	}
 
 

@@ -92,6 +92,7 @@ public class TUnmodifiable#E#List extends TUnmodifiable#E#Collection implements 
 
 	public #e# max()    { return list.max(); }
 	public #e# min()    { return list.min(); }
+	public #e# sum()    { return list.sum(); }
 
 	public T#E#List subList( int fromIndex, int toIndex ) {
 		return new TUnmodifiable#E#List( list.subList( fromIndex, toIndex ) );

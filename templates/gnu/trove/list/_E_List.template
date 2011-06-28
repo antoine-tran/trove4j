@@ -504,4 +504,12 @@ public interface T#E#List extends T#E#Collection {
      * @exception IllegalStateException if the list is empty
      */
     public #e# min();
+
+
+    /**
+     * Calculates the sum of all the values in the list.
+     *
+     * @return the sum of the values in the list (zero if the list is empty).
+     */
+    public #e# sum();
 }

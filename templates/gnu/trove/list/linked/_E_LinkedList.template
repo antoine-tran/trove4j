@@ -846,6 +846,17 @@ public class T#E#LinkedList implements T#E#List, Externalizable {
         return ret;
     }
 
+    /** {@inheritDoc} */
+    public #e# sum() {
+        #e# sum = 0;
+
+        for (T#E#Link l = head; got(l); l = l.getNext()) {
+			sum += l.getValue();
+        }
+
+        return sum;
+    }
+
     //
     //
     //

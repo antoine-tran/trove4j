@@ -192,6 +192,7 @@ public class TSynchronized#E#List extends TSynchronized#E#Collection
 
 	public #e# max() { synchronized( mutex ) { return list.max(); } }
 	public #e# min() { synchronized( mutex ) { return list.min(); } }
+	public #e# sum() { synchronized( mutex ) { return list.sum(); } }
 
 	public boolean forEachDescending( T#E#Procedure procedure ) {
 		synchronized( mutex ) { return list.forEachDescending( procedure ); }

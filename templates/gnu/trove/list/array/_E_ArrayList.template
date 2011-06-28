@@ -904,6 +904,16 @@ public class T#E#ArrayList implements T#E#List, Externalizable {
     }
 
 
+    /** {@inheritDoc} */
+    public #e# sum() {
+        #e# sum = 0;
+        for ( int i = 0; i < _pos; i++ ) {
+			sum += _data[ i ];
+        }
+        return sum;
+    }
+
+
     // stringification
 
     /** {@inheritDoc} */

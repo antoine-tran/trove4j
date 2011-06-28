@@ -212,4 +212,22 @@ public class TArrayListTest extends TestCase {
 		assertEquals( 10, list.get( 0 ) );
 		assertEquals( 12, list.get( 1 ) );
 	}
+
+
+	public void testSum() {
+		TIntList list = new TIntArrayList();
+		assertEquals( 0, list.sum() );
+
+		list.add( 1 );
+		assertEquals( 1, list.sum() );
+
+		list.add( 1234 );
+		assertEquals( 1235, list.sum() );
+
+		list.removeAt( 0 );
+		assertEquals( 1234, list.sum() );
+
+		list.clear();
+		assertEquals( 0, list.sum() );
+	}
 }
