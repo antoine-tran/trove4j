@@ -21,6 +21,7 @@
 package gnu.trove.generator;
 
 import java.io.*;
+import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -410,9 +411,8 @@ public class Generator {
         // Now move it if we need to move it
         if (need_to_move) {
             delete(output_file);
-            if (!temp.renameTo(output_file)) {
-                throw new IOException("ERROR writing: " + output_file);
-            } else System.out.println("  Wrote: " + simplifyPath(output_file));
+	        copyFile( temp, output_file );
+	        System.out.println("  Wrote: " + simplifyPath(output_file));
         } else {
             System.out.println("  Skipped: " + simplifyPath(output_file));
             delete(temp);
@@ -575,6 +575,18 @@ public class Generator {
             delete(file);
         }
     }
+
+
+	private static void copyFile( File source, File dest ) throws IOException {
+		FileChannel srcChannel = new FileInputStream( source ).getChannel();
+		// Create channel on the destination
+		FileChannel dstChannel = new FileOutputStream( dest ).getChannel();
+		// Copy file contents from source to destination
+		dstChannel.transferFrom(srcChannel, 0, srcChannel.size());
+		// Close the channels
+		srcChannel.close();
+		dstChannel.close();
+	}
 
 
     private static class WrapperInfo {
