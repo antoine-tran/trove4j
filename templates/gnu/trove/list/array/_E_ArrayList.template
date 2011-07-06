@@ -109,6 +109,8 @@ public class T#E#ArrayList implements T#E#List, Externalizable {
      * Creates a new <code>T#E#ArrayList</code> instance whose
      * capacity is the length of <tt>values</tt> array and whose
      * initial contents are the specified values.
+     * <p>
+     * A defensive copy of the given values is held by the new instance.
      *
      * @param values an <code>#e#[]</code> value
      */
