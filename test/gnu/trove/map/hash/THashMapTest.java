@@ -1190,4 +1190,29 @@ public class THashMapTest extends TestCase {
 	}
 
 
+	public void testNullKeyHandling() {
+		THashMap<String,String> map = new THashMap<String,String>();
+		map.put( null, "My null key" );
+
+		for( int i = 0; i < 100; i++ ) {
+			map.put( String.valueOf( i ), String.valueOf( i ) );
+		}
+
+		assertEquals( "My null key", map.get( null ) );
+
+		map.put( null, "My new null key" );
+
+		map.compact();
+
+		for( int i = 100; i < 200; i++ ) {
+			map.put( String.valueOf( i ), String.valueOf( i ) );
+		}
+
+		assertEquals( "My new null key", map.get( null ) );
+		for( int i = 0; i < 200; i++ ) {
+			assertEquals( String.valueOf( i ), map.get( String.valueOf( i ) ) );
+		}
+	}
+
+
 } // THashMapTests
