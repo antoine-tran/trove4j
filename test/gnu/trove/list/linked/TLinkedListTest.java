@@ -1049,6 +1049,41 @@ public class TLinkedListTest extends TestCase {
 		it.set( slot3 );
 	}
 
+	public void testBinarySearch() {
+		System.out.println( "Java version: " + System.getProperty( "java.version" ) );
+		TIntList list;
+
+		// Uncomment to stress test
+//		for( int i = 0; i <= 100000; i++ ) {
+//			if ( ( i % 100 ) == 0 ) {
+//				System.out.print( i );
+//				System.out.print( " " );
+//			}
+//
+//			list = new TIntArrayList( i );
+//			list.add( 5 );
+//			list.binarySearch( 6 );
+//		}
+
+		list = new TIntLinkedList();
+		list.add( 5 );
+
+		// Uncomment this to see infinite loop from bug 3379877
+//		list.binarySearch( 6 );
+
+		assertEquals( -1, list.binarySearch( Integer.MIN_VALUE ) );
+		assertEquals( -1, list.binarySearch( -1 ) );
+		assertEquals( -1, list.binarySearch( 0 ) );
+		assertEquals( -1, list.binarySearch( 1 ) );
+		assertEquals( -1, list.binarySearch( 2 ) );
+		assertEquals( -1, list.binarySearch( 3 ) );
+		assertEquals( -1, list.binarySearch( 4 ) );
+
+		assertEquals( 0, list.binarySearch( 5 ) );
+
+		assertEquals( -2, list.binarySearch( 6 ) );
+	}
+
 
 	public void testSum() {
 		TIntList list = new TIntLinkedList();
