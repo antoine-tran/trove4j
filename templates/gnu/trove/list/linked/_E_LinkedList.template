@@ -153,6 +153,7 @@ public class T#E#LinkedList implements T#E#List, Externalizable {
                 // append
                 tail.setNext(tmp.head);
                 tmp.head.setPrevious(tail);
+                tail = tmp.tail;
             }
         } else {
             T#E#Link prev = l.getPrevious();
@@ -189,21 +190,61 @@ public class T#E#LinkedList implements T#E#List, Externalizable {
         return l.getValue();
     }
 
+   /**
+     * Returns the link at the given offset.
+     * <p/>
+     * A simple bisection criteria is used to keep the worst case complexity equal to
+     * O(n/2) where n = size(). Simply start from head of list or tail depending on offset
+     * and list size.
+     *
+     * @param offset of the link
+     * @return link or null if non-existent
+     */
     public T#E#Link getLinkAt(int offset) {
-        T#E#Link l = head;
-        int i = 0;
-        //
-        while (got(l)) {
-            if (i == offset) {
-                return l;
-            }
+        if (offset >= size())
+            return null;
 
-            i++;
-            l = l.getNext();
+        if (offset <= (size() >>> 1))
+            return getLink(head, 0, offset, true);
+        else
+            return getLink(tail, size() - 1, offset, false);
+    }
+
+        /**
+         * Returns the link at absolute offset starting from given the initial link 'l' at index 'idx'
+         *
+         * @param l
+         * @param idx
+         * @param offset
+         * @return
+         */
+        private static T#E#Link getLink(T#E#Link l, int idx, int offset) {
+            return getLink(l, idx, offset, true);
         }
 
-        return null;
-    }
+        /**
+         * Returns link at given absolute offset starting from link 'l' at index 'idx'
+         * @param l
+         * @param idx
+         * @param offset
+         * @param next
+         * @return
+         */
+        private static T#E#Link getLink(T#E#Link l, int idx, int offset, boolean next) {
+            int i = idx;
+            //
+            while (got(l)) {
+                if (i == offset) {
+                    return l;
+                }
+
+                i = i + (next ? 1 : -1);
+                l = next ? l.getNext() : l.getPrevious();
+            }
+
+            return null;
+        }
+
 
     /** {@inheritDoc} */
     public #e# set(int offset, #e# val) {
@@ -564,10 +605,10 @@ public class T#E#LinkedList implements T#E#List, Externalizable {
         }
 
         T#E#LinkedList ret = new T#E#LinkedList();
-        T#E#Link tmp;
+        T#E#Link tmp = getLinkAt(begin);
         for (int i = begin; i < end; i++) {
-            tmp = getLinkAt(i);
             ret.add(tmp.getValue()); // copy
+            tmp = tmp.getNext();
         }
 
         return ret;
@@ -602,10 +643,10 @@ public class T#E#LinkedList implements T#E#List, Externalizable {
             throw new ArrayIndexOutOfBoundsException(source_pos);
         }
 
-        T#E#Link tmp;
+        T#E#Link tmp = getLinkAt(source_pos);
         for (int i = 0; i < len; i++) {
-            tmp = getLinkAt(i + source_pos);
             dest[dest_pos + i] = tmp.getValue(); // copy
+            tmp = tmp.getNext();
         }
 
         return dest;
@@ -654,16 +695,19 @@ public class T#E#LinkedList implements T#E#List, Externalizable {
         }
 
 
+        T#E#Link l = getLinkAt(fromIndex);
         if (toIndex > size) {
             for (int i = fromIndex; i < size; i++) {
-                getLinkAt(i).setValue(val);
+                l.setValue(val);
+                l = l.getNext();
             }
             for (int i = size; i < toIndex; i++) {
                 add(val);
             }
         } else {
             for (int i = fromIndex; i < toIndex; i++) {
-                getLinkAt(i).setValue(val);
+                l.setValue(val);
+                l = l.getNext();
             }
         }
 
@@ -685,31 +729,31 @@ public class T#E#LinkedList implements T#E#List, Externalizable {
         }
 
 
-        T#E#Link middle;
         if (toIndex < fromIndex) {
             return -fromIndex;
         }
 
+        T#E#Link middle;
         int mid;
         int from = fromIndex;
+        T#E#Link fromLink = getLinkAt(fromIndex);
         int to = toIndex;
 
-        mid = (from + to) / 2;
         while (from < to) {
-            middle = getLinkAt(mid);
+            mid = (from + to) >>> 1;
+            middle = getLink(fromLink, from, mid);
             if (middle.getValue() == value)
                 return mid;
 
             if (middle.getValue() < value) {
-                from = mid;
+                from = mid + 1;
+                fromLink = middle.next;
             } else {
-                to = mid;
+                to = mid - 1;
             }
-
-            mid = (from + to) / 2;
         }
 
-        return -mid;
+        return -(from + 1);
     }
 
     /** {@inheritDoc} */
