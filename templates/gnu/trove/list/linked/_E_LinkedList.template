@@ -730,7 +730,7 @@ public class T#E#LinkedList implements T#E#List, Externalizable {
 
 
         if (toIndex < fromIndex) {
-            return -fromIndex;
+            return -(fromIndex+1);
         }
 
         T#E#Link middle;
