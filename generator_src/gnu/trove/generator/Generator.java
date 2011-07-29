@@ -21,6 +21,8 @@
 package gnu.trove.generator;
 
 import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedWriter;
 import java.nio.channels.FileChannel;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -381,7 +383,7 @@ public class Generator {
         // Write to a temporary file
         File temp = File.createTempFile("trove", "gentemp",
                 new File(System.getProperty("java.io.tmpdir")));
-        FileWriter writer = new FileWriter(temp);
+        Writer writer = new BufferedWriter(new FileWriter(temp));
         writer.write(content);
         writer.close();
 
@@ -437,7 +439,7 @@ public class Generator {
         digest.reset();
 
         byte[] buffer = new byte[1024];
-        FileInputStream in = new FileInputStream(file);
+        InputStream in = new BufferedInputStream(new FileInputStream(file));
         try {
             int read = in.read(buffer);
             while (read >= 0) {
