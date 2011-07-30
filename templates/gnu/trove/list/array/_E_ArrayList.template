@@ -119,6 +119,53 @@ public class T#E#ArrayList implements T#E#List, Externalizable {
         add( values );
     }
 
+    protected T#E#ArrayList(#e#[] values, #e# no_entry_value, boolean wrap) {
+        if (!wrap)
+            throw new IllegalStateException("Wrong call");
+
+        if (values == null)
+            throw new IllegalArgumentException("values can not be null");
+
+        _data = values;
+        _pos = values.length;
+        this.no_entry_value = no_entry_value;
+    }
+
+    /**
+     * Returns a primitive List implementation that wraps around the given primitive array.
+     * <p/>
+     * NOTE: mutating operation are allowed as long as the List does not grow. In that case
+     * an IllegalStateException will be thrown
+     *
+     * @param values
+     * @return
+     */
+    public static T#E#ArrayList wrap(#e#[] values) {
+        return wrap(values, ( #e# ) 0);
+    }
+
+    /**
+     * Returns a primitive List implementation that wraps around the given primitive array.
+     * <p/>
+     * NOTE: mutating operation are allowed as long as the List does not grow. In that case
+     * an IllegalStateException will be thrown
+     *
+     * @param values
+     * @param no_entry_value
+     * @return
+     */
+    public static T#E#ArrayList wrap(#e#[] values, #e# no_entry_value) {
+        return new T#E#ArrayList(values, no_entry_value, true) {
+            /**
+             * Growing the wrapped external array is not allow
+             */
+            @Override
+            public void ensureCapacity(int capacity) {
+                if (capacity > _data.length)
+                    throw new IllegalStateException("Can not grow ArrayList wrapped external array");
+            }
+        };
+    }
 
     /** {@inheritDoc} */
     public #e# getNoEntryValue() {
