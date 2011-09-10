@@ -58,8 +58,8 @@ Hashing strategies
    not be retrieved with bar, since there is no way to override
    hashCode() or equals() on language array objects.
 
-   In a gnu.trove.THashMap, however, you can implement a
-   TObjectHashingStrategy to enable hashing on arrays:
+   In a gnu.trove.map.hash.TCustomHashMap, however, you can implement a
+   gnu.trove.strategy.HashingStrategy to enable hashing on arrays:
     class CharArrayStrategy implements HashingStrategy {
         public int computeHashCode(Object o) {
             char[] c = (char[])o;
@@ -94,23 +94,12 @@ Hashing strategies
 
 Iterators in primitive collections
 
-   As of release 0.1.7, Trove's primitive mappings include access through
-   Iterators as well as procedures and functions. The API documentation
-   on those classes contains several examples showing how these can be
-   used effectively and explaining why their semantics differ from those
-   of java.util.Iterator.
+   Trove's primitive mappings include access through Iterators as well
+   as procedures and functions. The API documentation on those classes
+   contains several examples showing how these can be used effectively
+   and explaining why their semantics differ from those of
+   java.util.Iterator.
 
-Miscellaneous
+_________________________________________________________________
 
-   N.B. using Map.entrySet on a Trove Map is supported, but not
-   encouraged. The reason is that this API requires the creation of the
-   Map.Entry Objects that all other parts of Trove manage to avoid. An
-   alternative is to implement the appropriate Procedure interface and
-   use it to invoke the Map's forEachEntry API. Map.keySet and Map.values
-   are not similarly encumbered; nevertheless, the forEachKey,
-   forEachValue, and transformValues APIs will yield slightly better
-   performance at the cost of compatibility with the interface of
-   java.util.Map.
-     _________________________________________________________________
-
-   Last modified: Jan 19, 2011
+   Last modified: Sep 9, 2011
