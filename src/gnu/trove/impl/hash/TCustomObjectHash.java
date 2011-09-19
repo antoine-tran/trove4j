@@ -97,7 +97,7 @@ abstract public class TCustomObjectHash<T> extends TObjectHash<T> {
 	@Override
 	protected boolean equals( Object one, Object two ) {
 		//noinspection unchecked
-		return strategy.equals( ( T ) one, ( T ) two );
+		return two != REMOVED && strategy.equals( ( T ) one, ( T ) two );
 	}
 
 
