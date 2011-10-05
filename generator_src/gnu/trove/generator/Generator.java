@@ -54,6 +54,15 @@ import java.util.regex.Pattern;
  * </ul>
  * </p>
  *
+ * <p><b>Block Replication</b></p>
+ *
+ * <p>In addition to regular patterns, some classes use block replication. This allows
+ * replicating a block of code for each type. A block starts with
+ * <code>====START_REPLICATED_CONTENT #&lt;number&gt;====</code> and ends with
+ * <code>=====END_REPLICATED_CONTENT #&lt;number&gt;=====</code> (each on a new line) where
+ * "&lt;number&gt;" is an integer. Then, that content is replicated for each type where
+ * the pattern "#REPLICATED<number>#" is found.</p>
+ *
  */
 public class Generator {
     private static final WrapperInfo[] WRAPPERS = new WrapperInfo[]{
