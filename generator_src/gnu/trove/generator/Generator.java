@@ -33,6 +33,26 @@ import java.util.regex.Pattern;
 
 
 /**
+ * <p>Generator class that builds final source files from templates. It does so by
+ * replacing patterns in the template files.</p>
+ *
+ * <p><b>Patterns</b></p>
+ *
+ * <p>In map-like classes, the letters "k" and "v" are used to indicate "key" and "value".
+ * In classes with a single element type, "e" is used. The patterns start and end with a
+ * hash sign and come in these variants:
+ * <ul>
+ *     <li>lowercase (eg: "#e#")- the primitive type (eg: "int" or "float")</li>
+ *     <li>T (eg: "#ET#")- the class type (eg: "Integer" or "Float")</li>
+ *     <li>uppercase (eg: "#E#")- the abbreviated class type (eg: "Int" or "Float")</li>
+ *     <li>C (eg: "#EC#") - uppercase primitive (eg: "INT" or "FLOAT")</li>
+ *     <li>MAX (eg: "#EMAX#") - max value for the type (eg: "Integer.MAX_VALUE" or
+ *         Float.POSITIVE_INFINITY")</li>
+ *     <li>MIN (eg: "#EMIN#") - min value for the type (eg: "Integer.MIN_VALUE" or
+ *         Float.NEGATIVE_INFINITY")</li>
+ *     <li>underbar (eg: "_E_") - Only applicable in file names, same as "uppercase".</li>
+ * </ul>
+ * </p>
  *
  */
 public class Generator {
