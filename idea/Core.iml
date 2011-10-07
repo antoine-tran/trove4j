@@ -8,6 +8,11 @@
     <content url="file://$TROVE_VCS_ROOT$">
       <sourceFolder url="file://$TROVE_VCS_ROOT$/src" isTestSource="false" />
       <sourceFolder url="file://$TROVE_VCS_ROOT$/test" isTestSource="true" />
+      <sourceFolder url="file://$TROVE_VCS_ROOT$/benchmarks/src" isTestSource="false" />
+      <excludeFolder url="file://$TROVE_VCS_ROOT$/benchmarks/src/gnu/trove/benchmark/colt" />
+      <excludeFolder url="file://$TROVE_VCS_ROOT$/benchmarks/src/gnu/trove/benchmark/compare" />
+      <excludeFolder url="file://$TROVE_VCS_ROOT$/benchmarks/src/gnu/trove/benchmark/trove2" />
+      <excludeFolder url="file://$TROVE_VCS_ROOT$/benchmarks/src/gnu/trove/benchmark/trove3" />
       <excludeFolder url="file://$TROVE_VCS_ROOT$/generator_src" />
       <excludeFolder url="file://$TROVE_VCS_ROOT$/generator_test" />
       <excludeFolder url="file://$TROVE_VCS_ROOT$/output" />

@@ -40,6 +40,7 @@
     <property name="output.tests" value="${output.dir}/tests"/>
     <property name="output.javadocs" value="${output.dir}/javadocs"/>
     <property name="output.tmp" value="${output.dir}/tmp"/>
+    <property name="output.benchmarks" value="${output.dir}/benchmark_classes"/>
 
     <property name="dist.root" value="${output.dir}/dist"/>
     
@@ -254,16 +255,32 @@
     <target name="benchmark" depends="compile,-build_tests"
         description="Run benchmark suite.">
 
+        <mkdir dir="${output.benchmarks}"/>
+        <javac destdir="${output.benchmarks}" debug="${debug}" target="1.5">
+            <src path="benchmarks/src"/>
+            <exclude name="gnu/trove/benchmark/colt/**"/>
+            <exclude name="gnu/trove/benchmark/compare/**"/>
+            <exclude name="gnu/trove/benchmark/trove2/**"/>
+
+            <classpath>
+                <pathelement location="${output.dest}"/>
+                <fileset dir="benchmarks/lib">
+                    <include name="*.jar"/>
+                </fileset>
+            </classpath>
+        </javac>
+
         <java classname="gnu.trove.benchmark.BenchmarkRunner" fork="true"
-            output="${output.dir}/benchmarks.txt">
+            output="${output.dir}/benchmarks.txt" failonerror="true">
             <classpath>
                 <fileset dir="${lib}">
                     <include name="*.jar"/>
                 </fileset>
                 
-                <pathelement path="${output.dest}"/>
-                <pathelement path="${output.generator_classes}"/>
-                <pathelement path="${output.tests}"/>
+                <pathelement location="${output.dest}"/>
+                <pathelement location="${output.generator_classes}"/>
+                <pathelement location="${output.tests}"/>
+                <pathelement location="${output.benchmarks}"/>
             </classpath>
         </java>
     </target>
