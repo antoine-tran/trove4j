@@ -18,13 +18,14 @@
 
 package gnu.trove.map.hash;
 
-import gnu.trove.strategy.HashingStrategy;
 import gnu.trove.function.TObjectFunction;
 import gnu.trove.impl.HashFunctions;
 import gnu.trove.impl.hash.TCustomObjectHash;
 import gnu.trove.iterator.hash.TObjectHashIterator;
+import gnu.trove.map.TMap;
 import gnu.trove.procedure.TObjectObjectProcedure;
 import gnu.trove.procedure.TObjectProcedure;
+import gnu.trove.strategy.HashingStrategy;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -41,7 +42,7 @@ import java.util.*;
  * @author Rob Eden
  */
 public class TCustomHashMap<K, V> extends TCustomObjectHash<K>
-	implements Map<K, V>, Externalizable {
+	implements TMap<K, V>, Externalizable {
 
     static final long serialVersionUID = 1L;
 

@@ -24,6 +24,7 @@ import gnu.trove.function.TObjectFunction;
 import gnu.trove.impl.HashFunctions;
 import gnu.trove.impl.hash.TObjectHash;
 import gnu.trove.iterator.hash.TObjectHashIterator;
+import gnu.trove.map.TMap;
 import gnu.trove.procedure.TObjectObjectProcedure;
 import gnu.trove.procedure.TObjectProcedure;
 
@@ -46,7 +47,7 @@ import java.util.*;
  * @version $Id: THashMap.java,v 1.1.2.8 2010/03/02 04:09:50 robeden Exp $
  */
 
-public class THashMap<K, V> extends TObjectHash<K> implements Map<K, V>, Externalizable {
+public class THashMap<K, V> extends TObjectHash<K> implements TMap<K, V>, Externalizable {
 
     static final long serialVersionUID = 1L;
 
