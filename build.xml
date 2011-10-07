@@ -146,47 +146,48 @@
         description="Build all files for distribution">
 
         <mkdir dir="${dist.root}"/>
+        <mkdir dir="${dist.root}/${version}"/>
 
         <!-- Save build number -->
         <antcall target="-print_buildNumber"/>
 
         <!-- Copy source -->
-        <copy todir="${dist.root}/src">
+        <copy todir="${dist.root}/${version}/src">
             <fileset dir="${src}"/>
         </copy>
-        <copy todir="${dist.root}/test">
+        <copy todir="${dist.root}/${version}/test">
             <fileset dir="${test_src}"/>
         </copy>
-        <copy todir="${dist.root}/templates">
+        <copy todir="${dist.root}/${version}/templates">
             <fileset dir="${templates}"/>
         </copy>
-        <copy todir="${dist.root}/generator_src">
+        <copy todir="${dist.root}/${version}/generator_src">
             <fileset dir="${generator_src}"/>
         </copy>
-        <copy todir="${dist.root}/generator_test">
+        <copy todir="${dist.root}/${version}/generator_test">
             <fileset dir="${generator_test}"/>
         </copy>
-        <copy todir="${dist.root}/idea">
+        <copy todir="${dist.root}/${version}/idea">
             <fileset dir="${idea}"/>
         </copy>
 
         <!-- Build a source jar -->
-        <jar destfile="${dist.root}/${name}-${version}-src.jar">
+        <jar destfile="${dist.root}/${version}/${name}-${version}-src.jar">
             <fileset dir="${src}"/>
             <fileset dir="${output.generated}"/>
         </jar>
         
         <!-- Copy javadocs & libs -->
-        <copy todir="${dist.root}">
+        <copy todir="${dist.root}/${version}">
             <fileset dir="${output.dir}" includes="lib/**,javadocs/**" />
         </copy>
-        <copy todir="${dist.root}/lib" file="${lib}/junit.jar"/>
+        <copy todir="${dist.root}/${version}/lib" file="${lib}/junit.jar"/>
         
         <!-- Misc. Files -->
-        <copy todir="${dist.root}">
+        <copy todir="${dist.root}/${version}">
 			<fileset dir="${basedir}" includes="*.txt"/>
 		</copy>
-        <copy todir="${dist.root}" file="build.xml"/>
+        <copy todir="${dist.root}/${version}" file="build.xml"/>
     </target>
     
     
@@ -293,14 +294,14 @@
         <!-- Maven files -->
         <mkdir dir="${dist.root}/maven"/>
 
-        <copy file="${dist.root}/${name}-${version}-src.jar"
+        <copy file="${dist.root}/${version}/${name}-${version}-src.jar"
               tofile="${dist.root}/maven/trove4j-${version}-src.jar"/>
 
-        <copy file="${dist.root}/lib/${name}-${version}.jar"
+        <copy file="${dist.root}/${version}/lib/${name}-${version}.jar"
               tofile="${dist.root}/maven/trove4j-${version}.jar"/>
 
         <jar destfile="${dist.root}/maven/trove4j-${version}-javadoc.jar">
-            <fileset dir="${dist.root}/javadocs" includes="**"/>
+            <fileset dir="${dist.root}/${version}/javadocs" includes="**"/>
         </jar>
 
         <copy file="resources/maven-manual-deploy-pom.xml"
