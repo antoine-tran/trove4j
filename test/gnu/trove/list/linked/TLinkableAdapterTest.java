@@ -18,6 +18,7 @@ public class TLinkableAdapterTest extends TestCase {
 		int i = 1;
 		for( MyObject obj : list ) {
 			assertEquals( String.valueOf( i ), obj.getValue() );
+			i++;
 		}
 	}
 
