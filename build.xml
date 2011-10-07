@@ -92,7 +92,7 @@
     <!-- =============================================================== -->
     <target name="generate" depends="-build_generator"
         description="Generate classes from templates">
-        <java classname="gnu.trove.generator.Generator">
+        <java classname="gnu.trove.generator.Generator" dir="${basedir}" fork="true">
             <arg value="${templates}"/>
             <arg value="${output.generated}"/>
             <classpath>
