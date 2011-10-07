@@ -1,3 +1,15 @@
+--- 3.0.1 ---
+Bugs Fixed:
+  - fix for ClassCastException in equals(T,T) when comparing with REMOVED
+  - [3408129] Benchmarks don't run correctly
+  - [3394094] Args to gnu.trove.generator.Generator not basedir-relative
+  - Re-introduce TLinkableAdapter class
+New Features:
+  - [3412967] Need TMap interface
+  - .zip and .tgz files now expand into a sub-directory
+  - Documentation for generator patterns and replicated blocks
+  - Maven artifact generation now a bit more automatic
+
 --- 3.0.0 ---
   - !!! Major restructuring of classes and packages !!!
     Interfaces have been broken out to allow for alternate implementations.
