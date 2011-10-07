@@ -285,6 +285,11 @@
         <jar destfile="${dist.root}/maven/trove4j-${version}-javadoc.jar">
             <fileset dir="${dist.root}/javadocs" includes="**"/>
         </jar>
+
+        <copy file="resources/maven-manual-deploy-pom.xml"
+              tofile="${dist.root}/maven/trove4j-${version}.pom"/>
+        <replace file="${dist.root}/maven/trove4j-${version}.pom"
+                 token="###VERSION###" value="${version}"/>
     </target>
 
 
