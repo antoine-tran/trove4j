@@ -26,13 +26,16 @@
     </scm>
     <developers>
         <developer>
-            <name>Eric D. Friedman</name>
-        </developer>
-        <developer>
             <name>Rob Eden</name>
         </developer>
         <developer>
-            <name>Jeff Randal</name>
+            <name>Jeff Randall</name>
+        </developer>
+        <developer>
+            <name>Johan Parent</name>
+        </developer>
+        <developer>
+            <name>Eric D. Friedman</name>
         </developer>
     </developers>
 </project>
