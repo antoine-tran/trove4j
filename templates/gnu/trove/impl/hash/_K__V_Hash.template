@@ -251,7 +251,7 @@ abstract public class T#K##V#Hash extends TPrimitiveHash {
                 return -1;
 
             //
-            if (key == _set[index])
+            if (key == _set[index] && state != REMOVED)
                 return index;
         } while (index != loopIndex);
 
