@@ -184,7 +184,8 @@ public class T#E#ObjectMapDecorator<V> extends AbstractMap<#ET#, V>
 
                     public Map.Entry<#ET#,V> next() {
                         it.advance();
-                        final #ET# key = wrapKey( it.key() );
+                        #e# k = it.key();
+                        final #ET# key = (k == _map.getNoEntryKey()) ? null : wrapKey( k );
                         final V v = it.value();
                         return new Map.Entry<#ET#,V>() {
                             private V val = v;
