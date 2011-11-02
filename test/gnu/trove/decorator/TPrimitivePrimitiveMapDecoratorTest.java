@@ -25,6 +25,7 @@ import gnu.trove.map.TIntIntMap;
 import gnu.trove.map.TIntLongMap;
 import gnu.trove.map.hash.TIntIntHashMap;
 import gnu.trove.map.hash.TIntLongHashMap;
+import gnu.trove.map.hash.TIntObjectHashMap;
 import junit.framework.TestCase;
 
 import java.io.ByteArrayInputStream;
@@ -1159,5 +1160,26 @@ public class TPrimitivePrimitiveMapDecoratorTest extends TestCase {
         Map<Integer,Long> deserialized = (Map<Integer,Long>) ois.readObject();
 
         assertEquals( map, deserialized );
+    }
+
+    public void testBug3432212A() throws Exception {
+        Map<Integer, Long> trove = new TIntLongMapDecorator(new TIntLongHashMap());
+        trove.put(null, 1L);
+        assertFalse(trove.isEmpty());
+        assertEquals(1, trove.size());
+        assertEquals(1, trove.entrySet().size());
+        assertEquals(1, trove.keySet().size());
+        assertEquals(null, trove.keySet().iterator().next());
+    }
+
+    public void testBug3432212B() throws Exception {
+        Map<Integer, Long> trove = new TIntLongMapDecorator(new TIntLongHashMap());
+        trove.put(1, null);
+        assertFalse(trove.isEmpty());
+        assertEquals(1, trove.size());
+        assertEquals(1, trove.entrySet().size());
+        assertEquals(1, trove.keySet().size());
+        assertEquals(null, trove.get(1));
+        assertEquals(null, trove.values().iterator().next());
     }
 }

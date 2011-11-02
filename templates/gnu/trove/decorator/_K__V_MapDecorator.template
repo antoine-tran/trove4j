@@ -210,8 +210,10 @@ public class T#K##V#MapDecorator extends AbstractMap<#KT#, #VT#>
 
                     public Map.Entry<#KT#,#VT#> next() {
                         it.advance();
-                        final #KT# key = wrapKey( it.key() );
-                        final #VT# v = wrapValue( it.value() );
+                        #k# ik = it.key();
+                        final #KT# key = (ik == _map.getNoEntryKey()) ? null : wrapKey( ik );
+                        #v# iv = it.value();
+                        final #VT# v = (iv == _map.getNoEntryValue()) ? null : wrapValue( iv );
                         return new Map.Entry<#KT#,#VT#>() {
                             private #VT# val = v;
 
