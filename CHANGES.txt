@@ -1,3 +1,8 @@
+--- 3.0.2 ---
+Bug Fixed:
+  - [3429703] TIntObjectHashMap losing entry
+  - [3431135] ArrayIndexOutOfBoundsException at TIntIntHashMap.keys
+
 --- 3.0.1 ---
 Bugs Fixed:
   - fix for ClassCastException in equals(T,T) when comparing with REMOVED
