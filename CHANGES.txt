@@ -2,6 +2,8 @@
 Bug Fixed:
   - [3429703] TIntObjectHashMap losing entry
   - [3431135] ArrayIndexOutOfBoundsException at TIntIntHashMap.keys
+  - [3432212] entrySet() does not unwrap in cased of no_entry_value or no_entrykey
+  - [3432175] Decorator entrySet() -keySet() impl - Minor problem with the way null keys are unwarped
 
 --- 3.0.1 ---
 Bugs Fixed:
