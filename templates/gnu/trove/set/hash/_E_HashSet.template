@@ -333,12 +333,15 @@ public class T#E#HashSet extends T#E#Hash implements T#E#Set, Externalizable {
         #e#[] set = _set;
         byte[] states = _states;
 
+        _autoCompactTemporaryDisable = true;
         for ( int i = set.length; i-- > 0; ) {
             if ( states[i] == FULL && ( Arrays.binarySearch( array, set[i] ) < 0) ) {
                 removeAt( i );
                 changed = true;
             }
         }
+        _autoCompactTemporaryDisable = false;
+
         return changed;
     }
 
