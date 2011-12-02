@@ -1,3 +1,7 @@
+--- 3.0.3 ---
+Bugs Fixed:
+  - [3445639] ArrayIndexOutOfBoundsException from TIntHashSet.retainAll
+
 --- 3.0.2 ---
 Bug Fixed:
   - [3429703] TIntObjectHashMap losing entry
