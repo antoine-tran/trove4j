@@ -552,7 +552,7 @@ public class T#E#ArrayList implements T#E#List, Externalizable {
         Arrays.sort( array );
         #e#[] data = _data;
 
-        for ( int i = data.length; i-- > 0; ) {
+        for ( int i = pos_; i-- > 0; ) {
             if ( Arrays.binarySearch( array, data[i] ) < 0 ) {
                 remove( i, 1 );
                 changed = true;
@@ -598,7 +598,7 @@ public class T#E#ArrayList implements T#E#List, Externalizable {
     /** {@inheritDoc} */
     public boolean removeAll( #e#[] array ) {
         boolean changed = false;
-        for ( int i = _pos; i-- > 0; ) {
+        for ( int i = array.length; i-- > 0; ) {
             if ( remove(array[i]) ) {
                 changed = true;
             }
