@@ -209,24 +209,22 @@ public class TArrayListTest extends TestCase {
     }
 
 
+    public void testSum() {
+        TIntList list = new TIntArrayList();
+        assertEquals(0, list.sum());
 
+        list.add(1);
+        assertEquals(1, list.sum());
 
-	public void testSum() {
-		TIntList list = new TIntArrayList();
-		assertEquals( 0, list.sum() );
+        list.add(1234);
+        assertEquals(1235, list.sum());
 
-		list.add( 1 );
-		assertEquals( 1, list.sum() );
+        list.removeAt(0);
+        assertEquals(1234, list.sum());
 
-		list.add( 1234 );
-		assertEquals( 1235, list.sum() );
-
-		list.removeAt( 0 );
-		assertEquals( 1234, list.sum() );
-
-		list.clear();
-		assertEquals( 0, list.sum() );
-	}
+        list.clear();
+        assertEquals(0, list.sum());
+    }
 
     public void testBinarySearch() {
         System.out.println("Java version: " + System.getProperty("java.version"));
@@ -290,5 +288,16 @@ public class TArrayListTest extends TestCase {
         assertEquals(5, list.get(0));
         assertEquals(5, list.get(1));
         assertEquals(5, list.get(2));
+    }
+
+    public void test3448111() throws Exception {
+        TIntArrayList i = new TIntArrayList();
+        i.add(1);
+        i.add(2);
+        i.add(3);
+        i.add(4);
+
+        int[] a = new int[]{1, 2, 3};
+        i.retainAll(a);
     }
 }

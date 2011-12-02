@@ -598,7 +598,7 @@ public class T#E#ArrayList implements T#E#List, Externalizable {
     /** {@inheritDoc} */
     public boolean removeAll( #e#[] array ) {
         boolean changed = false;
-        for ( int i = array.length; i-- > 0; ) {
+        for ( int i = _pos; i-- > 0; ) {
             if ( remove(array[i]) ) {
                 changed = true;
             }
