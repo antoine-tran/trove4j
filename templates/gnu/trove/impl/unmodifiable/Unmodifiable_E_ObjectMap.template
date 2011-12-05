@@ -83,7 +83,7 @@ public class TUnmodifiable#E#ObjectMap<V> implements T#E#ObjectMap<V>, Serializa
 			values = Collections.unmodifiableCollection( m.valueCollection() );
 		return values;
 	}
-	public V[] values() { return m.values(); }
+	public Object[] values() { return m.values(); }
 	public V[] values( V[] array ) { return m.values( array ); }
 
 	public boolean equals(Object o) { return o == this || m.equals(o); }

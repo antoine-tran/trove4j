@@ -348,8 +348,8 @@ public class T#E#ObjectHashMap<V> extends T#E#Hash implements
 
     /** {@inheritDoc} */
     @SuppressWarnings({"unchecked"})
-    public V[] values() {
-        V[] vals = ( V[] ) new Object[size()];
+    public Object[] values() {
+        Object[] vals = new Object[size()];
         V[] v = _values;
         byte[] states = _states;
 

@@ -126,7 +126,7 @@ public class TSynchronized#E#ObjectMap<V>
 			return values;
 		}
 	}
-	public V[] values() {
+	public Object[] values() {
 		synchronized( mutex ) { return m.values(); }
 	}
 	public V[] values( V[] array ) {
