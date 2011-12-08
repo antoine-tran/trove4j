@@ -295,7 +295,7 @@
         <mkdir dir="${dist.root}/maven"/>
 
         <copy file="${dist.root}/${version}/${name}-${version}-src.jar"
-              tofile="${dist.root}/maven/trove4j-${version}-src.jar"/>
+              tofile="${dist.root}/maven/trove4j-${version}-sources.jar"/>
 
         <copy file="${dist.root}/${version}/lib/${name}-${version}.jar"
               tofile="${dist.root}/maven/trove4j-${version}.jar"/>
