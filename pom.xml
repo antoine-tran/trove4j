@@ -27,7 +27,7 @@
     <distributionManagement>
         <repository>
             <id>trove4j-ftp</id>
-            <url>ftp://ftp.site/maven2</url>
+            <url>ftps://ftp.site/maven2</url>
         </repository>
     </distributionManagement>
     <build>
